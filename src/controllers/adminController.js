@@ -164,6 +164,10 @@ exports.createCourse = async (req, res) => {
     felhasznalok,
     megkotesek
   } = req.body;
+
+  const videoUrl = req.file ? req.file.filename : null;
+  console.log(videoUrl)
+
   try {
     const newCourse = await Course.create({
       cim,
@@ -175,6 +179,7 @@ exports.createCourse = async (req, res) => {
       fajlok,
       felhasznalok,
       megkotesek,
+      video: videoUrl
     });
     res.status(201).json({ message: "Course creation successful." });
   } catch (error) {

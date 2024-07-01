@@ -29,6 +29,7 @@ CREATE TABLE minikurzus(
     fajlok VARCHAR(255),
     felhasznalok JSON,
     megkotesek JSON,
+    video VARCHAR(512),
     createdAt DATE,
     updatedAt DATE
 );

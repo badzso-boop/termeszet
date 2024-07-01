@@ -37,6 +37,9 @@ const Course = sequelize.define('minikurzus', {
   },
   megkotesek: {
     type: DataTypes.JSON
+  },
+  video: {
+    type: DataTypes.STRING
   }
 }, {
   timestamps: true
