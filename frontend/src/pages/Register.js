@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const Login = () => {
+const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
   const [message, setMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/api/login', { "email":email, "pwd":password });
+      const response = await axios.post('http://localhost:3000/api/register', { email, password, name });
       setMessage(response.data.message);
-      // // Save the token to localStorage or context as needed
-      localStorage.setItem('token', response.data.token);
-      console.log(localStorage)
     } catch (error) {
       setMessage(error.response.data.error);
     }
@@ -21,7 +19,7 @@ const Login = () => {
 
   return (
     <div>
-      <h1>Login Page</h1>
+      <h1>Register Page</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Email:</label>
@@ -31,11 +29,15 @@ const Login = () => {
           <label>Password:</label>
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
         </div>
-        <button type="submit">Login</button>
+        <div>
+          <label>Name (optional):</label>
+          <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+        </div>
+        <button type="submit">Register</button>
       </form>
       {message && <p>{message}</p>}
     </div>
   );
 };
 
-export default Login;
+export default Register;
