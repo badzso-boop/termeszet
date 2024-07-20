@@ -77,6 +77,17 @@ exports.createUser = async (req, res) => {
   }
 };
 
+// Házifeladatok lekérése
+exports.getHomeworks = async (req, res) => {
+  try {
+    const homeworks = await Homework.findAll();
+    res.json(homeworks);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Something went wrong." });
+  }
+};
+
 // Házifeladat létrehozása
 exports.createUserHomework = async (req, res) => {
   const {
@@ -148,6 +159,17 @@ exports.deleteUserHomework = async (req, res) => {
     res.json({ message: "User homework delete successful." });
   } catch (error) {
     res.status(400).json({ error: "Something went wrong." });
+  }
+};
+
+// Kurzusok lekérése
+exports.getCourses = async (req, res) => {
+  try {
+    const courses = await Course.findAll();
+    res.json(courses);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Something went wrong." });
   }
 };
 

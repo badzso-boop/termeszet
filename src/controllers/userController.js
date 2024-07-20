@@ -3,7 +3,9 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/userModel.js');
 
 exports.register = async (req, res) => {
-  const { email, pwd, username, fullName, rang, description, bornDate, allergies, mutetek, amalganFilling, drugs, complaints, goal, courses } = req.body;
+  // const { email, pwd, username, fullName, rang, description, bornDate, allergies, mutetek, amalganFilling, drugs, complaints, goal, courses } = req.body;
+  const { email, pwd, username, fullName } = req.body;
+  console.log(req.body)
 
   if (!email || !pwd || !username || !fullName) {
     return res.status(400).json({ error: 'Invalid input data.' });
@@ -16,6 +18,17 @@ exports.register = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(pwd, 10);
+
+    const rang = "u"
+    const description = "-";
+    const bornDate = "-";
+    const allergies = {};
+    const mutetek = {};
+    const amalganFilling = false;
+    const drugs= {};
+    const complaints = {};
+    const goal = "";
+    const courses = {};
 
     const newUser = await User.create({
       email,
@@ -63,7 +76,12 @@ exports.login = async (req, res) => {
       expiresIn: '1h'
     });
 
+    const rang = user.rang
+    const userId = user.id
+
     return res.status(200).json({
+      userId,
+      rang,
       token,
       message: 'Login successful.'
     });

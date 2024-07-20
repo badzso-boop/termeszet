@@ -1,12 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-const Register = () => {
+import { useAuth } from "../context/AuthContext";
+
+const AdminCreate = () => {
+  const { rang } = useAuth();
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState('');
   const [pwd, setPWD] = useState('');
   const [username, setUsername] = useState('');
   const [fullName, setFullName] = useState('');
   const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    if (rang !== "a") {
+      navigate("/");
+    }
+  }, [rang, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -45,4 +57,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default AdminCreate;

@@ -1,19 +1,26 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+
+import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/api/login', { "email":email, "pwd":password });
+      const response = await axios.post('http://localhost:3000/api/login', { email, pwd: password });
       setMessage(response.data.message);
-      // // Save the token to localStorage or context as needed
-      localStorage.setItem('token', response.data.token);
-      console.log(localStorage)
+      const userId = response.data.userId;
+      const userRang = response.data.rang;
+      const userToken = response.data.token;
+      login(userRang, userToken, userId);
+      navigate('/');
     } catch (error) {
       setMessage(error.response.data.error);
     }

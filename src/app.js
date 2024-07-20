@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 const corsOptions = {
   origin: ['http://localhost:3000', 'http://localhost:3001'], // Engedélyezett eredet
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true, // Engedélyezd a cookie-k elküldését
+  credentials: true, 
 };
 
 app.use(cors(corsOptions));

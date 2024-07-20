@@ -1,13 +1,22 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faSignInAlt, faUserPlus, faUserShield, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faSignInAlt, faUserPlus, faUserShield, faBars, faTimes, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+
+import { useAuth } from '../context/AuthContext';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { rang, logout } = useAuth();
+  const navigate = useNavigate();
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
   };
 
   return (
@@ -25,24 +34,37 @@ const Navigation = () => {
               {isOpen && <span>Home</span>}
             </Link>
           </li>
-          <li className="mb-4">
-            <Link to="/login" className={`flex items-center ${isOpen ? 'justify-start' : 'justify-center'} text-white hover:text-gray-300`}>
-              <FontAwesomeIcon icon={faSignInAlt} className={`text-3xl ${isOpen ? 'mr-2' : ''}`} />
-              {isOpen && <span>Login</span>}
-            </Link>
-          </li>
-          <li className="mb-4">
-            <Link to="/register" className={`flex items-center ${isOpen ? 'justify-start' : 'justify-center'} text-white hover:text-gray-300`}>
-              <FontAwesomeIcon icon={faUserPlus} className={`text-3xl ${isOpen ? 'mr-2' : ''}`} />
-              {isOpen && <span>Register</span>}
-            </Link>
-          </li>
-          <li className="mb-4">
-            <Link to="/admin" className={`flex items-center ${isOpen ? 'justify-start' : 'justify-center'} text-white hover:text-gray-300`}>
-              <FontAwesomeIcon icon={faUserShield} className={`text-3xl ${isOpen ? 'mr-2' : ''}`} />
-              {isOpen && <span>Admin</span>}
-            </Link>
-          </li>
+          {!rang && 
+            <>
+              <li className="mb-4">
+                <Link to="/login" className={`flex items-center ${isOpen ? 'justify-start' : 'justify-center'} text-white hover:text-gray-300`}>
+                  <FontAwesomeIcon icon={faSignInAlt} className={`text-3xl ${isOpen ? 'mr-2' : ''}`} />
+                  {isOpen && <span>Login</span>}
+                </Link>
+              </li>
+              <li className="mb-4">
+                <Link to="/register" className={`flex items-center ${isOpen ? 'justify-start' : 'justify-center'} text-white hover:text-gray-300`}>
+                  <FontAwesomeIcon icon={faUserPlus} className={`text-3xl ${isOpen ? 'mr-2' : ''}`} />
+                  {isOpen && <span>Register</span>}
+                </Link>
+              </li>
+            </>}
+          
+          {rang === "a" && (
+            <li className="mb-4">
+              <Link to="/admin" className={`flex items-center ${isOpen ? 'justify-start' : 'justify-center'} text-white hover:text-gray-300`}>
+                <FontAwesomeIcon icon={faUserShield} className={`text-3xl ${isOpen ? 'mr-2' : ''}`} />
+                {isOpen && <span>Admin</span>}
+              </Link>
+            </li>
+          )}
+          {rang && 
+            <li className="mb-4">
+              <button onClick={handleLogout} className={`flex items-center ${isOpen ? 'justify-start' : 'justify-center'} text-white hover:text-gray-300 w-full`}>
+                <FontAwesomeIcon icon={faSignOutAlt} className={`text-3xl ${isOpen ? 'mr-2' : ''}`} />
+                {isOpen && <span>Logout</span>}
+              </button>
+            </li>}
         </ul>
       </div>
       <div className={`flex-1 p-4 transition-all duration-300 ${isOpen ? 'ml-64' : 'ml-6'}`}>

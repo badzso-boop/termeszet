@@ -26,34 +26,44 @@ const User = sequelize.define('user', {
     allowNull: false
   },
   rang: {
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
+    allowNull: false,
   },
   description: {
-    type: DataTypes.TEXT
+    type: DataTypes.TEXT,
+    allowNull: true,
   },
   bornDate: {
-    type: DataTypes.DATE
+    type: DataTypes.DATE,
+    allowNull: true,
   },
   allergies: {
-    type: DataTypes.JSON
+    type: DataTypes.JSON,
+    allowNull: true,
   },
   mutetek: {
-    type: DataTypes.JSON
+    type: DataTypes.JSON,
+    allowNull: true,
   },
   amalganFilling: {
-    type: DataTypes.BOOLEAN
+    type: DataTypes.BOOLEAN,
+    allowNull: true,
   },
   drugs: {
-    type: DataTypes.JSON
+    type: DataTypes.JSON,
+    allowNull: true,
   },
   complaints: {
-    type: DataTypes.JSON
+    type: DataTypes.JSON,
+    allowNull: true,
   },
   goal: {
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
+    allowNull: true,
   },
   courses: {
-    type: DataTypes.JSON
+    type: DataTypes.JSON,
+    allowNull: true,
   }
 }, {
   timestamps: true

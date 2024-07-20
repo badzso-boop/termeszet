@@ -4,6 +4,8 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Admin from './pages/Admin';
+import AdminCreate from './components/AdminCreate';
+import AdminUpdate from './components/AdminUpdate';
 
 import Navigation from './components/Navbar';
 
@@ -18,6 +20,8 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/admincreate" element={<AdminCreate />} />
+            <Route path="/adminupdate" element={<AdminUpdate />} />
           </Routes>
         </div>
       </div>
