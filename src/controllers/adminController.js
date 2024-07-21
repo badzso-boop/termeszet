@@ -17,21 +17,37 @@ exports.getUsers = async (req, res) => {
 
 // Felhasználó szerkesztése
 exports.updateUser = async (req, res) => {
-  const { id, email, password, name } = req.body;
+  const { userId, id, email, username, fullName, allergies, amalganFilling, bornDate, complaints, courses, description, drugs, goal, mutetek } = req.body;
+  console.log(allergies)
+  
   try {
     const user = await User.findByPk(id);
     if (!user) {
       return res.status(404).json({ error: "User not found." });
     }
+
+    // Frissítendő mezők beállítása
     if (email) user.email = email;
-    if (password) user.pwd = await bcrypt.hash(password, 10);
-    if (name) user.fullName = name;
+    if (username) user.username = username;
+    if (fullName) user.fullName = fullName;
+    if (allergies) user.allergies = allergies;
+    if (amalganFilling !== undefined) user.amalganFilling = amalganFilling;
+    if (bornDate) user.bornDate = bornDate;
+    if (complaints) user.complaints = complaints;
+    if (courses) user.courses = courses;
+    if (description) user.description = description;
+    if (drugs) user.drugs = drugs;
+    if (goal) user.goal = goal;
+    if (mutetek) user.mutetek = mutetek;
+
     await user.save();
     res.json({ message: "Update successful." });
   } catch (error) {
+    console.error(error);
     res.status(400).json({ error: "Invalid data." });
   }
 };
+
 
 // Felhasználó törlése
 exports.deleteUser = async (req, res) => {

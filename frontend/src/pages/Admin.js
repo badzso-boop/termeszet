@@ -14,7 +14,7 @@ import { useAdmin } from "../context/AdminContext";
 
 const Admin = () => {
   const { rang } = useAuth();
-  const { users, courses, homeworks, fetchData, editUser, deleteUser } =
+  const { users, courses, homeworks, fetchData, deleteUser } =
     useAdmin();
   const [dataLoaded, setDataLoaded] = useState(false);
   const navigate = useNavigate();
@@ -59,9 +59,9 @@ const Admin = () => {
             <div className="w-1/4 border">{item.username}</div>
             <div className="w-1/4 border">{item.email}</div>
             <div className="w-1/4 border">{item.bornDate}</div>
-            <div className="w-1/4 border" onClick={() => editUser(item.id)}>
+            <div className="w-1/4 border">
               <Link
-                to="/adminupdate"
+                to={`/adminupdate/${item.id}`}
                 className={`flex items-center hover:text-gray-300`}
               >
                 <FontAwesomeIcon

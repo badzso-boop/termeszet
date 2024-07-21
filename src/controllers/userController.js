@@ -90,3 +90,23 @@ exports.login = async (req, res) => {
     return res.status(500).json({ error: 'Server error.' });
   }
 };
+
+exports.oneUser = async (req, res) => {
+  const { userId } = req.body;
+
+  if (!userId) {
+    return res.status(400).json({ error: 'Invalid input data.' });
+  }
+
+  try {
+    const user = await User.findOne({ where: { id: userId } });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found.' });
+    }
+
+    return res.status(200).json({ user });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: 'Server error.' });
+  }
+};

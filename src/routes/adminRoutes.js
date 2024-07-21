@@ -6,7 +6,7 @@ const upload = require('../middleware/upload');
 
 // Felhasználók kezelése
 router.post('/users', verifyAdmin, adminController.getUsers);
-router.put('/updateUser', verifyAdmin, adminController.updateUser);
+router.put('/updateuser', verifyAdmin, adminController.updateUser);
 router.delete('/deleteUser', verifyAdmin, adminController.deleteUser);
 router.post('/createUser', verifyAdmin, adminController.createUser);
 

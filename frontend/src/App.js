@@ -21,7 +21,7 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/admincreate" element={<AdminCreate />} />
-            <Route path="/adminupdate" element={<AdminUpdate />} />
+            <Route path="/adminupdate/:id" element={<AdminUpdate />} />
           </Routes>
         </div>
       </div>

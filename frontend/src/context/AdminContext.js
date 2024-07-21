@@ -33,16 +33,38 @@ export const AdminProvider = ({ children }) => {
     }
   };
 
-  const editUser = async (userId) => {
-    console.log(userId)
+  const getOneUser = async (userId) => {
+    const user = await axios.post('http://localhost:3000/api/user', {
+      userId:  userId
+    });
+
+    return user;
   }
 
   const deleteUser = async (userId) => {
     console.log(userId)
   }
 
+  const parseJsonString = (jsonString) => {
+    try {
+      return JSON.parse(jsonString);
+    } catch (e) {
+      return {};
+    }
+  };
+
+  function removeBackslashes(inputString) {
+    return inputString;
+  }
+  
+  const stringifyJsonObject = (jsonObject) => {
+    console.log(jsonObject)
+    console.log(JSON.stringify(jsonObject))
+    return JSON.stringify(jsonObject);
+  };
+
   return (
-    <AdminContext.Provider value={{ users, courses, homeworks, fetchData, editUser, deleteUser }}>
+    <AdminContext.Provider value={{ users, courses, homeworks, fetchData, getOneUser, deleteUser, parseJsonString, stringifyJsonObject, removeBackslashes }}>
       {children}
     </AdminContext.Provider>
   );
