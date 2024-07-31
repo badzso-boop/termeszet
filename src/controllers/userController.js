@@ -1,6 +1,9 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel.js');
+const Course = require("../models/courseModel.js");
+
+const path = require('path');
 
 exports.register = async (req, res) => {
   // const { email, pwd, username, fullName, rang, description, bornDate, allergies, mutetek, amalganFilling, drugs, complaints, goal, courses } = req.body;
@@ -110,3 +113,36 @@ exports.oneUser = async (req, res) => {
     return res.status(500).json({ error: 'Server error.' });
   }
 };
+
+exports.getOneCourse = async (req, res) => {
+  const { id } = req.body
+
+  try {
+    const course = await Course.findOne({ where: { id: id } });
+    if (course) {
+      res.json(course) 
+    }
+    
+    res.status(404).json({error: "Not found this course!"});
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({error: "Something went wrong."});
+  }
+}
+
+// Kurzusok lekérése
+exports.getCourses = async (req, res) => {
+  try {
+    const courses = await Course.findAll();
+    res.json(courses);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Something went wrong." });
+  }
+};
+
+exports.getVideo = async (req, res) => {
+  console.log(req.params.filename)
+  const filePath = path.join(__dirname, '../../uploads', req.params.filename);
+  res.sendFile(filePath);
+}

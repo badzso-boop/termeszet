@@ -5,15 +5,21 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useAdmin } from "../context/AdminContext";
 
-const AdminUpdate = () => {
+const AdminUpdate = (type) => {
   const { id } = useParams();
   const navigate = useNavigate();
 
   const { rang, userId } = useAuth();
-  const { getOneUser, stringifyJsonObject, parseJsonString, removeBackslashes } = useAdmin();
+  const {
+    getOneUser,
+    stringifyJsonObject,
+    parseJsonString,
+    removeBackslashes,
+  } = useAdmin();
 
   const [dataLoaded, setDataLoaded] = useState(false);
 
+  // User states
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [fullName, setFullName] = useState("");
@@ -36,15 +42,43 @@ const AdminUpdate = () => {
       setEmail(userData.email || "");
       setUsername(userData.username || "");
       setFullName(userData.fullName || "");
-      setAllergies(Object.entries(parseJsonString(removeBackslashes(JSON.parse(userData.allergies) || "{}"))));
+      setAllergies(
+        Object.entries(
+          parseJsonString(
+            removeBackslashes(JSON.parse(userData.allergies) || "{}")
+          )
+        )
+      );
       setAmalganFilling(userData.amalganFilling || false);
       setBornDate(userData.bornDate || "");
-      setComplaints(Object.entries(parseJsonString(removeBackslashes(JSON.parse(userData.complaints) || "{}"))));
-      setCourses(Object.entries(parseJsonString(removeBackslashes(JSON.parse(userData.courses) || "{}"))));
+      setComplaints(
+        Object.entries(
+          parseJsonString(
+            removeBackslashes(JSON.parse(userData.complaints) || "{}")
+          )
+        )
+      );
+      setCourses(
+        Object.entries(
+          parseJsonString(
+            removeBackslashes(JSON.parse(userData.courses) || "{}")
+          )
+        )
+      );
       setDescription(userData.description || "");
-      setDrugs(Object.entries(parseJsonString(removeBackslashes(JSON.parse(userData.drugs) || "{}"))));
+      setDrugs(
+        Object.entries(
+          parseJsonString(removeBackslashes(JSON.parse(userData.drugs) || "{}"))
+        )
+      );
       setGoal(userData.goal || "");
-      setMutetek(Object.entries(parseJsonString(removeBackslashes(JSON.parse(userData.mutetek) || "{}"))));
+      setMutetek(
+        Object.entries(
+          parseJsonString(
+            removeBackslashes(JSON.parse(userData.mutetek) || "{}")
+          )
+        )
+      );
 
       setDataLoaded(true);
     };
@@ -79,22 +113,25 @@ const AdminUpdate = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put('http://localhost:3000/api/admin/updateuser', {
-        userId,
-        id,
-        email,
-        username,
-        fullName,
-        allergies: JSON.stringify(Object.fromEntries(allergies)),
-        amalganFilling,
-        bornDate,
-        complaints: JSON.stringify(Object.fromEntries(complaints)),
-        courses: JSON.stringify(Object.fromEntries(courses)),
-        description,
-        drugs: JSON.stringify(Object.fromEntries(drugs)),
-        goal,
-        mutetek: JSON.stringify(Object.fromEntries(mutetek)),
-      });
+      const response = await axios.put(
+        "http://localhost:3000/api/admin/updateuser",
+        {
+          userId,
+          id,
+          email,
+          username,
+          fullName,
+          allergies: JSON.stringify(Object.fromEntries(allergies)),
+          amalganFilling,
+          bornDate,
+          complaints: JSON.stringify(Object.fromEntries(complaints)),
+          courses: JSON.stringify(Object.fromEntries(courses)),
+          description,
+          drugs: JSON.stringify(Object.fromEntries(drugs)),
+          goal,
+          mutetek: JSON.stringify(Object.fromEntries(mutetek)),
+        }
+      );
       setMessage(response.data.message);
     } catch (error) {
       setMessage(error.response.data.error);
@@ -132,10 +169,14 @@ const AdminUpdate = () => {
         </div>
         {[
           { label: "Allergies", state: allergies, setter: setAllergies },
-          { label: "Complaints", state: complaints, setter: setComplaints },
+          {
+            label: "Complaints",
+            state: complaints,
+            setter: setComplaints,
+          },
           { label: "Courses", state: courses, setter: setCourses },
           { label: "Drugs", state: drugs, setter: setDrugs },
-          { label: "Mutetek", state: mutetek, setter: setMutetek }
+          { label: "Mutetek", state: mutetek, setter: setMutetek },
         ].map(({ label, state, setter }, i) => (
           <div key={i}>
             <label>{label}:</label>
@@ -157,7 +198,10 @@ const AdminUpdate = () => {
                     handleJsonChange(index, key, e.target.value, setter)
                   }
                 />
-                <button type="button" onClick={() => handleJsonRemove(index, setter)}>
+                <button
+                  type="button"
+                  onClick={() => handleJsonRemove(index, setter)}
+                >
                   Remove
                 </button>
               </div>

@@ -4,6 +4,9 @@ const User = require("../models/userModel.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+const fs = require('fs');
+const path = require('path');
+
 // Felhasználók lekérése
 exports.getUsers = async (req, res) => {
   try {
@@ -47,7 +50,6 @@ exports.updateUser = async (req, res) => {
     res.status(400).json({ error: "Invalid data." });
   }
 };
-
 
 // Felhasználó törlése
 exports.deleteUser = async (req, res) => {
@@ -204,7 +206,7 @@ exports.createCourse = async (req, res) => {
   } = req.body;
 
   const videoUrl = req.file ? req.file.filename : null;
-  console.log(videoUrl)
+  console.log("videoUrl", videoUrl)
 
   try {
     const newCourse = await Course.create({
@@ -221,7 +223,7 @@ exports.createCourse = async (req, res) => {
     });
     res.status(201).json({ message: "Course creation successful." });
   } catch (error) {
-    console.log(error);
+    console.log("ezittaz", error);
     res.status(400).json({ error: "Something went wrong." });
   }
 };
@@ -269,9 +271,26 @@ exports.deleteCourse = async (req, res) => {
     if (!course) {
       return res.status(404).json({ error: "Course not found." });
     }
+
+    if (course.video) {
+      const videoPath = path.join(__dirname, '../../uploads/', course.video);
+
+      if (fs.existsSync(videoPath)) {
+        fs.unlink(videoPath, (err) => {
+          if (err) {
+            console.error(err);
+            return res.status(500).json({ error: "Error deleting video file." });
+          }
+          // Fájl törölve
+          console.log("Video file deleted successfully.");
+        });
+      }
+    }
+
     await course.destroy();
     res.json({ message: "Course delete successful." });
   } catch (error) {
+    console.error(error);
     res.status(400).json({ error: "Something went wrong." });
   }
 };

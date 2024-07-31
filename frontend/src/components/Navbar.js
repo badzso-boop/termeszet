@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faSignInAlt, faUserPlus, faUserShield, faBars, faTimes, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faSignInAlt, faUserPlus, faUserShield, faBars, faTimes, faSignOutAlt, faTasks } from '@fortawesome/free-solid-svg-icons';
 
 import { useAuth } from '../context/AuthContext';
 
@@ -32,6 +32,12 @@ const Navigation = () => {
             <Link to="/" className={`flex ${isOpen ? 'justify-start' : 'justify-center'} items-center text-white hover:text-gray-300`}>
               <FontAwesomeIcon icon={faHome} className={`text-3xl ${isOpen ? 'mr-2' : ''}`} />
               {isOpen && <span>Home</span>}
+            </Link>
+          </li>
+          <li className="mb-4">
+            <Link to="/courses" className={`flex ${isOpen ? 'justify-start' : 'justify-center'} items-center text-white hover:text-gray-300`}>
+              <FontAwesomeIcon icon={faTasks} className={`text-3xl ${isOpen ? 'mr-2' : ''}`} />
+              {isOpen && <span>Courses</span>}
             </Link>
           </li>
           {!rang && 

@@ -13,37 +13,124 @@ export const AdminProvider = ({ children }) => {
 
   const fetchData = async () => {
     try {
-      const users = await axios.post('http://localhost:3000/api/admin/users', {
-        userId:  userId
+      const users = await axios.post("http://localhost:3000/api/admin/users", {
+        userId: userId,
       });
 
-      const courses = await axios.post('http://localhost:3000/api/admin/courses', {
-        userId:  userId
-      });
+      const courses = await axios.post(
+        "http://localhost:3000/api/admin/courses",
+        {
+          userId: userId,
+        }
+      );
 
-      const homeworks = await axios.post('http://localhost:3000/api/admin/homeworks', {
-        userId:  userId
+      const homeworks = await axios.post(
+        "http://localhost:3000/api/admin/homeworks",
+        {
+          userId: userId,
+        }
+      );
+
+      setUsers(users.data);
+      setCourses(courses.data);
+      setHomeworks(homeworks.data);
+    } catch (error) {
+      console.error("Error fetching admin data:", error);
+    }
+  };
+
+  const fetchUsers = async () => {
+    try {
+      const users = await axios.post("http://localhost:3000/api/admin/users", {
+        userId: userId,
       });
 
       setUsers(users.data);
-      setCourses(courses.data)
-      setHomeworks(homeworks.data)
+    } catch (error) {
+      console.error("Error fetching admin data:", error);
+    }
+  };
+
+  const fetchCourses = async () => {
+    try {
+      const courses = await axios.post(
+        "http://localhost:3000/api/admin/courses",
+        {
+          userId: userId,
+        }
+      );
+
+      setCourses(courses.data);
+    } catch (error) {
+      console.error("Error fetching admin data:", error);
+    }
+  };
+
+  const fetchCoursesUser = async () => {
+    try {
+      const courses = await axios.get("http://localhost:3000/api/courses");
+      setCourses(courses.data);
+    } catch (error) {
+      console.error("Error fetching admin data:", error);
+    }
+  };
+
+  const fetchHomeworks = async () => {
+    try {
+      const homeworks = await axios.post(
+        "http://localhost:3000/api/admin/homeworks",
+        {
+          userId: userId,
+        }
+      );
+
+      setHomeworks(homeworks.data);
     } catch (error) {
       console.error("Error fetching admin data:", error);
     }
   };
 
   const getOneUser = async (userId) => {
-    const user = await axios.post('http://localhost:3000/api/user', {
-      userId:  userId
+    const user = await axios.post("http://localhost:3000/api/user", {
+      userId: userId,
     });
 
     return user;
-  }
+  };
 
-  const deleteUser = async (userId) => {
-    console.log(userId)
-  }
+  const getOneCourse = async (courseId) => {
+    const id = typeof courseId === 'string' ? parseInt(courseId, 10) : courseId;
+    const course = courses.find((course) => course.id === id);  
+    return course;
+  };
+
+  const deleteUser = async (userIdToDelete, adminId) => {
+    try {
+      await axios.delete("http://localhost:3000/api/admin/deleteUser", {
+        data: {
+          userId: adminId,
+          id: userIdToDelete,
+        },
+      });
+      await fetchUsers();
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
+  };
+
+  const deleteCourse = async (courseIdToDelete, adminId) => {
+    try {
+      await axios.delete("http://localhost:3000/api/admin/deleteCourse", {
+        data: {
+          userId: adminId,
+          id: courseIdToDelete,
+        },
+      });
+      await fetchCourses();
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
+  };
 
   const parseJsonString = (jsonString) => {
     try {
@@ -56,15 +143,31 @@ export const AdminProvider = ({ children }) => {
   function removeBackslashes(inputString) {
     return inputString;
   }
-  
+
   const stringifyJsonObject = (jsonObject) => {
-    console.log(jsonObject)
-    console.log(JSON.stringify(jsonObject))
+    console.log(jsonObject);
+    console.log(JSON.stringify(jsonObject));
     return JSON.stringify(jsonObject);
   };
 
   return (
-    <AdminContext.Provider value={{ users, courses, homeworks, fetchData, getOneUser, deleteUser, parseJsonString, stringifyJsonObject, removeBackslashes }}>
+    <AdminContext.Provider
+      value={{
+        users,
+        courses,
+        homeworks,
+        fetchData,
+        fetchCourses,
+        fetchCoursesUser,
+        getOneUser,
+        getOneCourse,
+        deleteUser,
+        deleteCourse,
+        parseJsonString,
+        stringifyJsonObject,
+        removeBackslashes,
+      }}
+    >
       {children}
     </AdminContext.Provider>
   );
