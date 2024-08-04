@@ -5,7 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import { useAdmin } from "../context/AdminContext";
 
 const Course = () => {
-  const { getOneCourse } = useAdmin();
+  const { getOneCourse, registerCourses } = useAdmin();
   const { userId, rang } = useAuth(); // Feltételezve, hogy rang is elérhető
   const navigate = useNavigate();
   const { id } = useParams();
@@ -30,8 +30,7 @@ const Course = () => {
   useEffect(() => {
     if (!course) return;
 
-    const felhasznalok = course.felhasznalok ? JSON.parse(course.felhasznalok) : [];
-    const numbers = felhasznalok.match(/\d+/g) || [];
+    const numbers = JSON.parse(course.felhasznalok || "[]").map(Number);
 
     // Check if numbers array is empty or userId is in the numbers array
     // Or if the user's rank is 'a', then stay on the page
@@ -54,6 +53,9 @@ const Course = () => {
 
   const videoUrl = course.video ? `http://localhost:3000/api/video/${course.video}` : null;
 
+  console.log(registerCourses)
+  console.log(registerCourses.length)
+
   return (
     <>
       <h1>{course.cim}</h1>
@@ -64,6 +66,13 @@ const Course = () => {
           Your browser does not support the video tag.
         </video>
       )}
+      <h1>CSAO</h1>
+      {registerCourses && registerCourses.map((item, index) => {
+        <>
+        <p>csa</p>
+          <h1 key={index}>{item.courseId}</h1>
+        </>
+      })}
     </>
   );
 };

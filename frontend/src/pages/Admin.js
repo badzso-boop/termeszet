@@ -46,7 +46,7 @@ const Admin = () => {
       <div className="w-full border">
         <p>Felhasznalok</p>
         <Link
-          to="/admincreate/user"
+          to="/register"
           className={`flex bg-red-900 items-center text-white hover:text-gray-300`}
         >
           <FontAwesomeIcon icon={faUserPlus} className={`text-3xl mr-2`} />
@@ -88,7 +88,7 @@ const Admin = () => {
         </Link>
         {courses.map((item) => (
           <div key={item.id} className="flex border w-full my-3">
-            <div className="w-1/4 border">{item.cim}</div>
+            <Link to={`/course/${item.id}`} className={`w-1/4 border`}>{item.cim}</Link>
             <div className="w-1/4 border">{item.ar} Ft</div>
             <div className="w-1/4 border">{item.helyszin}</div>
             <div className="w-1/4 border">{item.idopont}</div>

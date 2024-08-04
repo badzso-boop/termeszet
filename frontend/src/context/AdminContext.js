@@ -10,27 +10,36 @@ export const AdminProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
   const [courses, setCourses] = useState([]);
   const [homeworks, setHomeworks] = useState([]);
+  const [registerCourses, setRegisterCourses] = useState([]);
 
   const fetchData = async () => {
     try {
-      const users = await axios.post("http://localhost:3000/api/admin/users", {
+      const users = await axios.post("http://192.168.0.104:3000/api/admin/users", {
         userId: userId,
       });
 
       const courses = await axios.post(
-        "http://localhost:3000/api/admin/courses",
+        "http://192.168.0.104:3000/api/admin/courses",
         {
           userId: userId,
         }
       );
 
       const homeworks = await axios.post(
-        "http://localhost:3000/api/admin/homeworks",
+        "http://192.168.0.104:3000/api/admin/homeworks",
         {
           userId: userId,
         }
       );
 
+      const registerCourses = await axios.post(
+        "http://192.168.0.104:3000/api/admin/registercourses",
+        {
+          userId: userId,
+        }
+      );
+
+      setRegisterCourses(registerCourses.data);
       setUsers(users.data);
       setCourses(courses.data);
       setHomeworks(homeworks.data);
@@ -38,10 +47,10 @@ export const AdminProvider = ({ children }) => {
       console.error("Error fetching admin data:", error);
     }
   };
-
+  
   const fetchUsers = async () => {
     try {
-      const users = await axios.post("http://localhost:3000/api/admin/users", {
+      const users = await axios.post("http://192.168.0.104:3000/api/admin/users", {
         userId: userId,
       });
 
@@ -54,7 +63,7 @@ export const AdminProvider = ({ children }) => {
   const fetchCourses = async () => {
     try {
       const courses = await axios.post(
-        "http://localhost:3000/api/admin/courses",
+        "http://192.168.0.104:3000/api/admin/courses",
         {
           userId: userId,
         }
@@ -68,7 +77,7 @@ export const AdminProvider = ({ children }) => {
 
   const fetchCoursesUser = async () => {
     try {
-      const courses = await axios.get("http://localhost:3000/api/courses");
+      const courses = await axios.get("http://192.168.0.104:3000/api/courses");
       setCourses(courses.data);
     } catch (error) {
       console.error("Error fetching admin data:", error);
@@ -78,7 +87,7 @@ export const AdminProvider = ({ children }) => {
   const fetchHomeworks = async () => {
     try {
       const homeworks = await axios.post(
-        "http://localhost:3000/api/admin/homeworks",
+        "http://192.168.0.104:3000/api/admin/homeworks",
         {
           userId: userId,
         }
@@ -90,8 +99,15 @@ export const AdminProvider = ({ children }) => {
     }
   };
 
+  const registerCourse = async (userId, courseId) => {
+    const course = await axios.post("http://192.168.0.104:3000/api/registercourse", {
+      userId: userId,
+      courseId: courseId
+    });
+  }
+
   const getOneUser = async (userId) => {
-    const user = await axios.post("http://localhost:3000/api/user", {
+    const user = await axios.post("http://192.168.0.104:3000/api/user", {
       userId: userId,
     });
 
@@ -106,7 +122,7 @@ export const AdminProvider = ({ children }) => {
 
   const deleteUser = async (userIdToDelete, adminId) => {
     try {
-      await axios.delete("http://localhost:3000/api/admin/deleteUser", {
+      await axios.delete("http://192.168.0.104:3000/api/admin/deleteUser", {
         data: {
           userId: adminId,
           id: userIdToDelete,
@@ -120,7 +136,7 @@ export const AdminProvider = ({ children }) => {
 
   const deleteCourse = async (courseIdToDelete, adminId) => {
     try {
-      await axios.delete("http://localhost:3000/api/admin/deleteCourse", {
+      await axios.delete("http://192.168.0.104:3000/api/admin/deleteCourse", {
         data: {
           userId: adminId,
           id: courseIdToDelete,
@@ -156,6 +172,7 @@ export const AdminProvider = ({ children }) => {
         users,
         courses,
         homeworks,
+        registerCourses,
         fetchData,
         fetchCourses,
         fetchCoursesUser,
@@ -166,6 +183,7 @@ export const AdminProvider = ({ children }) => {
         parseJsonString,
         stringifyJsonObject,
         removeBackslashes,
+        registerCourse,
       }}
     >
       {children}

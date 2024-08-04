@@ -11,24 +11,18 @@ const AdminUpdate = (type) => {
 
   const { rang, userId } = useAuth();
   const {
-    courses,
     getOneCourse,
-    fetchCourses,
-    stringifyJsonObject,
-    parseJsonString,
-    removeBackslashes,
   } = useAdmin();
 
   const [dataLoaded, setDataLoaded] = useState(false);
 
-  // helyes useStatek
+  // Initialize states
   const [cim, setCim] = useState("");
   const [helyszin, setHelyszin] = useState("");
   const [idopont, setIdopont] = useState("");
   const [ar, setAr] = useState(0);
   const [temakor, setTemakor] = useState("");
   const [leiras, setLeiras] = useState("");
-  const [fajlok, setFajlok] = useState("");
   const [felhasznalok, setFelhasznalok] = useState([]);
   const [megkotesek, setMegkotesek] = useState([]);
   const [video, setVideo] = useState("");
@@ -40,24 +34,13 @@ const AdminUpdate = (type) => {
       setCim(course.cim || "");
       setHelyszin(course.helyszin || "");
       setIdopont(course.idopont || "");
-      setAr(course.ar || "");
+      setAr(course.ar);
       setTemakor(course.temakor || "");
       setLeiras(course.leiras || "");
       setVideo(course.video || "");
-      setFelhasznalok(
-        Object.entries(
-          parseJsonString(
-            removeBackslashes(JSON.parse(course.felhasznalok) || "{}")
-          )
-        )
-      );
-      setMegkotesek(
-        Object.entries(
-          parseJsonString(
-            removeBackslashes(JSON.parse(course.megkotesek) || "{}")
-          )
-        )
-      );
+
+      setFelhasznalok(JSON.parse(course.felhasznalok || "[]").map(Number));
+      setMegkotesek(JSON.parse(course.megkotesek || "[]").map(Number));
 
       setDataLoaded(true);
     };
@@ -73,19 +56,19 @@ const AdminUpdate = (type) => {
     }
   }, [rang, navigate]);
 
-  const handleJsonChange = (index, key, value, setter) => {
+  const handleArrayChange = (index, value, setter) => {
     setter((prev) => {
       const newArray = [...prev];
-      newArray[index] = [key, value];
+      newArray[index] = value;
       return newArray;
     });
   };
 
-  const handleJsonAdd = (setter) => {
-    setter((prev) => [...prev, ["", ""]]);
+  const handleArrayAdd = (setter) => {
+    setter((prev) => [...prev, ""]);
   };
 
-  const handleJsonRemove = (index, setter) => {
+  const handleArrayRemove = (index, setter) => {
     setter((prev) => prev.filter((_, i) => i !== index));
   };
 
@@ -103,8 +86,8 @@ const AdminUpdate = (type) => {
           ar,
           temakor,
           leiras,
-          felhasznalok: JSON.stringify(Object.fromEntries(felhasznalok)),
-          megkotesek: JSON.stringify(Object.fromEntries(megkotesek))
+          felhasznalok,
+          megkotesek
         }
       );
       setMessage(response.data.message);
@@ -115,7 +98,7 @@ const AdminUpdate = (type) => {
 
   return (
     <div>
-      <h1>Update User</h1>
+      <h1>Update Course</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <label>cim:</label>
@@ -137,53 +120,62 @@ const AdminUpdate = (type) => {
         <div>
           <label>idopont:</label>
           <input
-            type="text"
+            type="date"
             value={idopont}
             onChange={(e) => setIdopont(e.target.value)}
           />
         </div>
-        {[
-          { label: "Felhasznalok", state: felhasznalok, setter: setFelhasznalok },
-          { label: "Megkötesek", state: megkotesek, setter: setMegkotesek, }
-        ].map(({ label, state, setter }, i) => (
-          <div key={i}>
-            <label>{label}:</label>
-            {state.map(([key, value], index) => (
-              <div key={index}>
-                <input
-                  type="text"
-                  placeholder="Key"
-                  value={key}
-                  onChange={(e) =>
-                    handleJsonChange(index, e.target.value, value, setter)
-                  }
-                />
-                <input
-                  type="text"
-                  placeholder="Value"
-                  value={value}
-                  onChange={(e) =>
-                    handleJsonChange(index, key, e.target.value, setter)
-                  }
-                />
-                <button
-                  type="button"
-                  onClick={() => handleJsonRemove(index, setter)}
-                >
-                  Remove
-                </button>
-              </div>
-            ))}
-            <button type="button" onClick={() => handleJsonAdd(setter)}>
-              Add {label}
-            </button>
-          </div>
-        ))}
+        <div>
+          <label>Felhasznalok:</label>
+          {felhasznalok.map((value, index) => (
+            <div key={index}>
+              <input
+                type="text"
+                value={value}
+                onChange={(e) =>
+                  handleArrayChange(index, e.target.value, setFelhasznalok)
+                }
+              />
+              <button
+                type="button"
+                onClick={() => handleArrayRemove(index, setFelhasznalok)}
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+          <button type="button" onClick={() => handleArrayAdd(setFelhasznalok)}>
+            Add Felhasznalo
+          </button>
+        </div>
+        <div>
+          <label>Megkotesek:</label>
+          {megkotesek.map((value, index) => (
+            <div key={index}>
+              <input
+                type="text"
+                value={value}
+                onChange={(e) =>
+                  handleArrayChange(index, e.target.value, setMegkotesek)
+                }
+              />
+              <button
+                type="button"
+                onClick={() => handleArrayRemove(index, setMegkotesek)}
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+          <button type="button" onClick={() => handleArrayAdd(setMegkotesek)}>
+            Add Megkotes
+          </button>
+        </div>
         <div>
           <label>ar:</label>
           <input
             type="number"
-            checked={ar}
+            value={ar}
             onChange={(e) => setAr(e.target.value)}
           />
         </div>

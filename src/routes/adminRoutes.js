@@ -16,6 +16,8 @@ router.post('/createUserHW', verifyAdmin, adminController.createUserHomework);
 router.put('/updateUserHW', verifyAdmin, adminController.updateUserHomework);
 router.delete('/deleteUserHW', verifyAdmin, adminController.deleteUserHomework);
 
+router.post('/registercourses', adminController.registerCourses);
+
 // Minikurzusok kezelése
 router.post('/courses', verifyAdmin, adminController.getCourses);
 router.post('/createCourse', upload.single('video'), verifyAdmin, adminController.createCourse);

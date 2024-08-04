@@ -1,6 +1,7 @@
 const Homework = require("../models/homeworkModel.js");
 const Course = require("../models/courseModel.js");
 const User = require("../models/userModel.js");
+const CourseRegister = require("../models/courseRegisterModel.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -263,7 +264,7 @@ exports.updateCourse = async (req, res) => {
   }
 };
 
-// Minikurzus törlése
+// Minikurzus törlése 
 exports.deleteCourse = async (req, res) => {
   const { id } = req.body;
   try {
@@ -292,5 +293,20 @@ exports.deleteCourse = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(400).json({ error: "Something went wrong." });
+  }
+};
+
+
+
+exports.registerCourses = async (req, res) => {
+  const {userId} = req.body
+
+  console.log(userId)
+  try {
+    const courses = await CourseRegister.findAll();
+    res.json(courses);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Something went wrong." });
   }
 };

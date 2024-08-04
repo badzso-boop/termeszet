@@ -57,8 +57,6 @@ const AdminCreate = ({ formConfig }) => {
     data.append('userId', userId);
     data.append('temakor', "");
     data.append('leiras', "");
-    data.append('felhasznalok', JSON.stringify({}));
-    data.append('megkotesek', JSON.stringify({}));
     data.append('fajlok', "");
 
     try {

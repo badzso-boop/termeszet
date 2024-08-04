@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const corsOptions = {
-  origin: ['http://localhost:3000', 'http://localhost:3001'], // Engedélyezett eredet
+  origin: ['http://localhost:3000', 'http://localhost:3001', "http://192.168.0.104:3001"], // Engedélyezett eredet
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true, 
 };

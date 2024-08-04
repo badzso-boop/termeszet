@@ -14,7 +14,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/api/login', { email, pwd: password });
+      const response = await axios.post('http://192.168.0.104:3000/api/login', { email, pwd: password });
       setMessage(response.data.message);
       const userId = response.data.userId;
       const userRang = response.data.rang;
