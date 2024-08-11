@@ -34,6 +34,8 @@ const AdminUpdate = (type) => {
   const [mutetek, setMutetek] = useState([]);
   const [message, setMessage] = useState("");
 
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   useEffect(() => {
     const loadData = async () => {
       const beUser = await getOneUser(id);
@@ -114,7 +116,7 @@ const AdminUpdate = (type) => {
     e.preventDefault();
     try {
       const response = await axios.put(
-        "http://localhost:3000/api/admin/updateuser",
+        `${API_BASE_URL}/api/admin/updateuser`,
         {
           userId,
           id,

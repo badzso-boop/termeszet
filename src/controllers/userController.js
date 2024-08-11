@@ -99,18 +99,26 @@ exports.registerCourse = async (req, res) => {
   const { userId, courseId } = req.body;
 
   try {
-    const newCourseRegister = await CourseRegister.create({
-      userId,
-      courseId,
+    // Ellenőrizzük, hogy létezik-e már ilyen userId és courseId kombináció
+    const existingRegister = await CourseRegister.findOne({
+      where: { userId, courseId },
     });
 
-    return res.status(201).json({ message: "Course registered successfully." });
+    if (!existingRegister) {
+      const newCourseRegister = await CourseRegister.create({
+        userId,
+        courseId,
+      });
+  
+      return res.status(200).json({ message: "Course registered successfully." }); 
+    } else {
+      return res.status(201).json({ message: "User has already registered for this course." });
+    }
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: "Server error." });
   }
 };
-
 
 
 exports.oneUser = async (req, res) => {

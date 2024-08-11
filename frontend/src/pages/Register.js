@@ -8,10 +8,12 @@ const Register = () => {
   const [fullName, setFullName] = useState('');
   const [message, setMessage] = useState('');
 
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://192.168.0.104:3000/api/register', { email, pwd, username, fullName });
+      const response = await axios.post(`${API_BASE_URL}/api/register`, { email, pwd, username, fullName });
       setMessage(response.data.message);
     } catch (error) {
       setMessage(error.response.data.error);

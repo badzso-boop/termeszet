@@ -17,11 +17,12 @@ router.put('/updateUserHW', verifyAdmin, adminController.updateUserHomework);
 router.delete('/deleteUserHW', verifyAdmin, adminController.deleteUserHomework);
 
 router.post('/registercourses', adminController.registerCourses);
+router.post('/registercoursedelete', verifyAdmin, adminController.deleteRegisteredCourse);
 
 // Minikurzusok kezelése
 router.post('/courses', verifyAdmin, adminController.getCourses);
 router.post('/createCourse', upload.single('video'), verifyAdmin, adminController.createCourse);
-router.put('/updateCourse', verifyAdmin, adminController.updateCourse);
+router.put('/updateCourse', upload.single('video'), verifyAdmin, adminController.updateCourse);
 router.delete('/deleteCourse', verifyAdmin, adminController.deleteCourse);
 
 module.exports = router;

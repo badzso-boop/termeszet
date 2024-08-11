@@ -5,7 +5,7 @@ import { useAdmin } from "../context/AdminContext";
 import { useAuth } from "../context/AuthContext";
 
 const Courses = () => {
-  const { userId } = useAuth();
+  const { userId, rang } = useAuth();
   const { courses, fetchCoursesUser, registerCourse } = useAdmin();
   const [dataLoaded, setDataLoaded] = useState(false);
 
@@ -56,12 +56,41 @@ const Courses = () => {
                 <div className="m-1 w-full bg-red-600 rounded-full text-center text-base p-1 bg-primary">
                   {item.ar} Ft
                 </div>
-                {userId === null ? (
-                  <Link to="/" className="m-1 w-full bg-red-600 rounded-full text-center text-base p-1 bg-primary">
+                {rang === "a" ? (
+                  <Link
+                    to={`/course/${item.id}`}
+                    className="m-1 w-full bg-red-600 rounded-full text-center text-base p-1 bg-primary cursor-pointer"
+                  >
+                    Megtekintem
+                  </Link>
+                ) : userId === null ? (
+                  <Link
+                    to="/register"
+                    className="m-1 w-full bg-red-600 rounded-full text-center text-base p-1 bg-primary"
+                  >
                     Felhasználó létrehozása!
                   </Link>
+                ) : item.felhasznalok && item.felhasznalok.includes(userId) ? (
+                  <Link
+                    to={`/course/${item.id}`}
+                    className="m-1 w-full bg-red-600 rounded-full text-center text-base p-1 bg-primary cursor-pointer"
+                  >
+                    Megtekintem
+                  </Link>
                 ) : (
-                  <div className="m-1 w-full bg-red-600 rounded-full text-center text-base p-1 bg-primary cursor-pointer" onClick={() => registerCourse(userId, item.id)}>
+                  <div
+                    className="m-1 w-full bg-red-600 rounded-full text-center text-base p-1 bg-primary cursor-pointer"
+                    onClick={async () => {
+                      const result = await registerCourse(userId, item.id);
+                      if (result === "success") {
+                        alert("Sikeresen regisztráltál a kurzusra!");
+                      } else if (result === "registered") {
+                        alert("Már regisztráltál erre a kurzusra");
+                      } else {
+                        alert("Valami hiba történt");
+                      }
+                    }}
+                  >
                     Regisztrálok!
                   </div>
                 )}

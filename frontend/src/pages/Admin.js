@@ -14,7 +14,17 @@ import { useAdmin } from "../context/AdminContext";
 
 const Admin = () => {
   const { rang, userId } = useAuth();
-  const { users, courses, homeworks, fetchData, deleteUser, deleteCourse } = useAdmin();
+  const {
+    users,
+    courses,
+    homeworks,
+    fetchData,
+    deleteUser,
+    deleteCourse,
+    registerCourses,
+    addUser,
+    deleteUserRegisteredCourse,
+  } = useAdmin();
   const [dataLoaded, setDataLoaded] = useState(false);
   const navigate = useNavigate();
 
@@ -70,7 +80,10 @@ const Admin = () => {
                 <span>Felhasználó szerkesztése</span>
               </Link>
             </div>
-            <div className="w-1/4 border" onClick={() => deleteUser(item.id,userId)}>
+            <div
+              className="w-1/4 border"
+              onClick={() => deleteUser(item.id, userId)}
+            >
               <FontAwesomeIcon icon={faTrash} className={`text-xl mr-2`} />
               <span>Felhasználó törlése</span>
             </div>
@@ -88,12 +101,14 @@ const Admin = () => {
         </Link>
         {courses.map((item) => (
           <div key={item.id} className="flex border w-full my-3">
-            <Link to={`/course/${item.id}`} className={`w-1/4 border`}>{item.cim}</Link>
+            <Link to={`/course/${item.id}`} className={`w-1/4 border`}>
+              {item.cim}
+            </Link>
             <div className="w-1/4 border">{item.ar} Ft</div>
             <div className="w-1/4 border">{item.helyszin}</div>
             <div className="w-1/4 border">{item.idopont}</div>
             <div className="w-1/4 border">
-            <Link
+              <Link
                 to={`/adminupdatecourse/${item.id}`}
                 className={`flex items-center hover:text-gray-300`}
               >
@@ -104,12 +119,70 @@ const Admin = () => {
                 <span>Kurzus szerkesztése</span>
               </Link>
             </div>
-            <div className="w-1/4 border" onClick={() => deleteCourse(item.id,userId)}>
+            <div
+              className="w-1/4 border"
+              onClick={() => deleteCourse(item.id, userId)}
+            >
               <FontAwesomeIcon icon={faTrash} className={`text-xl mr-2`} />
               <span>Kurzus törlése</span>
             </div>
           </div>
         ))}
+      </div>
+      <div className="w-full border">
+        <p>Kurzusra várók</p>
+
+        {registerCourses &&
+          registerCourses.map((item, index) => {
+            const user = users.find((user) => user.id === item.userId);
+            const course = courses.find((course) => course.id === item.courseId)
+
+            let arr = [];
+  
+            if (course) {
+              if (course.felhasznalok !== null) {
+                if (course.felhasznalok !== "[]") {
+                  const cleanedStr = course.felhasznalok.replace(/"(\d+)"/g, "$1");
+                  arr = JSON.parse(cleanedStr);
+                }
+              }
+            }
+
+            return (
+              <h1 key={index}>
+                {user
+                  ? `${user.id} - ${user.fullName} - ${user.username}`
+                  : `Unknown User - ${item.courseId}`}{" ++ "}
+                {course ? <>`${course.id} - ${course.cim}`<button
+                  className="bg-green-500 border p-2"
+                  onClick={() => {
+                    addUser(user.id, arr, course.id, item.id, userId)
+                  }}
+                >
+                  Elfogad
+                </button>
+                <button
+                  className="bg-red-500 border p-2"
+                  onClick={() => {
+                    deleteUserRegisteredCourse(userId, item.id)
+                  }}
+                >
+                  Elutasít
+                </button></> : <>`Kurzus törölve`<button
+                  className="bg-red-500 border p-2"
+                  onClick={() => {
+                    deleteUserRegisteredCourse(userId, item.id)
+                  }}
+                >
+                  Töröl
+                </button></>}
+
+                
+              </h1>
+            );
+
+            return null;
+          })}
       </div>
       <div className="w-full border">
         <p>hazifeladatok</p>

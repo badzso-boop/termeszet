@@ -5,14 +5,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useAdmin } from "../context/AdminContext";
 
-const AdminUpdate = (type) => {
+const AdminUpdate = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
   const { rang, userId } = useAuth();
-  const {
-    getOneCourse,
-  } = useAdmin();
+  const { getOneCourse } = useAdmin();
 
   const [dataLoaded, setDataLoaded] = useState(false);
 
@@ -25,8 +23,11 @@ const AdminUpdate = (type) => {
   const [leiras, setLeiras] = useState("");
   const [felhasznalok, setFelhasznalok] = useState([]);
   const [megkotesek, setMegkotesek] = useState([]);
-  const [video, setVideo] = useState("");
+  const [video, setVideo] = useState(null);
+  const [isFileValid, setIsFileValid] = useState(true);
   const [message, setMessage] = useState("");
+
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   useEffect(() => {
     const loadData = async () => {
@@ -72,36 +73,55 @@ const AdminUpdate = (type) => {
     setter((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const handleVideoChange = (e) => {
+    const file = e.target.files[0];
+    const fileTypes = ['video/mp4', 'video/x-matroska', 'video/x-msvideo'];
+    if (file && fileTypes.includes(file.type)) {
+      setIsFileValid(true);
+      setVideo(file);
+      setMessage('');
+    } else {
+      setIsFileValid(false);
+      setMessage('Csak videó fájlokat tölthetsz fel (mp4, mkv, avi).');
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const data = new FormData();
+    data.append('userId', userId);
+    data.append('id', id);
+    data.append('cim', cim);
+    data.append('helyszin', helyszin);
+    data.append('idopont', idopont);
+    data.append('ar', ar);
+    data.append('temakor', temakor);
+    data.append('leiras', leiras);
+    data.append('felhasznalok', JSON.stringify(felhasznalok));
+    data.append('megkotesek', JSON.stringify(megkotesek));
+    if (video) {
+      data.append('video', video);
+    }
+
     try {
-      const response = await axios.put(
-        "http://localhost:3000/api/admin/updateCourse",
-        {
-          userId,
-          id,
-          cim,
-          helyszin,
-          idopont,
-          ar,
-          temakor,
-          leiras,
-          felhasznalok,
-          megkotesek
-        }
-      );
+      const response = await axios.put(`${API_BASE_URL}/api/admin/updateCourse`, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       setMessage(response.data.message);
     } catch (error) {
-      setMessage(error.response.data.error);
+      setMessage(error.response?.data?.error || "Something went wrong.");
     }
   };
 
   return (
     <div>
       <h1>Update Course</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div>
-          <label>cim:</label>
+          <label>Cím:</label>
           <input
             type="text"
             value={cim}
@@ -110,7 +130,7 @@ const AdminUpdate = (type) => {
           />
         </div>
         <div>
-          <label>helyszin:</label>
+          <label>Helyszín:</label>
           <input
             type="text"
             value={helyszin}
@@ -118,7 +138,7 @@ const AdminUpdate = (type) => {
           />
         </div>
         <div>
-          <label>idopont:</label>
+          <label>Időpont:</label>
           <input
             type="date"
             value={idopont}
@@ -126,7 +146,7 @@ const AdminUpdate = (type) => {
           />
         </div>
         <div>
-          <label>Felhasznalok:</label>
+          <label>Felhasználók:</label>
           {felhasznalok.map((value, index) => (
             <div key={index}>
               <input
@@ -149,7 +169,7 @@ const AdminUpdate = (type) => {
           </button>
         </div>
         <div>
-          <label>Megkotesek:</label>
+          <label>Megkötések:</label>
           {megkotesek.map((value, index) => (
             <div key={index}>
               <input
@@ -172,7 +192,7 @@ const AdminUpdate = (type) => {
           </button>
         </div>
         <div>
-          <label>ar:</label>
+          <label>Ár:</label>
           <input
             type="number"
             value={ar}
@@ -180,7 +200,7 @@ const AdminUpdate = (type) => {
           />
         </div>
         <div>
-          <label>temakor:</label>
+          <label>Témakör:</label>
           <input
             type="text"
             value={temakor}
@@ -188,14 +208,25 @@ const AdminUpdate = (type) => {
           />
         </div>
         <div>
-          <label>leiras:</label>
+          <label>Leírás:</label>
           <input
             type="text"
             value={leiras}
             onChange={(e) => setLeiras(e.target.value)}
           />
         </div>
-        <button type="submit">Update</button>
+        <div>
+          <label>Videó:</label>
+          <input
+            type="file"
+            name="video"
+            onChange={handleVideoChange}
+            accept="video/mp4, video/x-matroska, video/x-msvideo"
+          />
+        </div>
+        <button type="submit" disabled={!isFileValid}>
+          Update
+        </button>
       </form>
       {message && <p>{message}</p>}
     </div>

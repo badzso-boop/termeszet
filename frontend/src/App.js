@@ -14,6 +14,8 @@ import axios from "axios";
 
 import Navigation from './components/Navbar';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 const userFormConfig = {
   title: 'Felhasználó szerkesztése',
   fields: [
@@ -22,7 +24,7 @@ const userFormConfig = {
     { name: 'username', type: 'text', label: 'Username', required: true },
     { name: 'fullName', type: 'text', label: 'Full Name', required: true },
   ],
-  submitFunction: (data) => axios.post('http://localhost:3000/api/register', data),
+  submitFunction: (data) => axios.post(`${API_BASE_URL}/api/register`, data),
   submitButtonText: 'Register',
 };
 
@@ -35,7 +37,7 @@ const courseFormConfig = {
     { name: 'idopont', type: 'date', label: 'Időpont', required: true },
     { name: 'video', type: 'file', label: 'Videó' },
   ],
-  submitFunction: (data) => axios.post('http://localhost:3000/api/admin/createCourse', data),
+  submitFunction: (data) => axios.post(`${API_BASE_URL}/api/admin/createCourse`, data),
   submitButtonText: 'Kurzus létrehozása',
 };
 
@@ -47,7 +49,7 @@ const homeworkFormConfig = {
     { name: 'hataridoDatum', type: 'date', label: 'Határidő dátuma', required: true },
     { name: 'letrehozasDatum', type: 'date', label: 'Létrehozás dátuma', required: true },
   ],
-  submitFunction: (data) => axios.post('http://localhost:3000/api/admin/homeworks', data),
+  submitFunction: (data) => axios.post(`${API_BASE_URL}/api/admin/homeworks`, data),
   submitButtonText: 'Create Homework',
 };
 

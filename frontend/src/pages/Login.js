@@ -11,10 +11,12 @@ const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://192.168.0.104:3000/api/login', { email, pwd: password });
+      const response = await axios.post(`${API_BASE_URL}/api/login`, { email, pwd: password });
       setMessage(response.data.message);
       const userId = response.data.userId;
       const userRang = response.data.rang;

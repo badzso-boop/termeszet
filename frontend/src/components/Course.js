@@ -5,12 +5,14 @@ import { useAuth } from "../context/AuthContext";
 import { useAdmin } from "../context/AdminContext";
 
 const Course = () => {
-  const { getOneCourse, registerCourses } = useAdmin();
+  const { getOneCourse, registerCourses, users, addUser, deleteUserRegisteredCourse } = useAdmin();
   const { userId, rang } = useAuth(); // Feltételezve, hogy rang is elérhető
   const navigate = useNavigate();
   const { id } = useParams();
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -30,15 +32,14 @@ const Course = () => {
   useEffect(() => {
     if (!course) return;
 
-    const numbers = JSON.parse(course.felhasznalok || "[]").map(Number);
+    if (course.felhasznalok !== null) {
+      const cleanedStr = course.felhasznalok.replace(/"(\d+)"/g, "$1");
+      arr = JSON.parse(cleanedStr);
+    }
 
-    // Check if numbers array is empty or userId is in the numbers array
-    // Or if the user's rank is 'a', then stay on the page
-    if (numbers.length === 0 || numbers.includes(userId) || rang === 'a') {
-      // User is allowed to stay on the page
+    if (arr.length === 0 || arr.includes(parseInt(userId)) || rang === "a") {
       return;
     } else {
-      // User is not allowed to stay on the page, navigate to "/"
       navigate("/");
     }
   }, [course, userId, rang, navigate]);
@@ -51,10 +52,16 @@ const Course = () => {
     return <div>Course not found</div>;
   }
 
-  const videoUrl = course.video ? `http://localhost:3000/api/video/${course.video}` : null;
+  const videoUrl = course.video
+    ? `${API_BASE_URL}/api/video/${course.video}`
+    : null;
 
-  console.log(registerCourses)
-  console.log(registerCourses.length)
+  let arr = [];
+  
+  if (course.felhasznalok !== null && course.felhasznalok !== "[]") {
+    const cleanedStr = course.felhasznalok.replace(/"(\d+)"/g, "$1");
+    arr = JSON.parse(cleanedStr);
+  }
 
   return (
     <>
@@ -66,13 +73,47 @@ const Course = () => {
           Your browser does not support the video tag.
         </video>
       )}
-      <h1>CSAO</h1>
-      {registerCourses && registerCourses.map((item, index) => {
+
+      {rang === "a" ? (
         <>
-        <p>csa</p>
-          <h1 key={index}>{item.courseId}</h1>
+          <h1>Már regisztrált felhasználók</h1>
+
+          {typeof(arr) === "object" ? (
+            arr.map((item, index) => <p key={index}>{item}</p>)
+          ) : (
+            <p>No registered users.</p>
+          )}
+
+          <h1>Regisztrálni akaró felhasználók</h1>
+          {registerCourses &&
+            registerCourses.map((item, index) => {
+              if (parseInt(id) === item.courseId) {
+                const user = users.find((user) => user.id === item.userId);
+
+                return (
+                  <h1 key={index}>
+                    {user
+                      ? `${user.id} - ${user.fullName} - ${user.username}`
+                      : `Unknown User - ${item.courseId}`}{" "}
+                    <button
+                      className="bg-green-500 border p-2"
+                      onClick={() => {
+                        addUser(user.id, arr, id, item.id, userId);
+                      }}
+                    >
+                      Hozzáad
+                    </button>
+                    <button className="bg-red-500 border p-2" onClick={() => {
+                      deleteUserRegisteredCourse(userId, item.id)
+                    }}>Töröl</button>
+                  </h1>
+                );
+              }
+
+              return null;
+            })}
         </>
-      })}
+      ) : null}
     </>
   );
 };

@@ -243,26 +243,35 @@ exports.updateCourse = async (req, res) => {
     felhasznalok,
     megkotesek,
   } = req.body;
+
+  const videoUrl = req.file ? req.file.filename : null;
+
   try {
     const course = await Course.findByPk(id);
     if (!course) {
       return res.status(404).json({ error: "Course not found." });
     }
+
+    // Update fields if they are provided in the request
     if (cim) course.cim = cim;
     if (helyszin) course.helyszin = helyszin;
-    if (idopont) course.leiras = leiras;
+    if (idopont) course.idopont = idopont;
     if (ar) course.ar = ar;
     if (temakor) course.temakor = temakor;
     if (leiras) course.leiras = leiras;
     if (fajlok) course.fajlok = fajlok;
     if (felhasznalok) course.felhasznalok = felhasznalok;
     if (megkotesek) course.megkotesek = megkotesek;
+    if (videoUrl) course.video = videoUrl;
+
     await course.save();
+
     res.json({ message: "Course update successful." });
   } catch (error) {
     res.status(400).json({ error: "Something went wrong." });
   }
 };
+
 
 // Minikurzus törlése 
 exports.deleteCourse = async (req, res) => {
@@ -308,5 +317,21 @@ exports.registerCourses = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Something went wrong." });
+  }
+};
+
+exports.deleteRegisteredCourse = async (req, res) => {
+  const { id } = req.body;
+  try {
+    const course = await CourseRegister.findByPk(id);
+    if (!course) {
+      return res.status(404).json({ error: "Course not found." });
+    }
+
+    await course.destroy();
+    res.json({ message: "Course delete successful." });
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ error: "Something went wrong." });
   }
 };
