@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faSignInAlt, faUserPlus, faUserShield, faBars, faTimes, faSignOutAlt, faTasks } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faSignInAlt, faUserPlus, faUser, faUserShield, faBars, faTimes, faSignOutAlt, faTasks } from '@fortawesome/free-solid-svg-icons';
 
 import { useAuth } from '../context/AuthContext';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { rang, logout } = useAuth();
+  const { rang, logout, userId } = useAuth();
   const navigate = useNavigate();
 
   const toggleSidebar = () => {
@@ -65,12 +65,19 @@ const Navigation = () => {
             </li>
           )}
           {rang && 
+          <>
             <li className="mb-4">
               <button onClick={handleLogout} className={`flex items-center ${isOpen ? 'justify-start' : 'justify-center'} text-white hover:text-gray-300 w-full`}>
                 <FontAwesomeIcon icon={faSignOutAlt} className={`text-3xl ${isOpen ? 'mr-2' : ''}`} />
                 {isOpen && <span>Logout</span>}
               </button>
-            </li>}
+            </li>
+            <li className="mb-4">
+              <Link to={`/user/${userId}`} className={`flex items-center ${isOpen ? 'justify-start' : 'justify-center'} text-white hover:text-gray-300`}>
+                <FontAwesomeIcon icon={faUser} className={`text-3xl ${isOpen ? 'mr-2' : ''}`} />
+                {isOpen && <span>Profile</span>}
+              </Link>
+            </li></>}
         </ul>
       </div>
       <div className={`flex-1 p-4 transition-all duration-300 ${isOpen ? 'ml-64' : 'ml-6'}`}>

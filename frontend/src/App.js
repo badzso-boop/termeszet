@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Courses from './pages/Courses';
 import Course from './components/Course';
+import User from './components/User';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Admin from './pages/Admin';
@@ -67,6 +68,7 @@ const App = () => {
             <Route path="/admin" element={<Admin />} />
 
             <Route path="/course/:id" element={<Course />} />
+            <Route path="/user/:id" element={<User />} />
 
             <Route path="/admincreate/user" element={<AdminCreate formConfig={userFormConfig} />} />
             <Route path="/admincreate/course" element={<AdminCreate formConfig={courseFormConfig} />} />

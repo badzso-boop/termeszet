@@ -64,7 +64,7 @@ const Admin = () => {
         </Link>
         {users.map((item) => (
           <div key={item.id} className="flex border w-full my-3">
-            <div className="w-1/4 border">{item.fullName}</div>
+            <Link to={`/user/${item.id}`} className="w-1/4 border">{item.fullName}</Link>
             <div className="w-1/4 border">{item.username}</div>
             <div className="w-1/4 border">{item.email}</div>
             <div className="w-1/4 border">{item.bornDate}</div>
@@ -135,14 +135,19 @@ const Admin = () => {
         {registerCourses &&
           registerCourses.map((item, index) => {
             const user = users.find((user) => user.id === item.userId);
-            const course = courses.find((course) => course.id === item.courseId)
+            const course = courses.find(
+              (course) => course.id === item.courseId
+            );
 
             let arr = [];
-  
+
             if (course) {
               if (course.felhasznalok !== null) {
                 if (course.felhasznalok !== "[]") {
-                  const cleanedStr = course.felhasznalok.replace(/"(\d+)"/g, "$1");
+                  const cleanedStr = course.felhasznalok.replace(
+                    /"(\d+)"/g,
+                    "$1"
+                  );
                   arr = JSON.parse(cleanedStr);
                 }
               }
@@ -150,33 +155,53 @@ const Admin = () => {
 
             return (
               <h1 key={index}>
-                {user
-                  ? `${user.id} - ${user.fullName} - ${user.username}`
-                  : `Unknown User - ${item.courseId}`}{" ++ "}
-                {course ? <>`${course.id} - ${course.cim}`<button
-                  className="bg-green-500 border p-2"
-                  onClick={() => {
-                    addUser(user.id, arr, course.id, item.id, userId)
-                  }}
-                >
-                  Elfogad
-                </button>
-                <button
-                  className="bg-red-500 border p-2"
-                  onClick={() => {
-                    deleteUserRegisteredCourse(userId, item.id)
-                  }}
-                >
-                  Elutasít
-                </button></> : <>`Kurzus törölve`<button
-                  className="bg-red-500 border p-2"
-                  onClick={() => {
-                    deleteUserRegisteredCourse(userId, item.id)
-                  }}
-                >
-                  Töröl
-                </button></>}
-
+                {user ? (
+                  <>`${user.id} - ${user.fullName} - ${user.username}`{course ? (
+                    <>
+                      `${course.id} - ${course.cim}`
+                      <button
+                        className="bg-green-500 border p-2"
+                        onClick={() => {
+                          addUser(user.id, arr, course.id, item.id, userId);
+                        }}
+                      >
+                        Elfogad
+                      </button>
+                      <button
+                        className="bg-red-500 border p-2"
+                        onClick={() => {
+                          deleteUserRegisteredCourse(userId, item.id);
+                        }}
+                      >
+                        Elutasít
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      `Kurzus törölve`
+                      <button
+                        className="bg-red-500 border p-2"
+                        onClick={() => {
+                          deleteUserRegisteredCourse(userId, item.id);
+                        }}
+                      >
+                        Töröl
+                      </button>
+                    </>
+                  )}</>
+                ) : (
+                  <>
+                    `Unknown User - {item.courseId}`
+                    <button
+                      className="bg-red-500 border p-2"
+                      onClick={() => {
+                        deleteUserRegisteredCourse(userId, item.id);
+                      }}
+                    >
+                      Töröl
+                    </button>
+                  </>
+                )}
                 
               </h1>
             );
@@ -184,7 +209,7 @@ const Admin = () => {
             return null;
           })}
       </div>
-      <div className="w-full border">
+      {/* <div className="w-full border">
         <p>hazifeladatok</p>
         <Link
           to="/admincreate/homework"
@@ -212,7 +237,7 @@ const Admin = () => {
             </div>
           </div>
         ))}
-      </div>
+      </div> */}
     </>
   );
 };
