@@ -21,21 +21,21 @@ const Navigation = () => {
 
   return (
     <div className="flex">
-      <div className={`fixed inset-y-0 left-0 transform transition-transform duration-300 ease-in-out bg-gray-800 text-white ${isOpen ? 'w-[300px]' : 'w-15'}`}>
+      <div className={`fixed inset-y-0 left-0 transform transition-transform duration-300 ease-in-out bg-secondary text-black ${isOpen ? 'w-[300px]' : 'w-15'}`}>
         <div className={`p-4 flex ${isOpen ? 'justify-start' : 'justify-center'}`}>
-          <button onClick={toggleSidebar} className="text-white text-3xl">
+          <button onClick={toggleSidebar} className="text-black text-3xl">
             <FontAwesomeIcon icon={isOpen ? faTimes : faBars} />
           </button>
         </div>
         <ul className="p-4">
           <li className="mb-4">
-            <Link to="/" className={`flex ${isOpen ? 'justify-start' : 'justify-center'} items-center text-white hover:text-gray-300`}>
+            <Link to="/" className={`flex ${isOpen ? 'justify-start' : 'justify-center'} items-center text-black hover:text-gray-300`}>
               <FontAwesomeIcon icon={faHome} className={`text-3xl ${isOpen ? 'mr-2' : ''}`} />
               {isOpen && <span>Home</span>}
             </Link>
           </li>
           <li className="mb-4">
-            <Link to="/courses" className={`flex ${isOpen ? 'justify-start' : 'justify-center'} items-center text-white hover:text-gray-300`}>
+            <Link to="/courses" className={`flex ${isOpen ? 'justify-start' : 'justify-center'} items-center text-black hover:text-gray-300`}>
               <FontAwesomeIcon icon={faTasks} className={`text-3xl ${isOpen ? 'mr-2' : ''}`} />
               {isOpen && <span>Courses</span>}
             </Link>
@@ -43,13 +43,13 @@ const Navigation = () => {
           {!rang && 
             <>
               <li className="mb-4">
-                <Link to="/login" className={`flex items-center ${isOpen ? 'justify-start' : 'justify-center'} text-white hover:text-gray-300`}>
+                <Link to="/login" className={`flex items-center ${isOpen ? 'justify-start' : 'justify-center'} text-black hover:text-gray-300`}>
                   <FontAwesomeIcon icon={faSignInAlt} className={`text-3xl ${isOpen ? 'mr-2' : ''}`} />
                   {isOpen && <span>Login</span>}
                 </Link>
               </li>
               <li className="mb-4">
-                <Link to="/register" className={`flex items-center ${isOpen ? 'justify-start' : 'justify-center'} text-white hover:text-gray-300`}>
+                <Link to="/register" className={`flex items-center ${isOpen ? 'justify-start' : 'justify-center'} text-black hover:text-gray-300`}>
                   <FontAwesomeIcon icon={faUserPlus} className={`text-3xl ${isOpen ? 'mr-2' : ''}`} />
                   {isOpen && <span>Register</span>}
                 </Link>
@@ -58,7 +58,7 @@ const Navigation = () => {
           
           {rang === "a" && (
             <li className="mb-4">
-              <Link to="/admin" className={`flex items-center ${isOpen ? 'justify-start' : 'justify-center'} text-white hover:text-gray-300`}>
+              <Link to="/admin" className={`flex items-center ${isOpen ? 'justify-start' : 'justify-center'} text-black hover:text-gray-300`}>
                 <FontAwesomeIcon icon={faUserShield} className={`text-3xl ${isOpen ? 'mr-2' : ''}`} />
                 {isOpen && <span>Admin</span>}
               </Link>
@@ -67,17 +67,18 @@ const Navigation = () => {
           {rang && 
           <>
             <li className="mb-4">
-              <button onClick={handleLogout} className={`flex items-center ${isOpen ? 'justify-start' : 'justify-center'} text-white hover:text-gray-300 w-full`}>
+              <Link to={`/user/${userId}`} className={`flex items-center ${isOpen ? 'justify-start' : 'justify-center'} text-black hover:text-gray-300`}>
+                <FontAwesomeIcon icon={faUser} className={`text-3xl ${isOpen ? 'mr-2' : ''}`} />
+                {isOpen && <span>Profile</span>}
+              </Link>
+            </li>
+            <li className="mb-4">
+              <button onClick={handleLogout} className={`flex items-center ${isOpen ? 'justify-start' : 'justify-center'} text-black hover:text-gray-300 w-full`}>
                 <FontAwesomeIcon icon={faSignOutAlt} className={`text-3xl ${isOpen ? 'mr-2' : ''}`} />
                 {isOpen && <span>Logout</span>}
               </button>
             </li>
-            <li className="mb-4">
-              <Link to={`/user/${userId}`} className={`flex items-center ${isOpen ? 'justify-start' : 'justify-center'} text-white hover:text-gray-300`}>
-                <FontAwesomeIcon icon={faUser} className={`text-3xl ${isOpen ? 'mr-2' : ''}`} />
-                {isOpen && <span>Profile</span>}
-              </Link>
-            </li></>}
+            </>}
         </ul>
       </div>
       <div className={`flex-1 p-4 transition-all duration-300 ${isOpen ? 'ml-64' : 'ml-6'}`}>

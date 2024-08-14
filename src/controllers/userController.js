@@ -108,6 +108,7 @@ exports.registerCourse = async (req, res) => {
       const newCourseRegister = await CourseRegister.create({
         userId,
         courseId,
+        enabled: false,
       });
   
       return res.status(200).json({ message: "Course registered successfully." }); 
@@ -162,6 +163,16 @@ exports.getCourses = async (req, res) => {
   try {
     const courses = await Course.findAll();
     res.json(courses);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Something went wrong." });
+  }
+};
+
+exports.getRegisteredCourses = async (req, res) => {
+  try {
+    const registeredCourses = await CourseRegister.findAll();
+    res.json(registeredCourses);
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Something went wrong." });

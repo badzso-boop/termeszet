@@ -16,8 +16,9 @@ router.post('/createUserHW', verifyAdmin, adminController.createUserHomework);
 router.put('/updateUserHW', verifyAdmin, adminController.updateUserHomework);
 router.delete('/deleteUserHW', verifyAdmin, adminController.deleteUserHomework);
 
-router.post('/registercourses', adminController.registerCourses);
-router.post('/registercoursedelete', verifyAdmin, adminController.deleteRegisteredCourse);
+router.post('/registercourses', verifyAdmin, adminController.registerCourses);
+router.post('/toggleregistercourse', verifyAdmin, adminController.toggleRegisteredCourse);
+router.post('/deleteregistercourse', verifyAdmin, adminController.deleteRegisteredCourse);
 
 // Minikurzusok kezelése
 router.post('/courses', verifyAdmin, adminController.getCourses);

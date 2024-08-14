@@ -14,6 +14,10 @@ const CourseRegister = sequelize.define('courseregister', {
   courseId: {
     type: DataTypes.INTEGER,
     allowNull: false,
+  },
+  enabled: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
   }
 }, {
   timestamps: true

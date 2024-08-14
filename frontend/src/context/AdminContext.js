@@ -76,6 +76,17 @@ export const AdminProvider = ({ children }) => {
     try {
       const courses = await axios.get(`${API_BASE_URL}/api/courses`);
       setCourses(courses.data);
+
+    } catch (error) {
+      console.error("Error fetching admin data:", error);
+    }
+  };
+
+  const fetchRegisteredCoursesUser = async () => {
+    try {
+      const registerCourses = await axios.get(`${API_BASE_URL}/api/registercourses`);
+      setRegisterCourses(registerCourses.data);
+      
     } catch (error) {
       console.error("Error fetching admin data:", error);
     }
@@ -117,36 +128,32 @@ export const AdminProvider = ({ children }) => {
       felhasznalok.push(userId);
     }
 
-    const response2 = await axios.post(
-      `${API_BASE_URL}/api/admin/registercoursedelete`,
+    const response = await axios.post(
+      `${API_BASE_URL}/api/admin/toggleregistercourse`,
       {
         userId: parseInt(adminId),
         id: parseInt(registeredCourseId),
       }
     );
 
-    const response = await axios.put(`${API_BASE_URL}/api/admin/updateCourse`, {
-      userId: adminId,
-      id,
-      felhasznalok,
-    });
+    const registeredCourse = registerCourses.find(
+      (item) => item.id === registeredCourseId
+    );
 
-    if (response.status === 200 && response2.status === 200) {
+    if (response.status === 200) {
       setRegisterCourses((prevCourses) =>
-        prevCourses.filter((item) => item.id !== registeredCourseId)
+        prevCourses.map((item) =>
+          item.id === registeredCourseId
+            ? { ...item, enabled: !registeredCourse.enabled }
+            : item
+        )
       );
-
-      const courses = await axios.post(`${API_BASE_URL}/api/admin/courses`, {
-        userId: adminId,
-      });
-
-      setCourses(courses.data);
     }
   };
 
   const deleteUserRegisteredCourse = async (userId, id) => {
     const response = await axios.post(
-      `${API_BASE_URL}/api/admin/registercoursedelete`,
+      `${API_BASE_URL}/api/admin/deleteregistercourse`,
       {
         userId: parseInt(userId),
         id: parseInt(id),
@@ -238,6 +245,7 @@ export const AdminProvider = ({ children }) => {
         registerCourse,
         addUser,
         deleteUserRegisteredCourse,
+        fetchRegisteredCoursesUser,
       }}
     >
       {children}

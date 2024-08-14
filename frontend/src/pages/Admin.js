@@ -160,12 +160,12 @@ const Admin = () => {
                     <>
                       `${course.id} - ${course.cim}`
                       <button
-                        className="bg-green-500 border p-2"
+                         className={`${item.enabled?"bg-red-500":"bg-green-500"} border p-2`}
                         onClick={() => {
                           addUser(user.id, arr, course.id, item.id, userId);
                         }}
                       >
-                        Elfogad
+                        {item.enabled?"Letilt":"Engedélyez"}
                       </button>
                       <button
                         className="bg-red-500 border p-2"

@@ -309,14 +309,29 @@ exports.deleteCourse = async (req, res) => {
 
 exports.registerCourses = async (req, res) => {
   const {userId} = req.body
-
-  console.log(userId)
   try {
     const courses = await CourseRegister.findAll();
     res.json(courses);
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Something went wrong." });
+  }
+};
+
+exports.toggleRegisteredCourse = async (req, res) => {
+  const { id } = req.body;
+  try {
+    const course = await CourseRegister.findByPk(id);
+    if (!course) {
+      return res.status(404).json({ error: "Course not found." });
+    }
+
+    const data = course.enabled
+    await course.update({ enabled: !data });
+    res.json({ message: "Course enabled successful." });
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ error: "Something went wrong." });
   }
 };
 
@@ -328,8 +343,8 @@ exports.deleteRegisteredCourse = async (req, res) => {
       return res.status(404).json({ error: "Course not found." });
     }
 
-    await course.destroy();
-    res.json({ message: "Course delete successful." });
+    await course.destroy()
+    res.json({ message: "Course deleted successful." });
   } catch (error) {
     console.error(error);
     res.status(400).json({ error: "Something went wrong." });

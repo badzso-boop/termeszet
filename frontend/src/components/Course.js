@@ -5,7 +5,13 @@ import { useAuth } from "../context/AuthContext";
 import { useAdmin } from "../context/AdminContext";
 
 const Course = () => {
-  const { getOneCourse, registerCourses, users, addUser, deleteUserRegisteredCourse } = useAdmin();
+  const {
+    getOneCourse,
+    registerCourses,
+    users,
+    addUser,
+    deleteUserRegisteredCourse,
+  } = useAdmin();
   const { userId, rang } = useAuth(); // Feltételezve, hogy rang is elérhető
   const navigate = useNavigate();
   const { id } = useParams();
@@ -57,7 +63,7 @@ const Course = () => {
     : null;
 
   let arr = [];
-  
+
   if (course.felhasznalok !== null && course.felhasznalok !== "[]") {
     const cleanedStr = course.felhasznalok.replace(/"(\d+)"/g, "$1");
     arr = JSON.parse(cleanedStr);
@@ -78,11 +84,15 @@ const Course = () => {
         <>
           <h1>Már regisztrált felhasználók</h1>
 
-          {typeof(arr) === "object" ? (
-            arr.map((item, index) => <p key={index}>{item}</p>)
-          ) : (
-            <p>No registered users.</p>
-          )}
+          {registerCourses &&
+            registerCourses.map((item, index) => {
+              if (parseInt(item.courseId) === parseInt(id)) {
+                if (item.enabled) {
+                  const user = users.find((user) => user.id === item.userId);
+                  return <p>{user.fullName}</p>
+                }
+              }
+            })}
 
           <h1>Regisztrálni akaró felhasználók</h1>
           {registerCourses &&
@@ -96,16 +106,21 @@ const Course = () => {
                       ? `${user.id} - ${user.fullName} - ${user.username}`
                       : `Unknown User - ${item.courseId}`}{" "}
                     <button
-                      className="bg-green-500 border p-2"
+                      className={`${item.enabled?"bg-red-500":"bg-green-500"} border p-2`}
                       onClick={() => {
                         addUser(user.id, arr, id, item.id, userId);
                       }}
                     >
-                      Hozzáad
+                      {item.enabled?"Letilt":"Engedélyez"}
                     </button>
-                    <button className="bg-red-500 border p-2" onClick={() => {
-                      deleteUserRegisteredCourse(userId, item.id)
-                    }}>Töröl</button>
+                    <button
+                      className="bg-red-500 border p-2"
+                      onClick={() => {
+                        deleteUserRegisteredCourse(userId, item.id);
+                      }}
+                    >
+                      Töröl
+                    </button>
                   </h1>
                 );
               }
