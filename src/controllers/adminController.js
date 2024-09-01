@@ -201,6 +201,7 @@ exports.createCourse = async (req, res) => {
     ar,
     temakor,
     leiras,
+    szoveg,
     fajlok,
     felhasznalok,
     megkotesek
@@ -217,6 +218,7 @@ exports.createCourse = async (req, res) => {
       ar,
       temakor,
       leiras,
+      szoveg,
       fajlok,
       felhasznalok,
       megkotesek,
@@ -239,6 +241,7 @@ exports.updateCourse = async (req, res) => {
     ar,
     temakor,
     leiras,
+    szoveg,
     fajlok,
     felhasznalok,
     megkotesek,
@@ -259,6 +262,7 @@ exports.updateCourse = async (req, res) => {
     if (ar) course.ar = ar;
     if (temakor) course.temakor = temakor;
     if (leiras) course.leiras = leiras;
+    if (szoveg) course.szoveg = szoveg;
     if (fajlok) course.fajlok = fajlok;
     if (felhasznalok) course.felhasznalok = felhasznalok;
     if (megkotesek) course.megkotesek = megkotesek;

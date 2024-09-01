@@ -141,115 +141,136 @@ const AdminUpdate = (type) => {
   };
 
   return (
-    <div>
-      <h1>Update User</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Username:</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Full Name:</label>
-          <input
-            type="text"
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
-          />
-        </div>
-        {[
-          { label: "Allergies", state: allergies, setter: setAllergies },
-          {
-            label: "Complaints",
-            state: complaints,
-            setter: setComplaints,
-          },
-          { label: "Courses", state: courses, setter: setCourses },
-          { label: "Drugs", state: drugs, setter: setDrugs },
-          { label: "Mutetek", state: mutetek, setter: setMutetek },
-        ].map(({ label, state, setter }, i) => (
-          <div key={i}>
-            <label>{label}:</label>
-            {state.map(([key, value], index) => (
-              <div key={index}>
-                <input
-                  type="text"
-                  placeholder="Key"
-                  value={key}
-                  onChange={(e) =>
-                    handleJsonChange(index, e.target.value, value, setter)
-                  }
-                />
-                <input
-                  type="text"
-                  placeholder="Value"
-                  value={value}
-                  onChange={(e) =>
-                    handleJsonChange(index, key, e.target.value, setter)
-                  }
-                />
-                <button
-                  type="button"
-                  onClick={() => handleJsonRemove(index, setter)}
-                >
-                  Remove
-                </button>
-              </div>
-            ))}
-            <button type="button" onClick={() => handleJsonAdd(setter)}>
-              Add {label}
-            </button>
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+      <div className="bg-secondary p-8 rounded-lg shadow-lg w-full max-w-4xl">
+        <h1 className="text-2xl font-bold mb-6 text-center text-white">Update User</h1>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block font-bold text-xl mb-2 text-white">Email:</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-md"
+            />
           </div>
-        ))}
-        <div>
-          <label>Amalgan Filling:</label>
-          <input
-            type="checkbox"
-            checked={amalganFilling}
-            onChange={(e) => setAmalganFilling(e.target.checked)}
-          />
-        </div>
-        <div>
-          <label>Born Date:</label>
-          <input
-            type="date"
-            value={bornDate}
-            onChange={(e) => setBornDate(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Description:</label>
-          <input
-            type="text"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Goal:</label>
-          <input
-            type="text"
-            value={goal}
-            onChange={(e) => setGoal(e.target.value)}
-          />
-        </div>
-        <button type="submit">Update</button>
-      </form>
-      {message && <p>{message}</p>}
+          <div>
+            <label className="block font-bold text-xl mb-2 text-white">Username:</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md"
+            />
+          </div>
+          <div>
+            <label className="block font-bold text-xl mb-2 text-white">Full Name:</label>
+            <input
+              type="text"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md"
+            />
+          </div>
+          {[
+            { label: "Allergies", state: allergies, setter: setAllergies },
+            { label: "Complaints", state: complaints, setter: setComplaints },
+            { label: "Courses", state: courses, setter: setCourses },
+            { label: "Drugs", state: drugs, setter: setDrugs },
+            { label: "Mutetek", state: mutetek, setter: setMutetek },
+          ].map(({ label, state, setter }, i) => (
+            <div key={i} className="space-y-2">
+              <label className="block font-bold text-xl mb-2 text-white">{label}:</label>
+              {state.map(([key, value], index) => (
+                <div key={index} className="flex space-x-2 items-center mb-2">
+                  <input
+                    type="text"
+                    placeholder="Key"
+                    value={key}
+                    onChange={(e) =>
+                      handleJsonChange(index, e.target.value, value, setter)
+                    }
+                    className="w-1/2 px-4 py-2 border border-gray-300 rounded-md"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Value"
+                    value={value}
+                    onChange={(e) =>
+                      handleJsonChange(index, key, e.target.value, setter)
+                    }
+                    className="w-1/2 px-4 py-2 border border-gray-300 rounded-md"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleJsonRemove(index, setter)}
+                    className="bg-red-500 text-white px-4 py-1 rounded-md hover:bg-red-600"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() => handleJsonAdd(setter)}
+                className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+              >
+                Add {label}
+              </button>
+            </div>
+          ))}
+          <div className="flex items-center space-x-2">
+            <label className="font-bold text-xl text-white">Amalgan Filling:</label>
+            <input
+              type="checkbox"
+              checked={amalganFilling}
+              onChange={(e) => setAmalganFilling(e.target.checked)}
+              className="form-checkbox"
+            />
+          </div>
+          <div>
+            <label className="block font-bold text-xl mb-2 text-white">Born Date:</label>
+            <input
+              type="date"
+              value={bornDate}
+              onChange={(e) => setBornDate(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md"
+            />
+          </div>
+          <div>
+            <label className="block font-bold text-xl mb-2 text-white">Description:</label>
+            <input
+              type="text"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md"
+            />
+          </div>
+          <div>
+            <label className="block font-bold text-xl mb-2 text-white">Goal:</label>
+            <input
+              type="text"
+              value={goal}
+              onChange={(e) => setGoal(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md"
+            />
+          </div>
+          <button
+            type="submit"
+            className="bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-600"
+          >
+            Update
+          </button>
+        </form>
+        {message && (
+          <p className="bg-green-500 text-white rounded-lg p-4 mt-4 text-center">
+            {message}
+          </p>
+        )}
+      </div>
     </div>
-  );
+  );  
 };
 
 export default AdminUpdate;

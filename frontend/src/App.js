@@ -71,7 +71,7 @@ const App = () => {
             <Route path="/user/:id" element={<User />} />
 
             <Route path="/admincreate/user" element={<AdminCreate formConfig={userFormConfig} />} />
-            <Route path="/admincreate/course" element={<AdminCreate formConfig={courseFormConfig} />} />
+            <Route path="/admincreate/course" element={<AdminCreate />} />
             <Route path="/admincreate/homework" element={<AdminCreate formConfig={homeworkFormConfig} />} />
             <Route path="/adminupdateuser/:id" element={<AdminUserUpdate type={"user"}/>} />
             <Route path="/adminupdatecourse/:id" element={<AdminCourseUpdate type={"course"}/>} />

@@ -6,19 +6,64 @@ import { useAuth } from "../context/AuthContext";
 
 const Courses = () => {
   const { userId, rang } = useAuth();
-  const { courses, fetchCoursesUser, registerCourse } = useAdmin();
+  const {
+    courses,
+    fetchCoursesUser,
+    registerCourse,
+    registerCourses,
+    fetchRegisteredCoursesUser,
+  } = useAdmin();
   const [dataLoaded, setDataLoaded] = useState(false);
+  const [localRegisterCourses, setLocalRegisterCourses] = useState([]);
 
   useEffect(() => {
     const loadData = async () => {
-      await fetchCoursesUser();
+      await Promise.all([fetchCoursesUser(), fetchRegisteredCoursesUser()]);
       setDataLoaded(true);
     };
 
     if (!dataLoaded) {
       loadData();
     }
-  }, [fetchCoursesUser, dataLoaded]);
+  }, [fetchCoursesUser, fetchRegisteredCoursesUser, dataLoaded]);
+
+  useEffect(() => {
+    // Sync local registration state with fetched registration data
+    setLocalRegisterCourses(registerCourses);
+  }, [registerCourses]);
+
+  const searchEnabledUser = (beUserId, beCourseId) => {
+    return localRegisterCourses.some(
+      (item) =>
+        parseInt(item.userId) === parseInt(beUserId) &&
+        item.enabled &&
+        parseInt(item.courseId) === parseInt(beCourseId)
+    );
+  };
+
+  const searchNotEnabledUser = (beUserId, beCourseId) => {
+    return localRegisterCourses.some(
+      (item) =>
+        parseInt(item.userId) === parseInt(beUserId) &&
+        !item.enabled &&
+        parseInt(item.courseId) === parseInt(beCourseId)
+    );
+  };
+
+  const handleRegistration = async (courseId) => {
+    const result = await registerCourse(userId, courseId);
+    if (result === "success") {
+      setLocalRegisterCourses((prev) => [
+        ...prev,
+        { userId, courseId, enabled: false }, // or set enabled to true if needed
+      ]);
+      console.log("Sikeresen regisztráltál a kurzusra!");
+    } else if (result === "registered") {
+      console.log("Már regisztráltál erre a kurzusra");
+    } else {
+      console.log("Valami hiba történt");
+    }
+  };
 
   return (
     <>
@@ -33,12 +78,12 @@ const Courses = () => {
               className="flex flex-col border w-full lg:w-1/5 md:w-1/4 my-3 items-center min-h-[350px] m-4 rounded-xl p-3 bg-secondary"
             >
               <div className="w-3/4 text-center">
-                <Link
+                <p
                   className="text-lg uppercase font-bold"
-                  to={`/course/${item.id}`}
+                  
                 >
                   {item.cim}
-                </Link>
+                </p>
                 <div className="text-base">
                   {item.temakor !== "" ? item.temakor : "\u00A0"}
                 </div>
@@ -56,6 +101,7 @@ const Courses = () => {
                 <div className="m-1 w-full bg-red-600 rounded-full text-center text-base p-1 bg-primary">
                   {item.ar} Ft
                 </div>
+
                 {rang === "a" ? (
                   <Link
                     to={`/course/${item.id}`}
@@ -70,26 +116,21 @@ const Courses = () => {
                   >
                     Felhasználó létrehozása!
                   </Link>
-                ) : item.felhasznalok && item.felhasznalok.includes(userId) ? (
+                ) : localRegisterCourses && searchEnabledUser(userId, item.id) ? (
                   <Link
                     to={`/course/${item.id}`}
                     className="m-1 w-full bg-red-600 rounded-full text-center text-base p-1 bg-primary cursor-pointer"
                   >
                     Megtekintem
                   </Link>
+                ) : localRegisterCourses && searchNotEnabledUser(userId, item.id) ? (
+                  <div className="m-1 w-full bg-red-600 rounded-full text-center text-base p-1 bg-primary">
+                    Már regisztráltál!
+                  </div>
                 ) : (
                   <div
                     className="m-1 w-full bg-red-600 rounded-full text-center text-base p-1 bg-primary cursor-pointer"
-                    onClick={async () => {
-                      const result = await registerCourse(userId, item.id);
-                      if (result === "success") {
-                        alert("Sikeresen regisztráltál a kurzusra!");
-                      } else if (result === "registered") {
-                        alert("Már regisztráltál erre a kurzusra");
-                      } else {
-                        alert("Valami hiba történt");
-                      }
-                    }}
+                    onClick={() => handleRegistration(item.id)}
                   >
                     Regisztrálok!
                   </div>

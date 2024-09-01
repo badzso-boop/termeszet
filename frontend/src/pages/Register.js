@@ -21,28 +21,63 @@ const Register = () => {
   };
 
   return (
-    <div>
-      <h1>Register Page</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email:</label>
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input type="password" value={pwd} onChange={(e) => setPWD(e.target.value)} required />
-        </div>
-        <div>
-          <label>Username:</label>
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-        </div>
-        <div>
-          <label>Full Name:</label>
-          <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} />
-        </div>
-        <button type="submit">Register</button>
-      </form>
-      {message && <p>{message}</p>}
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+      <div className="bg-secondary p-8 rounded-lg shadow-lg w-full max-w-lg">
+        <h1 className="text-2xl font-bold mb-6 text-center">Register</h1>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label className="block font-bold text-xl mb-2">Email:</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-md"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block font-bold text-xl mb-2">Password:</label>
+            <input
+              type="password"
+              value={pwd}
+              onChange={(e) => setPWD(e.target.value)}
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-md"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block font-bold text-xl mb-2">Username:</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block font-bold text-xl mb-2">Full Name:</label>
+            <input
+              type="text"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md"
+            />
+          </div>
+          <div className="flex justify-center">
+            <button
+              type="submit"
+              className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600"
+            >
+              Register
+            </button>
+          </div>
+        </form>
+        {message && (
+          <p className="bg-green-500 text-white rounded-lg p-4 mt-4 text-center">
+            {message}
+          </p>
+        )}
+      </div>
     </div>
   );
 };

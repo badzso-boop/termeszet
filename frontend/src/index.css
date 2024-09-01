@@ -5,3 +5,9 @@
 body {
   margin: 0;
 }
+
+.ellipsis {
+  overflow: hidden; /* Rejti a túlcsorduló szöveget */
+  white-space: nowrap; /* Nem engedi, hogy a szöveg többsoros legyen */
+  text-overflow: ellipsis; /* A túlcsorduló szöveg helyett ... jelenik meg */
+}

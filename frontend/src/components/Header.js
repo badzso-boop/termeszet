@@ -63,40 +63,54 @@ const Header = () => {
 
   return (
     <>
-      <div className="w-full border h-[100px] flex flex-wrap">
-        <div className="border w-1/2">
-          <p>uj felhasznalok</p>
-          <p>Regisztrált felhasználók száma: {users.length} db</p>
-          {youngestOldest.youngest && (
-            <p>
-              <Link to={`/user/${youngestOldest.youngest.id}`}>
-                Legfiatalabb felhasznalo: {youngestOldest.youngest.fullName}
-              </Link>
-            </p>
-          )}
-          {youngestOldest.oldest && (
-            <p>
-              <Link to={`/user/${youngestOldest.oldest.id}`}>
-                Legidősebb felhasznalo: {youngestOldest.oldest.fullName}
-              </Link>
-            </p>
-          )}
-        </div>
-        <div className="border w-1/2">
-          <p>kurzusok statisztika</p>
-          <p>Elérhető kurzusok száma: {courses.length} db</p>
-          {mostRegisteredCourses && (
-            <p>
-              Legtöbb felhasználó egy kurzuson: {array.length} db (
-              <Link to={`/course/${mostRegisteredCourses.id}`}>
-                {mostRegisteredCourses.cim}
-              </Link>
-              )
-            </p>
-          )}
-          <p>
-            Kurzusra regisztrált felhasznalok száma: {registerCourses.length} db
-          </p>
+      <div className="w-full my-4 px-2 sm:px-4 lg:px-6">
+        <h1 className="text-center text-2xl font-bold mb-4">Statisztikák</h1>
+
+        <div className="flex flex-wrap justify-center gap-4">
+          {/* Felhasználói statisztika */}
+          <div className="w-full sm:w-[calc(50%-1rem)] bg-secondary text-white p-4 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-2">Új felhasználók</h2>
+            <p>Regisztrált felhasználók száma: {users.length} db</p>
+            {youngestOldest.youngest && (
+              <p>
+                <Link
+                  to={`/user/${youngestOldest.youngest.id}`}
+                  className="text-white hover:text-gray-300"
+                >
+                  Legfiatalabb felhasználó: <span className="underline">{youngestOldest.youngest.fullName}</span>
+                </Link>
+              </p>
+            )}
+            {youngestOldest.oldest && (
+              <p>
+                <Link
+                  to={`/user/${youngestOldest.oldest.id}`}
+                  className="text-white hover:text-gray-300"
+                >
+                  Legidősebb felhasználó: <span className="underline">{youngestOldest.oldest.fullName}</span>
+                </Link>
+              </p>
+            )}
+          </div>
+
+          {/* Kurzus statisztika */}
+          <div className="w-full sm:w-[calc(50%-1rem)] bg-secondary text-white p-4 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-2">Kurzusok statisztika</h2>
+            <p>Elérhető kurzusok száma: {courses.length} db</p>
+            {mostRegisteredCourses && (
+              <p>
+                Legtöbb felhasználó egy kurzuson: {array.length} db (
+                <Link
+                  to={`/course/${mostRegisteredCourses.id}`}
+                  className="text-white underline hover:text-gray-300"
+                >
+                  {mostRegisteredCourses.cim}
+                </Link>
+                )
+              </p>
+            )}
+            <p>Kurzusra regisztrált felhasználók száma: {registerCourses.length} db</p>
+          </div>
         </div>
       </div>
     </>

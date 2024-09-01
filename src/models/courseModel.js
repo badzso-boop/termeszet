@@ -29,6 +29,9 @@ const Course = sequelize.define('minikurzus', {
   leiras: {
     type: DataTypes.TEXT
   },
+  szoveg: {
+    type: DataTypes.TEXT
+  },
   fajlok: {
     type: DataTypes.STRING
   },

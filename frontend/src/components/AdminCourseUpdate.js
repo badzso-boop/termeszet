@@ -1,26 +1,23 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-
 import { useAuth } from "../context/AuthContext";
 import { useAdmin } from "../context/AdminContext";
 
 const AdminUpdate = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-
   const { rang, userId } = useAuth();
   const { getOneCourse } = useAdmin();
 
   const [dataLoaded, setDataLoaded] = useState(false);
-
-  // Initialize states
   const [cim, setCim] = useState("");
   const [helyszin, setHelyszin] = useState("");
   const [idopont, setIdopont] = useState("");
   const [ar, setAr] = useState(0);
   const [temakor, setTemakor] = useState("");
   const [leiras, setLeiras] = useState("");
+  const [szoveg, setSzoveg] = useState("");
   const [felhasznalok, setFelhasznalok] = useState([]);
   const [megkotesek, setMegkotesek] = useState([]);
   const [video, setVideo] = useState(null);
@@ -38,6 +35,7 @@ const AdminUpdate = () => {
       setAr(course.ar);
       setTemakor(course.temakor || "");
       setLeiras(course.leiras || "");
+      setSzoveg(course.szoveg || "");
       setVideo(course.video || "");
 
       setFelhasznalok(JSON.parse(course.felhasznalok || "[]").map(Number));
@@ -97,6 +95,7 @@ const AdminUpdate = () => {
     data.append('idopont', idopont);
     data.append('ar', ar);
     data.append('temakor', temakor);
+    data.append('szoveg', szoveg);
     data.append('leiras', leiras);
     data.append('felhasznalok', JSON.stringify(felhasznalok));
     data.append('megkotesek', JSON.stringify(megkotesek));
@@ -117,118 +116,170 @@ const AdminUpdate = () => {
   };
 
   return (
-    <div>
-      <h1>Update Course</h1>
-      <form onSubmit={handleSubmit} encType="multipart/form-data">
-        <div>
-          <label>Cím:</label>
-          <input
-            type="text"
-            value={cim}
-            onChange={(e) => setCim(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Helyszín:</label>
-          <input
-            type="text"
-            value={helyszin}
-            onChange={(e) => setHelyszin(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Időpont:</label>
-          <input
-            type="date"
-            value={idopont}
-            onChange={(e) => setIdopont(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Felhasználók:</label>
-          {felhasznalok.map((value, index) => (
-            <div key={index}>
-              <input
-                type="text"
-                value={value}
-                onChange={(e) =>
-                  handleArrayChange(index, e.target.value, setFelhasznalok)
-                }
-              />
-              <button
-                type="button"
-                onClick={() => handleArrayRemove(index, setFelhasznalok)}
-              >
-                Remove
-              </button>
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+      <div className="bg-secondary p-8 rounded-lg shadow-lg w-full max-w-4xl">
+        <h1 className="text-2xl font-bold text-center mb-6">Update Course</h1>
+        <form onSubmit={handleSubmit} encType="multipart/form-data">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {/* Left Side Inputs */}
+            <div className="space-y-4">
+              <div>
+                <label className="block font-bold text-xl mb-2">Cím:</label>
+                <input
+                  type="text"
+                  value={cim}
+                  onChange={(e) => setCim(e.target.value)}
+                  required
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                />
+              </div>
+              <div>
+                <label className="block font-bold text-xl mb-2">Helyszín:</label>
+                <input
+                  type="text"
+                  value={helyszin}
+                  onChange={(e) => setHelyszin(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                />
+              </div>
+              <div>
+                <label className="block font-bold text-xl mb-2">Időpont:</label>
+                <input
+                  type="date"
+                  value={idopont}
+                  onChange={(e) => setIdopont(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                />
+              </div>
+              <div>
+                <label className="block font-bold text-xl mb-2">Ár:</label>
+                <input
+                  type="number"
+                  value={ar}
+                  onChange={(e) => setAr(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                />
+              </div>
+              <div>
+                <label className="block font-bold text-xl mb-2">Témakör:</label>
+                <input
+                  type="text"
+                  value={temakor}
+                  onChange={(e) => setTemakor(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                />
+              </div>
+              <div>
+                <label className="block font-bold text-xl mb-2">Szöveg:</label>
+                <textarea
+                  name="szoveg"
+                  value={szoveg}
+                  onChange={(e) => setSzoveg(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  rows="4"
+                />
+              </div>
+              <div>
+                <label className="block font-bold text-xl mb-2">Videó:</label>
+                <input
+                  type="file"
+                  name="video"
+                  onChange={handleVideoChange}
+                  accept="video/mp4, video/x-matroska, video/x-msvideo"
+                  className="w-full"
+                />
+              </div>
             </div>
-          ))}
-          <button type="button" onClick={() => handleArrayAdd(setFelhasznalok)}>
-            Add Felhasznalo
-          </button>
-        </div>
-        <div>
-          <label>Megkötések:</label>
-          {megkotesek.map((value, index) => (
-            <div key={index}>
-              <input
-                type="text"
-                value={value}
-                onChange={(e) =>
-                  handleArrayChange(index, e.target.value, setMegkotesek)
-                }
-              />
-              <button
-                type="button"
-                onClick={() => handleArrayRemove(index, setMegkotesek)}
-              >
-                Remove
-              </button>
+            
+            {/* Right Side Inputs */}
+            <div className="space-y-4">
+              <div>
+                <label className="block font-bold text-xl mb-2">Leírás:</label>
+                <input
+                  type="text"
+                  value={leiras}
+                  onChange={(e) => setLeiras(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                />
+              </div>
+              <div>
+                <label className="block font-bold text-xl mb-2">Felhasználók:</label>
+                {felhasznalok.map((value, index) => (
+                  <div key={index} className="flex items-center space-x-2 mb-2">
+                    <input
+                      type="text"
+                      value={value}
+                      onChange={(e) =>
+                        handleArrayChange(index, e.target.value, setFelhasznalok)
+                      }
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleArrayRemove(index, setFelhasznalok)}
+                      className="bg-red-500 text-white px-2 py-1 rounded-md"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => handleArrayAdd(setFelhasznalok)}
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md"
+                >
+                  Add Felhasznalo
+                </button>
+              </div>
+              <div>
+                <label className="block font-bold text-xl mb-2">Megkötések:</label>
+                {megkotesek.map((value, index) => (
+                  <div key={index} className="flex items-center space-x-2 mb-2">
+                    <input
+                      type="text"
+                      value={value}
+                      onChange={(e) =>
+                        handleArrayChange(index, e.target.value, setMegkotesek)
+                      }
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleArrayRemove(index, setMegkotesek)}
+                      className="bg-red-500 text-white px-2 py-1 rounded-md"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => handleArrayAdd(setMegkotesek)}
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md"
+                >
+                  Add Megkotes
+                </button>
+              </div>
             </div>
-          ))}
-          <button type="button" onClick={() => handleArrayAdd(setMegkotesek)}>
-            Add Megkotes
-          </button>
-        </div>
-        <div>
-          <label>Ár:</label>
-          <input
-            type="number"
-            value={ar}
-            onChange={(e) => setAr(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Témakör:</label>
-          <input
-            type="text"
-            value={temakor}
-            onChange={(e) => setTemakor(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Leírás:</label>
-          <input
-            type="text"
-            value={leiras}
-            onChange={(e) => setLeiras(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Videó:</label>
-          <input
-            type="file"
-            name="video"
-            onChange={handleVideoChange}
-            accept="video/mp4, video/x-matroska, video/x-msvideo"
-          />
-        </div>
-        <button type="submit" disabled={!isFileValid}>
-          Update
-        </button>
-      </form>
-      {message && <p>{message}</p>}
+          </div>
+
+          {/* Submit Button */}
+          <div className="flex justify-center mt-6">
+            <button
+              type="submit"
+              disabled={!isFileValid}
+              className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 disabled:opacity-50"
+            >
+              Update
+            </button>
+          </div>
+        </form>
+        {message && (
+          <p className="bg-green-500 text-white rounded-lg p-4 mt-4 text-center">
+            {message}
+          </p>
+        )}
+      </div>
     </div>
   );
 };
