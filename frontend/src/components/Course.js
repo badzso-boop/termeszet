@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-
+import { useParams } from "react-router-dom";
+import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { useAdmin } from "../context/AdminContext";
 
@@ -11,12 +11,14 @@ const Course = () => {
     users,
     addUser,
     deleteUserRegisteredCourse,
+    fetchUsers,
   } = useAdmin();
-  const { userId, rang } = useAuth(); // Feltételezve, hogy rang is elérhető
-  const navigate = useNavigate();
+  const { userId, rang } = useAuth(); // Assume 'rang' is also available
+  // const navigate = useNavigate();
   const { id } = useParams();
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [paymentMessage, setPaymentMessage] = useState("");
 
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -24,6 +26,9 @@ const Course = () => {
     const fetchCourse = async () => {
       try {
         const courseData = await getOneCourse(id);
+        if (rang === "a") {
+          await fetchUsers();
+        }
         setCourse(courseData);
       } catch (error) {
         console.error("Error fetching course data:", error);
@@ -33,22 +38,22 @@ const Course = () => {
     };
 
     fetchCourse();
-  }, [id, getOneCourse]);
+  }, [id, rang, fetchUsers, getOneCourse]);
 
-  useEffect(() => {
-    if (!course) return;
+  // useEffect(() => {
+  //   if (!course) return;
 
-    if (course.felhasznalok !== null) {
-      const cleanedStr = course.felhasznalok.replace(/"(\d+)"/g, "$1");
-      arr = JSON.parse(cleanedStr);
-    }
+  //   if (course.felhasznalok !== null) {
+  //     const cleanedStr = course.felhasznalok.replace(/"(\d+)"/g, "$1");
+  //     arr = JSON.parse(cleanedStr);
+  //   }
 
-    if (arr.length === 0 || arr.includes(parseInt(userId)) || rang === "a") {
-      return;
-    } else {
-      navigate("/");
-    }
-  }, [course, userId, rang, navigate]);
+  //   if (arr.length === 0 || arr.includes(parseInt(userId)) || rang === "a") {
+  //     return;
+  //   } else {
+  //     navigate("/");
+  //   }
+  // }, [course, userId, rang, navigate]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -68,6 +73,21 @@ const Course = () => {
     const cleanedStr = course.felhasznalok.replace(/"(\d+)"/g, "$1");
     arr = JSON.parse(cleanedStr);
   }
+
+  // Function to handle payment
+  const handlePayment = async () => {
+    try {
+      const response = await axios.post(`${API_BASE_URL}/api/paid`, {
+        courseId: course.id,
+        userId: userId,
+      });
+      setPaymentMessage(response.data.message || "Payment successful.");
+    } catch (error) {
+      setPaymentMessage(
+        error.response?.data?.error || "An error occurred while processing the payment."
+      );
+    }
+  };
 
   return (
     <div className="ml-4">
@@ -106,146 +126,150 @@ const Course = () => {
           </div>
         </div>
 
-
-        
-        <div className="w-full sm:w3/4 flex justify-center">
-            <div className="m-4 w-full sm:w-1/2 text-center flex flex-col bg-secondary rounded-lg p-2">
-              <span className="text-2xl font-bold">Fizetés</span>
-              <div className="w-full flex flex-col sm:flex-row">
-                <div className="w-full sm:w-1/2 flex justify-center p-4">
-                  <div className="text-left">
-                    <h1 className="font-bold text-lg uppercase">Címzett adatai:</h1>
-                    <div>
-                      <span className="text-regular font-bold">Név:</span>
-                      <span className="text-regular"> Ujj Norbert</span>
-                    </div>
-                    <div>
-                      <span className="text-regular font-bold">Számlaszám:</span>
-                      <span className="text-regular"> sok szám</span>
-                    </div>
+        <div className="w-full sm:w-3/4 flex justify-center">
+          <div className="m-4 w-full sm:w-1/2 text-center flex flex-col bg-secondary rounded-lg p-2">
+            <span className="text-2xl font-bold">Fizetés</span>
+            <div className="w-full flex flex-col sm:flex-row">
+              <div className="w-full sm:w-1/2 flex justify-center p-4">
+                <div className="text-left">
+                  <h1 className="font-bold text-lg uppercase">Címzett adatai:</h1>
+                  <div>
+                    <span className="text-regular font-bold">Név:</span>
+                    <span className="text-regular"> Ujj Norbert</span>
                   </div>
-                </div>
-                <div className="w-full sm:w-1/2 flex flex-col sm:flex-row justify-center items-center p-2">
-                  <span className="font-bold">Közlemény:</span>
-                  <span className="ml-3 italic">
-                    {course.cim}-{course.id}-{userId}
-                  </span>
+                  <div>
+                    <span className="text-regular font-bold">Számlaszám:</span>
+                    <span className="text-regular"> sok szám</span>
+                  </div>
                 </div>
               </div>
-
-              <div className="w-full flex flex-col sm:flex-row justify-center items-center">
-                <div className="w-full sm:w-1/3 flex justify-center p-1">
-                  <div className="mx-3 bg-red-500 rounded-full font-bold p-2 text-center">
-                    {course.ar} Ft
-                  </div>
-                </div>
-                <div className="w-full sm:w-1/3 flex justify-center p-1">
-                  <button className="mx-3 bg-red-500 rounded-full font-bold p-2 text-center">
-                    Befizettem!
-                  </button>
-                </div>
+              <div className="w-full sm:w-1/2 flex flex-col sm:flex-row justify-center items-center p-2">
+                <span className="font-bold">Közlemény:</span>
+                <span className="ml-3 italic">
+                  {course.cim}-{course.id}-{userId}
+                </span>
               </div>
             </div>
-        </div>
-          
 
-          {rang === "a" ? (
-            <div className="w-full flex flex-col p-4">
-              <h1 className="text-4xl italic font-bold text-center mb-6">
-                Admin rész
-              </h1>
-              <div className="flex flex-col lg:flex-row w-full">
-                {/* Left section for users wanting to register */}
-                <div className="w-full lg:w-1/2 flex justify-center mb-8 lg:mb-0">
-                  <div className="w-full px-4">
-                    <h1 className="text-2xl font-bold text-center mb-4">
-                      Regisztrálni akaró felhasználók
-                    </h1>
+            <div className="w-full flex flex-col sm:flex-row justify-center items-center">
+              <div className="w-full sm:w-1/3 flex justify-center p-1">
+                <div className="mx-3 bg-red-500 rounded-full font-bold p-2 text-center">
+                  {course.ar} Ft
+                </div>
+              </div>
+              <div className="w-full sm:w-1/3 flex justify-center p-1">
+                <button
+                  className="mx-3 bg-red-500 rounded-full font-bold p-2 text-center"
+                  onClick={handlePayment}
+                >
+                  Befizettem!
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {paymentMessage && (
+          <div className="w-full text-center mt-4">
+            <p className="bg-green-500 text-white rounded-lg p-4">{paymentMessage}</p>
+          </div>
+        )}
+
+        {rang === "a" ? (
+          <div className="w-full flex flex-col p-4">
+            <h1 className="text-4xl italic font-bold text-center mb-6">
+              Admin rész
+            </h1>
+            <div className="flex flex-col lg:flex-row w-full">
+              {/* Left section for users wanting to register */}
+              <div className="w-full lg:w-1/2 flex justify-center mb-8 lg:mb-0">
+                <div className="w-full px-4">
+                  <h1 className="text-2xl font-bold text-center mb-4">
+                    Regisztrálni akaró felhasználók
+                  </h1>
+                  {registerCourses &&
+                    registerCourses.map((item, index) => {
+                      if (parseInt(id) === item.courseId) {
+                        const user = users.find((user) => user.id === item.userId);
+
+                        return (
+                          <div key={index} className="border-b-2 border-b-black mb-4">
+                            <table className="w-full border-collapse">
+                              <thead>
+                                <tr className="border-b-2 border-b-black">
+                                  <th className="px-4 py-2 text-center text-sm sm:text-base">Egyedi azonosító</th>
+                                  <th className="px-4 py-2 text-center text-sm sm:text-base">Teljes név</th>
+                                  <th className="px-4 py-2 text-center text-sm sm:text-base">Felhasználónév</th>
+                                  <th className="px-4 py-2 text-center text-sm sm:text-base">Műveletek</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  {user ? (
+                                    <>
+                                      <td className="border px-4 py-2 text-center text-sm sm:text-base">{user.id}</td>
+                                      <td className="border px-4 py-2 text-center text-sm sm:text-base">{user.fullName}</td>
+                                      <td className="border px-4 py-2 text-center text-sm sm:text-base">{user.username}</td>
+                                      <td className="border px-4 py-2 text-center flex">
+                                        <button
+                                          className={`${
+                                            item.enabled ? "bg-red-500" : "bg-green-500"
+                                          } border p-2 mr-2 text-sm sm:text-base`}
+                                          onClick={() => {
+                                            addUser(user.id, arr, id, item.id, userId);
+                                          }}
+                                        >
+                                          {item.enabled ? "Letilt" : "Engedélyez"}
+                                        </button>
+                                        <button
+                                          className="bg-red-500 border p-2 text-sm sm:text-base"
+                                          onClick={() => {
+                                            deleteUserRegisteredCourse(userId, item.id);
+                                          }}
+                                        >
+                                          Töröl
+                                        </button>
+                                      </td>
+                                    </>
+                                  ) : (
+                                    <td className="border px-4 py-2 text-center text-sm sm:text-base" colSpan="4">
+                                      Unknown User - {item.courseId}
+                                    </td>
+                                  )}
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        );
+                      }
+
+                      return null;
+                    })}
+                </div>
+              </div>
+              {/* Right section for already registered users */}
+              <div className="w-full lg:w-1/2 text-center px-4">
+                <h1 className="text-2xl font-bold mb-4">Már regisztrált felhasználók</h1>
+                <div className="flex justify-center">
+                  <ul className="list-disc text-left pl-5">
                     {registerCourses &&
                       registerCourses.map((item, index) => {
-                        if (parseInt(id) === item.courseId) {
+                        if (parseInt(item.courseId) === parseInt(id) && item.enabled) {
                           const user = users.find((user) => user.id === item.userId);
 
-                          return (
-                            <div key={index} className="border-b-2 border-b-black mb-4">
-                              <table className="w-full border-collapse">
-                                <thead>
-                                  <tr className="border-b-2 border-b-black">
-                                    <th className="px-4 py-2 text-center text-sm sm:text-base">Egyedi azonosító</th>
-                                    <th className="px-4 py-2 text-center text-sm sm:text-base">Teljes név</th>
-                                    <th className="px-4 py-2 text-center text-sm sm:text-base">Felhasználónév</th>
-                                    <th className="px-4 py-2 text-center text-sm sm:text-base">Műveletek</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    {user ? (
-                                      <>
-                                        <td className="border px-4 py-2 text-center text-sm sm:text-base">{user.id}</td>
-                                        <td className="border px-4 py-2 text-center text-sm sm:text-base">{user.fullName}</td>
-                                        <td className="border px-4 py-2 text-center text-sm sm:text-base">{user.username}</td>
-                                        <td className="border px-4 py-2 text-center flex">
-                                          <button
-                                            className={`${
-                                              item.enabled ? "bg-red-500" : "bg-green-500"
-                                            } border p-2 mr-2 text-sm sm:text-base`}
-                                            onClick={() => {
-                                              addUser(user.id, arr, id, item.id, userId);
-                                            }}
-                                          >
-                                            {item.enabled ? "Letilt" : "Engedélyez"}
-                                          </button>
-                                          <button
-                                            className="bg-red-500 border p-2 text-sm sm:text-base"
-                                            onClick={() => {
-                                              deleteUserRegisteredCourse(userId, item.id);
-                                            }}
-                                          >
-                                            Töröl
-                                          </button>
-                                        </td>
-                                      </>
-                                    ) : (
-                                      <td className="border px-4 py-2 text-center text-sm sm:text-base" colSpan="4">
-                                        Unknown User - {item.courseId}
-                                      </td>
-                                    )}
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                          );
+                          return user ? (
+                            <li key={user.id} className="my-2 text-sm sm:text-lg">{user.fullName}</li>
+                          ) : null;
                         }
-
                         return null;
                       })}
-                  </div>
-                </div>
-                {/* Right section for already registered users */}
-                <div className="w-full lg:w-1/2 text-center px-4">
-                  <h1 className="text-2xl font-bold mb-4">Már regisztrált felhasználók</h1>
-                  <div className="flex justify-center">
-                    <ul className="list-disc text-left pl-5">
-                      {registerCourses &&
-                        registerCourses.map((item, index) => {
-                          if (parseInt(item.courseId) === parseInt(id) && item.enabled) {
-                            const user = users.find((user) => user.id === item.userId);
-
-                            return user ? (
-                              <li key={user.id} className="my-2 text-sm sm:text-lg">{user.fullName}</li>
-                            ) : null;
-                          }
-                          return null;
-                        })}
-                    </ul>
-                  </div>
+                  </ul>
                 </div>
               </div>
             </div>
-          ) : null}
-
-          
-        </div>
+          </div>
+        ) : null}
+      </div>
     </div>
   );
 };

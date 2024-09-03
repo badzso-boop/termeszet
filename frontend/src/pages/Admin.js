@@ -176,7 +176,7 @@ const Admin = () => {
         <h1 className="text-center text-2xl font-bold mb-4">Kurzusra várók</h1>
 
         <div className="overflow-x-auto flex items-center justify-center">
-          <div className="w-full max-w-4xl border border-black rounded-lg">
+          <div className="w-full max-w-4xl border-r border-l border-b border-black rounded-lg">
             {registerCourses &&
               registerCourses.map((item, index) => {
                 const user = users.find((user) => user.id === item.userId);
@@ -192,7 +192,7 @@ const Admin = () => {
                 return (
                   <div
                     key={index}
-                    className="flex flex-wrap lg:flex-nowrap w-full border-t border-black"
+                    className="flex flex-wrap lg:flex-nowrap w-full border-t border-black rounded-lg"
                   >
                     {/* Felhasználó információ */}
                     <div className="w-full lg:w-1/3 border-b lg:border-b-0 lg:border-r-2 border-black flex items-center p-2">
@@ -217,15 +217,15 @@ const Admin = () => {
                     </div>
 
                     {/* Kurzus információ és műveletek */}
-                    <div className="w-full lg:w-2/3 p-2 flex justify-between items-center lg:border-r-2 border-black border-b-2 lg:border-b-0">
+                    <div className="w-full lg:w-2/3 p-2 flex flex-col lg:flex-row justify-between items-center border-black border-b-2 lg:border-b-0">
                       {course ? (
                         <>
-                          <div className="truncate">
-                            <div>
+                          <div className="flex flex-col lg:flex-grow lg:mr-4 truncate">
+                            <div className="mb-2">
                               <span className="font-bold mr-2">Cím:</span>
                               <span>{course.cim}</span>
                             </div>
-                            <div>
+                            <div className="mb-2">
                               <span className="font-bold mr-2">Helyszín:</span>
                               <span>{course.helyszin}</span>
                             </div>
@@ -234,11 +234,14 @@ const Admin = () => {
                               <span>{course.idopont}</span>
                             </div>
                           </div>
-                          <div className="flex space-x-2">
+                          <div className={`p-2 mx-2 text-center rounded-lg mt-2 lg:mt-0 ${item.paid ? "bg-green-500 text-white" : "bg-red-500 text-white"}`}>
+                            {item.paid ? "Fizetve" : "Nem fizetett még"}
+                          </div>
+                          <div className="flex flex-col lg:flex-row lg:space-x-2 mt-2 lg:mt-0">
                             <button
                               className={`${
                                 item.enabled ? "bg-red-500" : "bg-green-500"
-                              } text-white p-2 rounded-md`}
+                              } text-white p-2 rounded-md mb-2 lg:mb-0`}
                               onClick={() => {
                                 addUser(user.id, arr, course.id, item.id, userId);
                               }}
@@ -257,9 +260,9 @@ const Admin = () => {
                         </>
                       ) : (
                         <>
-                          <span className="truncate">Kurzus törölve </span>
+                          <span className="truncate">Kurzus törölve</span>
                           <button
-                            className="bg-red-500 text-white p-2 rounded-md"
+                            className="bg-red-500 text-white p-2 rounded-md mt-2"
                             onClick={() => {
                               deleteUserRegisteredCourse(userId, item.id);
                             }}

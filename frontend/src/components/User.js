@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAdmin } from "../context/AdminContext";
+import { Link } from "react-router-dom";
 
 const User = () => {
   const { id } = useParams();
@@ -60,7 +61,7 @@ const User = () => {
     };
 
     fetchUser();
-  }, [getOneUser, id]);
+  }, [getOneUser, id, parseJsonString, removeBackslashes]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -72,11 +73,7 @@ const User = () => {
     if (!dataLoaded) {
       loadData();
     }
-  }, [fetchRegisteredCoursesUser, dataLoaded]);
-
-  console.log(user)
-  console.log(courses)
-  console.log(registerCourses)
+  }, [fetchRegisteredCoursesUser, dataLoaded, fetchCoursesUser]);
 
   return (
     <>
@@ -200,14 +197,39 @@ const User = () => {
       )}
 
 
-      <h1>Kurzusaim</h1>
-      {user && registerCourses.map((item, index) => {
-        if (item.userId === user.id) {
-          const course = courses.find((course) => course.id === item.courseId);
+      <div className="w-full flex flex-col justify-center items-center text-center">
+        <h1 className="text-3xl font-bold">Kurzusaim</h1>
 
-          console.log(course)
-        }
-      })}
+        {user && registerCourses.map((item, index) => {
+          if (item.userId === user.id) {
+            const course = courses.find((course) => course.id === item.courseId);
+            return (
+              <>
+                <div className="bg-secondary w-full lg:w-1/3 rounded-lg my-3 shadow p-3">
+                  <h1 className="font-bold text-xl">{course.cim}</h1>
+                  <div className="w-full flex">
+                    <div className="w-1/2 p-2">
+                      <p className="text-left">{course.helyszin}</p>
+                    </div>
+                    <div className="w-1/2 p-2">
+                      <p className="text-right">{course.idopont}</p>
+                    </div>
+                  </div>
+                  
+                  <h1 className="font-bold text-lg">Leírás</h1>
+                  <p>{course.description}</p>
+
+                  <div className="w-full flex justify-center">
+                    <Link to={`/course/${course.id}`} className="m-1 w-full lg:w-1/3 bg-red-600 rounded-full text-center text-base p-1 bg-primary cursor-pointer">Megtekintem</Link>
+                  </div>
+                </div>
+              </>
+            )
+          }
+          return <></>
+        })}
+
+      </div>
 
     </>
   );

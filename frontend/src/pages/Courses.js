@@ -25,10 +25,9 @@ const Courses = () => {
     if (!dataLoaded) {
       loadData();
     }
-  }, [fetchCoursesUser, fetchRegisteredCoursesUser, dataLoaded]);
+  }, [dataLoaded, fetchCoursesUser, fetchRegisteredCoursesUser]);
 
   useEffect(() => {
-    // Sync local registration state with fetched registration data
     setLocalRegisterCourses(registerCourses);
   }, [registerCourses]);
 

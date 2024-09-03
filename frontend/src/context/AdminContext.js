@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useCallback } from "react";
 import axios from "axios";
 
 import { useAuth } from "./AuthContext";
@@ -72,25 +72,23 @@ export const AdminProvider = ({ children }) => {
     }
   };
 
-  const fetchCoursesUser = async () => {
+  const fetchCoursesUser = useCallback(async () => {
     try {
-      const courses = await axios.get(`${API_BASE_URL}/api/courses`);
-      setCourses(courses.data);
-
+      const response = await axios.get(`${API_BASE_URL}/api/courses`);
+      setCourses(response.data);
     } catch (error) {
-      console.error("Error fetching admin data:", error);
+      console.error("Error fetching courses data:", error);
     }
-  };
+  }, [API_BASE_URL]); 
 
-  const fetchRegisteredCoursesUser = async () => {
+  const fetchRegisteredCoursesUser = useCallback(async () => {
     try {
-      const registerCourses = await axios.get(`${API_BASE_URL}/api/registercourses`);
-      setRegisterCourses(registerCourses.data);
-      
+      const response = await axios.get(`${API_BASE_URL}/api/registercourses`);
+      setRegisterCourses(response.data);
     } catch (error) {
-      console.error("Error fetching admin data:", error);
+      console.error("Error fetching registered courses data:", error);
     }
-  };
+  }, [API_BASE_URL]);
 
   const registerCourse = async (userId, courseId) => {
     try {
@@ -233,6 +231,7 @@ export const AdminProvider = ({ children }) => {
         homeworks,
         registerCourses,
         fetchData,
+        fetchUsers,
         fetchCourses,
         fetchCoursesUser,
         getOneUser,

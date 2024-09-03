@@ -10,6 +10,8 @@ router.get('/courses', userController.getCourses);
 router.post('/registercourse', userController.registerCourse);
 router.get('/registercourses', userController.getRegisteredCourses);
 
+router.post('/paid', userController.toggleRegisteredCoursePaid);
+
 router.get('/video/:filename', userController.getVideo);
 
 

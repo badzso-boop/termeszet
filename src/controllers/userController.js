@@ -158,6 +158,34 @@ exports.getOneCourse = async (req, res) => {
   }
 };
 
+exports.toggleRegisteredCoursePaid = async (req, res) => {
+  const { courseId, userId } = req.body;
+  
+  console.log(courseId)
+  console.log(userId)
+
+  try {
+    const courseRegister = await CourseRegister.findOne({
+      where: {
+        courseId: courseId,
+        userId: userId,
+      },
+    });
+
+    if (!courseRegister) {
+      return res.status(404).json({ error: "Course registration not found." });
+    }
+
+    const currentPaidStatus = courseRegister.paid;
+    await courseRegister.update({ paid: !currentPaidStatus });
+
+    res.json({ message: "Course payment status updated successfully." });
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ error: "Something went wrong." });
+  }
+};
+
 // Kurzusok lekérése
 exports.getCourses = async (req, res) => {
   try {
