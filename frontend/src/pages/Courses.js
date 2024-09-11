@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import { useAdmin } from "../context/AdminContext";
 import { useAuth } from "../context/AuthContext";
+import Footer from "../components/Footer";
 
 const Courses = () => {
   const { userId, rang } = useAuth();
@@ -139,6 +140,8 @@ const Courses = () => {
           ))}
         </div>
       </div>
+
+      <Footer />
     </>
   );
 };

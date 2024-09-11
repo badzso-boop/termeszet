@@ -23,6 +23,7 @@ const Admin = () => {
     deleteCourse,
     registerCourses,
     addUser,
+    payToggle,
     deleteUserRegisteredCourse,
   } = useAdmin();
   const [dataLoaded, setDataLoaded] = useState(false);
@@ -176,7 +177,7 @@ const Admin = () => {
         <h1 className="text-center text-2xl font-bold mb-4">Kurzusra várók</h1>
 
         <div className="overflow-x-auto flex items-center justify-center">
-          <div className="w-full max-w-4xl border-r border-l border-b border-black rounded-lg">
+          <div className="w-full max-w-5xl border-r border-l border-b border-black rounded-lg">
             {registerCourses &&
               registerCourses.map((item, index) => {
                 const user = users.find((user) => user.id === item.userId);
@@ -234,14 +235,17 @@ const Admin = () => {
                               <span>{course.idopont}</span>
                             </div>
                           </div>
-                          <div className={`p-2 mx-2 text-center rounded-lg mt-2 lg:mt-0 ${item.paid ? "bg-green-500 text-white" : "bg-red-500 text-white"}`}>
+                          <div className={`p-2 mx-1 text-center rounded-lg mt-2 lg:mt-0 ${item.paid ? "bg-green-300 text-black" : "bg-red-300 text-black"}`}>
                             {item.paid ? "Fizetve" : "Nem fizetett még"}
                           </div>
-                          <div className="flex flex-col lg:flex-row lg:space-x-2 mt-2 lg:mt-0">
+                          <div className="border h-[120%] bg-black w-[1px] border-black mx-1">
+                            
+                          </div>
+                          <div className="flex lg:flex-row lg:space-x-2 mt-2 lg:mt-0">
                             <button
                               className={`${
                                 item.enabled ? "bg-red-500" : "bg-green-500"
-                              } text-white p-2 rounded-md mb-2 lg:mb-0`}
+                              } text-white p-2 rounded-md mx-1 lg:mb-0`}
                               onClick={() => {
                                 addUser(user.id, arr, course.id, item.id, userId);
                               }}
@@ -249,12 +253,23 @@ const Admin = () => {
                               {item.enabled ? "Letilt" : "Engedélyez"}
                             </button>
                             <button
-                              className="bg-red-500 text-white p-2 rounded-md"
+                              className="bg-red-500 text-white mx-1 p-2 rounded-md"
                               onClick={() => {
                                 deleteUserRegisteredCourse(userId, item.id);
                               }}
                             >
                               Elutasít
+                            </button>
+
+                            <button
+                              className={`${
+                                item.paid ? "bg-red-500" : "bg-green-500"
+                              } text-white p-2 rounded-md mx-1 lg:mb-0`}
+                              onClick={() => {
+                                payToggle(item.id);
+                              }}
+                            >
+                              {item.paid ? "Fiz. visszavonás" : "Fiz. visszaigazolás"}
                             </button>
                           </div>
                         </>
@@ -264,7 +279,7 @@ const Admin = () => {
                           <button
                             className="bg-red-500 text-white p-2 rounded-md mt-2"
                             onClick={() => {
-                              deleteUserRegisteredCourse(userId, item.id);
+                              deleteUserRegisteredCourse(userId, course.id);
                             }}
                           >
                             Töröl
