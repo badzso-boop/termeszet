@@ -348,7 +348,7 @@ exports.deleteRegisteredCourse = async (req, res) => {
     }
 
     await course.destroy()
-    res.json({ message: "Course deleted successful." });
+    res.status(200).json({ message: "Course deleted successful." });
   } catch (error) {
     console.error(error);
     res.status(400).json({ error: "Something went wrong." });

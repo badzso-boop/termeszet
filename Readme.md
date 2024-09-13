@@ -1,5 +1,7 @@
 ### Documentation
 
+#### User routes
+
 #### Registration Endpoint
 - **URL:** `/api/register`
 - **Method:** POST
@@ -44,7 +46,92 @@
     }
     ```
 
-#### Admin Page
+#### Get User Endpoint
+- **URL:** `/api/user`
+- **Method:** POST
+- **Description:** Get user details.
+- **Input Parameters:**
+  - `id` (required): User's unique identifier.
+- **Output:** JSON of the user.
+
+#### Get Course Endpoint
+- **URL:** `/api/course`
+- **Method:** POST
+- **Description:** Get course details.
+- **Input Parameters:**
+  - `id` (required): Course's unique identifier.
+- **Output:** JSON of the course.
+
+#### Get Courses Endpoint
+- **URL:** `/api/courses`
+- **Method:** GET
+- **Description:** Get all courses.
+- **Input Parameters:** none
+- **Output:** JSON of the courses.
+
+#### RegisterCourse Endpoint
+- **URL:** `/api/registercourse`
+- **Method:** POST
+- **Description:** Register to a course.
+- **Input Parameters:** 
+  - `userId` id of the user
+  - `courseId` id of the register course
+- **Output:** 
+  - `200 OK` - Successful registration.
+    ```json
+    {
+      "message": "Course registered successfully."
+    }
+    ```
+  - `201 Error` - User has already registered for this course
+    ```json
+    {
+      "error": "User has already registered for this course."
+    }
+    ```
+
+#### Get RegisterCourses Endpoint
+- **URL:** `/api/registercourses`
+- **Method:** GET
+- **Description:** Get all registercourses.
+- **Input Parameters:** none
+- **Output:** JSON of the registercourses.
+
+#### Toggle registerCourses Paid Endpoint
+- **URL:** `/api/paid`
+- **Method:** POST
+- **Description:** Toggle registercourses paid.
+- **Input Parameters:** 
+  - `CourseRegisterId` (required)
+- **Output:** 
+  - `200 OK` - Successful payment update.
+    ```json
+    {
+      "message": "Course payment status updated successfully."
+    }
+    ```
+  - `404 Error` - Course registration not found.
+    ```json
+    {
+      "error": "Course registration not found."
+    }
+    ```
+  - `400 Error` - Something went wrong
+    ```json
+    {
+      "error": "Something went wrong."
+    }
+    ```
+
+#### Get RegisterCourses Endpoint
+- **URL:** `/api/video/:filename`
+- **Method:** GET
+- **Description:** Get all a specific video.
+- **Input Parameters:** none
+- **Output:** video file.
+
+
+#### Admin Routes
 
 ##### Admin Get Users Endpoint
 - **URL:** `/api/admin/users`
@@ -191,52 +278,73 @@
     }
     ```
 
-#### Users Page
-
-##### Get User Endpoint
-- **URL:** `/api/user`
+##### Admin Get RegisterCourses
+- **URL:** `/api/admin/registercourses`
 - **Method:** POST
-- **Description:** Get user details.
-- **Input Parameters:**
-  - `id` (required): User's unique identifier.
-- **Output:** JSON of the user.
+- **Description:** Retrieve all registercourses.
+- **Input Parameters:** 
+  - `userId` (required)
+- **Output:** JSON array of registercourses.
 
-#### Minikurzus
-
-##### Get all Minikurzus Endpoint
-- **URL:** `/api/minikurzusok`
-- **Method:** GET
-- **Description:** Retrieve all minikurzus.
-- **Input Parameters:** None
-- **Output:** JSON array of minikurzus.
-
-##### Admin Create Minikurzus Endpoint
-- **URL:** `/api/admin/createKurzus`
+##### Admin Toggle RegisterCourses Enabled
+- **URL:** `/api/admin/toggleregistercourse`
 - **Method:** POST
-- **Description:** Create a new minikurzus.
-- **Input Parameters:**
-  - `cím` (required): Course title.
-  - `helyszín` (required): Location of the minikurzus.
-  - `időpont` (required): Date and time of the minikurzus.
-  - `ár` (required): Cost of the course.
-  - `témakör` (required): Topic of the course.
-  - `leírás` (optional): Detailed description of the course.
-  - `fájlok` (optional): Files.
-  - `felhasználók` (optional): Users who can access (if empty, accessible to all).
-  - `megkötések` (optional): Prerequisites.
-- **Output:**
-  - `200 OK` - Successful creation.
+- **Description:** Toggle a specific registercourses.
+- **Input Parameters:** 
+  - `id` (required)
+- **Output:** 
+  - `200 OK` - Successful deletion.
     ```json
     {
-      "message": "Course creation successful."
+      "message": "Register Course toggle successfull."
     }
     ```
-  - `401 Unauthorized` - Something went wrong.
+  - `400 Unauthorized` - Something went wrong.
     ```json
     {
       "error": "Something went wrong."
     }
     ```
+  - `404 Course not found` - Course not found
+    ```json
+    {
+      "error": "Course not found."
+    }
+    ```
+
+##### Admin Delete RegisterCourses
+- **URL:** `/api/admin/deleteregistercourse`
+- **Method:** POST
+- **Description:** Delete a specific registercourses.
+- **Input Parameters:** 
+  - `id` (required)
+- **Output:** 
+  - `200 OK` - Successful deletion.
+    ```json
+    {
+      "message": "RegisterCourse delete succesfull."
+    }
+    ```
+  - `400 Unauthorized` - Something went wrong.
+    ```json
+    {
+      "error": "Something went wrong."
+    }
+    ```
+  - `404 Course not found` - Course not found
+    ```json
+    {
+      "error": "Course not found."
+    }
+    ```
+
+##### Get all Minikurzus Endpoint
+- **URL:** `/api/admin/courses`
+- **Method:** POST
+- **Description:** Retrieve all minikurzus.
+- **Input Parameters:** 
+  - `userId` (required)
+- **Output:** JSON array of minikurzus.
 
 ##### Admin Update Minikurzus Endpoint
 - **URL:** `/api/admin/updateKurzus`
@@ -286,6 +394,40 @@
       "error": "Something went wrong."
     }
     ```
+
+##### Admin Create Minikurzus Endpoint
+- **URL:** `/api/admin/createKurzus`
+- **Method:** POST
+- **Description:** Create a new minikurzus.
+- **Input Parameters:**
+  - `cím` (required): Course title.
+  - `helyszín` (required): Location of the minikurzus.
+  - `időpont` (required): Date and time of the minikurzus.
+  - `ár` (required): Cost of the course.
+  - `témakör` (required): Topic of the course.
+  - `leírás` (optional): Detailed description of the course.
+  - `fájlok` (optional): Files.
+  - `felhasználók` (optional): Users who can access (if empty, accessible to all).
+  - `megkötések` (optional): Prerequisites.
+- **Output:**
+  - `200 OK` - Successful creation.
+    ```json
+    {
+      "message": "Course creation successful."
+    }
+    ```
+  - `401 Unauthorized` - Something went wrong.
+    ```json
+    {
+      "error": "Something went wrong."
+    }
+    ```
+
+
+
+
+
+
 
 ### Database Plan
 

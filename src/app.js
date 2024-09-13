@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const corsOptions = {
-  origin: ['http://192.168.0.14:5000', 'http://localhost:5000'], 
+  origin: ['http://192.168.0.14:5000', 'http://localhost:5000', 'http://localhost:3000'], 
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true, 
 };
