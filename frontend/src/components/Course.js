@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { useAdmin } from "../context/AdminContext";
@@ -17,8 +17,12 @@ const Course = () => {
   // const navigate = useNavigate();
   const { id } = useParams();
   const [course, setCourse] = useState(null);
+  const [courseId, setCourseId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [paymentMessage, setPaymentMessage] = useState("");
+  const [localRegisterCourses, setLocalRegisterCourses] = useState([]);
+
+  const navigate = useNavigate();
 
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -40,6 +44,11 @@ const Course = () => {
     fetchCourse();
   }, [id, rang, fetchUsers, getOneCourse]);
 
+  useEffect(() => {
+    setLocalRegisterCourses(registerCourses);
+    setCourseId(id)
+  }, [registerCourses]);
+
   // useEffect(() => {
   //   if (!course) return;
 
@@ -55,12 +64,23 @@ const Course = () => {
   //   }
   // }, [course, userId, rang, navigate]);
 
+  const isUserAllowed = () => {
+    return localRegisterCourses.some(item => 
+      item.userId === parseInt(userId) &&
+      item.courseId === parseInt(id) &&
+      item.enabled &&
+      item.paid &&
+      item.adminPaid
+    );
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
 
   if (!course) {
-    return <div>Course not found</div>;
+    navigate('/courses');
+    return null;
   }
 
   const videoUrl = course.video
@@ -76,13 +96,15 @@ const Course = () => {
 
   // Function to handle payment
   const handlePayment = async () => {
+    let inCourseId = course.id;
+    const eredmeny = registerCourses.find(sRegisterCourse =>  parseInt(sRegisterCourse.courseId) === parseInt(inCourseId) && parseInt(sRegisterCourse.userId) === parseInt(userId));
     try {
       const response = await axios.post(`${API_BASE_URL}/api/paid`, {
-        courseId: course.id,
-        userId: userId,
+        CourseRegisterId: eredmeny.id
       });
       setPaymentMessage(response.data.message || "Payment successful.");
     } catch (error) {
+      console.log(error)
       setPaymentMessage(
         error.response?.data?.error || "An error occurred while processing the payment."
       );
@@ -90,7 +112,8 @@ const Course = () => {
   };
 
   return (
-    <div className="ml-4">
+    <>
+    {course && <div className="ml-4">
       <div className="w-full flex items-center h-full flex-col">
         <div className="p-2 w-full sm:w-3/4 md:w-1/3 text-center mt-12 mb-12 rounded-lg bg-secondary">
           <h1 className="font-bold text-3xl">{course.cim}</h1>
@@ -108,25 +131,31 @@ const Course = () => {
           </div>
         </div>
 
-        <div className="w-full">
-          <div className="flex flex-col lg:flex-row">
-            {/* Video section */}
-            <div className="w-full lg:w-1/2 flex justify-center">
-              {videoUrl && (
-                <video controls className="m-4 rounded-lg max-w-full h-auto">
-                  <source src={videoUrl} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-              )}
-            </div>
-            {/* Text section */}
-            <div className={`w-full lg:w-1/2 p-4 flex justify-center items-center overflow-auto ${course.szoveg.length > 0 ? "h-[392px]" : null}`}>
-              {course.szoveg}
+        {isUserAllowed() ? (
+          <div className="w-full">
+            <div className="flex flex-col lg:flex-row">
+              {/* Video section */}
+              <div className="w-full lg:w-1/2 flex justify-center">
+                {videoUrl && (
+                  <video controls className="m-4 rounded-lg max-w-full h-auto">
+                    <source src={videoUrl} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                )}
+              </div>
+              {/* Text section */}
+              <div className={`w-full lg:w-1/2 p-4 flex justify-center items-center overflow-auto ${course.szoveg.length > 0 ? "h-[392px]" : null}`}>
+                {course.szoveg}
+              </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <div className="w-full text-center mt-4">
+            <p className="bg-yellow-500 text-black rounded-lg p-4">A videóhoz és a leíráshoz való hozzáférés korlátozott. Kérjük, győződjön meg róla, hogy regisztrált, kifizette a díjat, majd az admin engedélyezte.</p>
+          </div>
+        )}
 
-        <div className="w-full sm:w-3/4 flex justify-center">
+        {!isUserAllowed() && <div className="w-full sm:w-3/4 flex justify-center">
           <div className="m-4 w-full sm:w-1/2 text-center flex flex-col bg-secondary rounded-lg p-2">
             <span className="text-2xl font-bold">Fizetés</span>
             <div className="w-full flex flex-col sm:flex-row">
@@ -167,7 +196,7 @@ const Course = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div>}
 
         {paymentMessage && (
           <div className="w-full text-center mt-4">
@@ -270,7 +299,8 @@ const Course = () => {
           </div>
         ) : null}
       </div>
-    </div>
+    </div>}
+    </>
   );
 };
 

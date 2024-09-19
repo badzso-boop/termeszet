@@ -24,6 +24,7 @@ const Admin = () => {
     registerCourses,
     addUser,
     payToggle,
+    adminPayToggle,
     deleteUserRegisteredCourse,
   } = useAdmin();
   const [dataLoaded, setDataLoaded] = useState(false);
@@ -53,8 +54,13 @@ const Admin = () => {
   return (
     <>
       <Header />
+
+
+
+
       <div className="w-full my-4 px-2 sm:px-4 lg:px-6">
         <h1 className="text-center text-2xl font-bold mb-4">Felhasználók</h1>
+
 
         <div className="w-full flex justify-center">
           <button className="rounded-lg bg-red-500 p-2 mb-4">
@@ -173,6 +179,10 @@ const Admin = () => {
         </div>
       </div>
 
+
+
+
+
       <div className="w-full my-4 px-2 sm:px-4 lg:px-6">
         <h1 className="text-center text-2xl font-bold mb-4">Kurzusra várók</h1>
 
@@ -263,13 +273,13 @@ const Admin = () => {
 
                             <button
                               className={`${
-                                item.paid ? "bg-red-500" : "bg-green-500"
+                                item.adminPaid ? "bg-red-500" : "bg-green-500"
                               } text-white p-2 rounded-md mx-1 lg:mb-0`}
                               onClick={() => {
-                                payToggle(item.id);
+                                adminPayToggle(item.id, userId);
                               }}
                             >
-                              {item.paid ? "Fiz. visszavonás" : "Fiz. visszaigazolás"}
+                              {item.adminPaid ? "Fiz. visszavonás" : "Fiz. visszaigazolás"}
                             </button>
                           </div>
                         </>

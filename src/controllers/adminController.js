@@ -339,6 +339,23 @@ exports.toggleRegisteredCourse = async (req, res) => {
   }
 };
 
+exports.toggleRegisteredCourseAdminPaid = async (req, res) => {
+  const { CourseRegisterId } = req.body;
+  try {
+    const course = await CourseRegister.findByPk(CourseRegisterId);
+    if (!course) {
+      return res.status(404).json({ error: "Course not found." });
+    }
+
+    const data = course.adminPaid
+    await course.update({ adminPaid: !data });
+    res.json({ message: "Course adminPaid successful." });
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ error: "Something went wrong." });
+  }
+};
+
 exports.deleteRegisteredCourse = async (req, res) => {
   const { id } = req.body;
   try {

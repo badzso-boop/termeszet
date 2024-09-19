@@ -169,6 +169,27 @@ export const AdminProvider = ({ children }) => {
     }
   };
 
+  const adminPayToggle = async (InputCourseRegisterId, adminId) => {
+    // POST kérés az API végpontra
+    const response = await axios.post(`${API_BASE_URL}/api/admin/adminpaid`, {
+      userId: parseInt(adminId),
+      CourseRegisterId: parseInt(InputCourseRegisterId),
+    });
+  
+    // Megkeressük a regisztrált kurzust
+    const registeredCourse = registerCourses.find((item) => item.id === InputCourseRegisterId);
+
+    if (response.status === 200) {
+      setRegisterCourses((prevCourses) =>
+        prevCourses.map((item) =>
+          item.id === registeredCourse.id
+            ? { ...item, adminPaid: !registeredCourse.adminPaid } // paid tulajdonság változtatása
+            : item
+        )
+      );
+    }
+  };
+
   const deleteUserRegisteredCourse = async (userId, id) => {
     const response = await axios.post(
       `${API_BASE_URL}/api/admin/deleteregistercourse`,
@@ -264,6 +285,7 @@ export const AdminProvider = ({ children }) => {
         registerCourse,
         addUser,
         payToggle,
+        adminPayToggle,
         deleteUserRegisteredCourse,
         fetchRegisteredCoursesUser,
       }}

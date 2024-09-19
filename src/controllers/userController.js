@@ -160,6 +160,8 @@ exports.getOneCourse = async (req, res) => {
 
 exports.toggleRegisteredCoursePaid = async (req, res) => {
   const { CourseRegisterId } = req.body;
+  console.log(CourseRegisterId)
+
   try {
     const courseRegister = await CourseRegister.findOne({
       where: {
@@ -172,8 +174,7 @@ exports.toggleRegisteredCoursePaid = async (req, res) => {
       return res.status(404).json({ error: "Course registration not found." });
     }
 
-    const currentPaidStatus = courseRegister.paid;
-    await courseRegister.update({ paid: !currentPaidStatus });
+    await courseRegister.update({ paid: true });
 
     res.status(200).json({ message: "Course payment status updated successfully." });
   } catch (error) {
