@@ -1,5 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { send } = require('../helpers/emailSender.js');
 const User = require("../models/userModel.js");
 const Course = require("../models/courseModel.js");
 const CourseRegister = require("../models/courseRegisterModel.js");
@@ -7,7 +8,6 @@ const CourseRegister = require("../models/courseRegisterModel.js");
 const path = require("path");
 
 exports.register = async (req, res) => {
-  // const { email, pwd, username, fullName, rang, description, bornDate, allergies, mutetek, amalganFilling, drugs, complaints, goal, courses } = req.body;
   const { email, pwd, username, fullName } = req.body;
   console.log(req.body);
 
@@ -51,12 +51,26 @@ exports.register = async (req, res) => {
       courses,
     });
 
+    // Send a congratulatory email after successful registration
+    try {
+      await send(
+        email,
+        'Gratulálunk a sikeres regisztrációhoz!',
+        fullName,
+        'Köszönjük, hogy regisztráltál a platformunkra. Örülünk, hogy csatlakoztál hozzánk!'
+      );
+      console.log('Registration email sent.');
+    } catch (emailError) {
+      console.error('Error sending email:', emailError);
+    }
+
     return res.status(201).json({ message: "User registered successfully." });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: "Server error." });
   }
 };
+
 
 exports.login = async (req, res) => {
   const { email, pwd } = req.body;
@@ -110,6 +124,26 @@ exports.registerCourse = async (req, res) => {
         courseId,
         enabled: false,
       });
+
+      const user = await User.findOne({ where: { id: userId } });
+      const course = await Course.findOne({ where: { id: courseId } });
+
+      if (user && course) {
+        try {
+          await send(
+            "norbi.rumli007@gmail.com",
+            'Egy felhasználó regisztrált egy kurzusra!',
+            'Németh Gabriella',
+            `${user.fullName} regisztrált a(z) ${course.title} nevű kurzusra!`
+          );
+          console.log('Registration email sent.');
+        } catch (emailError) {
+          console.error('Error sending email:', emailError);
+        }
+      } else {
+        console.error('User or Course not found.');
+        return res.status(404).json({ error: "User or Course not found." });
+      }
   
       return res.status(200).json({ message: "Course registered successfully." }); 
     } else {
@@ -183,7 +217,6 @@ exports.toggleRegisteredCoursePaid = async (req, res) => {
   }
 };
 
-// Kurzusok lekérése
 exports.getCourses = async (req, res) => {
   try {
     const courses = await Course.findAll();
