@@ -4,6 +4,7 @@ const { send } = require('../helpers/emailSender.js');
 const User = require("../models/userModel.js");
 const Course = require("../models/courseModel.js");
 const CourseRegister = require("../models/courseRegisterModel.js");
+require('dotenv').config();
 
 const path = require("path");
 
@@ -132,9 +133,9 @@ exports.registerCourse = async (req, res) => {
         try {
           await send(
             "norbi.rumli007@gmail.com",
-            'Egy felhasználó regisztrált egy kurzusra!',
+            `Egy felhasználó regisztrált a(z) ${course.title} nevű kurzusra!`,
             'Németh Gabriella',
-            `${user.fullName} regisztrált a(z) ${course.title} nevű kurzusra!`
+            `${user.fullName} regisztrált a(z) ${course.title} nevű kurzusra! Kérlek lépj be és engedélyezd!`
           );
           console.log('Registration email sent.');
         } catch (emailError) {
@@ -194,7 +195,6 @@ exports.getOneCourse = async (req, res) => {
 
 exports.toggleRegisteredCoursePaid = async (req, res) => {
   const { CourseRegisterId } = req.body;
-  console.log(CourseRegisterId)
 
   try {
     const courseRegister = await CourseRegister.findOne({
@@ -208,9 +208,35 @@ exports.toggleRegisteredCoursePaid = async (req, res) => {
       return res.status(404).json({ error: "Course registration not found." });
     }
 
-    await courseRegister.update({ paid: true });
+    if (!courseRegister.paid) {
+      const user = await User.findOne({ where: { id: courseRegister.userId } });
+      const course = await Course.findOne({ where: { id: courseRegister.courseId } });
+  
+      if (user && course) {
+        try {
+          await send(
+            process.env.EMAIL_USER,
+            `Befizetés - ${course.cim}`,
+            'Németh Gabriella',
+            `${user.fullName} befizetett ${course.ar} Ft-ot a(z) ${course.cim} nevű kurzusra! <br> Kérlek lépj be és igazold vissza a befizetést!`
+          );
+          console.log('Registration email sent.');
+        } catch (emailError) {
+          console.error('Error sending email:', emailError);
+        }
+      } else {
+        console.error('User or Course not found.');
+        return res.status(404).json({ error: "User or Course not found." });
+      }
+  
+      await courseRegister.update({ paid: true });
+  
+      res.status(200).json({ message: "Course payment status updated successfully." });
+    }
+    else {
+      res.status(201).json({ message: "Már fizettél" });
+    }
 
-    res.status(200).json({ message: "Course payment status updated successfully." });
   } catch (error) {
     console.error(error);
     res.status(400).json({ error: "Something went wrong." });

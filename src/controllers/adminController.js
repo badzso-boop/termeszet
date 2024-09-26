@@ -309,8 +309,6 @@ exports.deleteCourse = async (req, res) => {
   }
 };
 
-
-
 exports.registerCourses = async (req, res) => {
   const {userId} = req.body
   try {

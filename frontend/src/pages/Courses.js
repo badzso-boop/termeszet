@@ -50,42 +50,6 @@ const Courses = () => {
     );
   };
 
-  const searchPaidUser = (beUserId, beCourseId) => {
-    return localRegisterCourses.some(
-      (item) =>
-        parseInt(item.userId) === parseInt(beUserId) &&
-        item.paid &&
-        parseInt(item.courseId) === parseInt(beCourseId)
-    );
-  };
-
-  const searchNotPaidUser = (beUserId, beCourseId) => {
-    return localRegisterCourses.some(
-      (item) =>
-        parseInt(item.userId) === parseInt(beUserId) &&
-        !item.paid &&
-        parseInt(item.courseId) === parseInt(beCourseId)
-    );
-  };
-
-  const searchAdminPaidUser = (beUserId, beCourseId) => {
-    return localRegisterCourses.some(
-      (item) =>
-        parseInt(item.userId) === parseInt(beUserId) &&
-        item.adminPaid &&
-        parseInt(item.courseId) === parseInt(beCourseId)
-    );
-  };
-
-  const searchNotAdminPaidUser = (beUserId, beCourseId) => {
-    return localRegisterCourses.some(
-      (item) =>
-        parseInt(item.userId) === parseInt(beUserId) &&
-        !item.adminPaid &&
-        parseInt(item.courseId) === parseInt(beCourseId)
-    );
-  };
-
 
   const handleRegistration = async (courseId) => {
     const result = await registerCourse(userId, courseId);

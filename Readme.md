@@ -2,7 +2,7 @@
 
 #### User routes
 
-#### Registration Endpoint
+##### Registration Endpoint
 - **URL:** `/api/register`
 - **Method:** POST
 - **Description:** Register a new user.
@@ -24,7 +24,7 @@
     }
     ```
 
-#### Login Endpoint
+##### Login Endpoint
 - **URL:** `/api/login`
 - **Method:** POST
 - **Description:** User login.
@@ -46,7 +46,7 @@
     }
     ```
 
-#### Get User Endpoint
+##### Get User Endpoint
 - **URL:** `/api/user`
 - **Method:** POST
 - **Description:** Get user details.
@@ -54,7 +54,7 @@
   - `id` (required): User's unique identifier.
 - **Output:** JSON of the user.
 
-#### Get Course Endpoint
+##### Get Course Endpoint
 - **URL:** `/api/course`
 - **Method:** POST
 - **Description:** Get course details.
@@ -62,14 +62,14 @@
   - `id` (required): Course's unique identifier.
 - **Output:** JSON of the course.
 
-#### Get Courses Endpoint
+##### Get Courses Endpoint
 - **URL:** `/api/courses`
 - **Method:** GET
 - **Description:** Get all courses.
 - **Input Parameters:** none
 - **Output:** JSON of the courses.
 
-#### RegisterCourse Endpoint
+##### RegisterCourse Endpoint
 - **URL:** `/api/registercourse`
 - **Method:** POST
 - **Description:** Register to a course.
@@ -90,14 +90,14 @@
     }
     ```
 
-#### Get RegisterCourses Endpoint
+##### Get RegisterCourses Endpoint
 - **URL:** `/api/registercourses`
 - **Method:** GET
 - **Description:** Get all registercourses.
 - **Input Parameters:** none
 - **Output:** JSON of the registercourses.
 
-#### Toggle registerCourses Paid Endpoint
+##### Toggle registerCourses Paid Endpoint
 - **URL:** `/api/paid`
 - **Method:** POST
 - **Description:** Toggle registercourses paid.
@@ -123,7 +123,7 @@
     }
     ```
 
-#### Get RegisterCourses Endpoint
+##### Get RegisterCourses Endpoint
 - **URL:** `/api/video/:filename`
 - **Method:** GET
 - **Description:** Get all a specific video.
@@ -425,7 +425,16 @@
 
 
 
+### Api response Code Patterns
 
+- Succes Response (200 OK)
+- Created (201 Created)
+- Bad Request (400 Bad Request)
+- Unathorized (401 Unathorized)
+- Forbidden (403 Forbidden)
+- Not Found (404 Not Found)
+- Conflict (409 Conflict)
+- Server Error (500 Internal Server Error)
 
 
 

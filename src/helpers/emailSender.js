@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+require('dotenv').config();
 
 // Create a transporter object
 let transporter = nodemailer.createTransport({
@@ -6,8 +7,8 @@ let transporter = nodemailer.createTransport({
     port: 465, // or 587 if you're using TLS
     secure: true, // true for 465, false for 587
     auth: {
-        user: 'norbi.rumli007@gmail.com', // your email
-        pass: 'umwkvbwiegylnsso' // your email password or app-specific password
+        user: process.env.EMAIL_USER, // your email from .env
+        pass: process.env.EMAIL_PASS // your password from .env
     }
 });
 
@@ -18,7 +19,7 @@ exports.send = async (reciverEmail, subject, name, text) => {
             from: 'Németh Gabriella <azegy1@gmail.com>', // sender address
             to: reciverEmail, // receiver's email
             subject: subject, // Subject line
-            html: `<p>Hello ${name},</p><p>${text}</p>` // HTML body (optional)
+            html: `<p>Hello ${name},</p> <p>${text}</p>` // HTML body (optional)
         });
 
         console.log('Message sent: %s', info.messageId);
