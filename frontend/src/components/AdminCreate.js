@@ -32,14 +32,14 @@ const AdminCreate = () => {
 
     if (type === 'file') {
       const file = files[0];
-      const fileTypes = ['video/mp4', 'video/x-matroska', 'video/x-msvideo'];
+      const fileTypes = ['video/mp4', 'video/x-matroska', 'video/x-msvideo', 'audio/mpeg'];
       if (file && fileTypes.includes(file.type)) {
         setIsFileValid(true);
         setMessage('');
         setFormData({ ...formData, [name]: file });
       } else {
         setIsFileValid(false);
-        setMessage('Csak videó fájlokat tölthetsz fel (mp4, mkv, avi).');
+        setMessage('Csak videó és hang fájlokat tölthetsz fel (mp4, mkv, avi, mp3).');
       }
     } else {
       setFormData({ ...formData, [name]: value });

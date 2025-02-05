@@ -16,13 +16,17 @@ const upload = multer({
   storage: storage,
   limits: { fileSize: 100 * 1024 * 1024 }, // Set file size limit to 100MB
   fileFilter: function (req, file, cb) {
-    const filetypes = /mp4|mkv|avi/; // Allowed file types
-    const mimetype = filetypes.test(file.mimetype);
-    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-    if (mimetype && extname) {
+    const allowedMimeTypes = ['video/mp4', 'video/x-matroska', 'video/x-msvideo', 'audio/mpeg'];
+    const allowedExtensions = /mp4|mkv|avi|mp3/;
+
+    const isMimeTypeAllowed = allowedMimeTypes.includes(file.mimetype);
+    const isExtensionAllowed = allowedExtensions.test(path.extname(file.originalname).toLowerCase());
+
+    if (isMimeTypeAllowed && isExtensionAllowed) {
       return cb(null, true);
     }
-    cb(new Error('Only videos are allowed'));
+
+    cb(new Error('Only MP4, MKV, AVI videos, and MP3 audio files are allowed.'));
   }
 });
 

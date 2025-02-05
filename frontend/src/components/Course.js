@@ -42,7 +42,7 @@ const Course = () => {
     };
 
     fetchCourse();
-  }, [id, rang, fetchUsers, getOneCourse]);
+  }, [id, rang]);
 
   useEffect(() => {
     setLocalRegisterCourses(registerCourses);
@@ -131,13 +131,13 @@ const Course = () => {
           </div>
         </div>
 
-        {isUserAllowed() ? (
+        {isUserAllowed() || rang=== "a" ? (
           <div className="w-full">
             <div className="flex flex-col lg:flex-row">
               {/* Video section */}
               <div className="w-full lg:w-1/2 flex justify-center">
                 {videoUrl && (
-                  <video controls className="m-4 rounded-lg max-w-full h-auto">
+                  <video controls className="m-4 rounded-lg max-w-full h-auto" controlsList="nodownload" onContextMenu={(e) => e.preventDefault()}>
                     <source src={videoUrl} type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>

@@ -20,7 +20,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-const termeszetBuildPath = path.join(__dirname, '..', 'frontend', 'build');
+const termeszetBuildPath = path.join(__dirname, '..','..','termeszetFrontend', 'frontend', 'build');
 app.use('/', express.static(termeszetBuildPath));
 app.get('/', (req, res) => {
   res.sendFile(path.join(termeszetBuildPath, 'index.html'));
