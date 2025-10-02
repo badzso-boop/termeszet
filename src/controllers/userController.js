@@ -26,7 +26,7 @@ exports.register = async (req, res) => {
 
     const rang = "u";
     const description = "-";
-    const bornDate = "-";
+    const bornDate = null;
     const allergies = {};
     const mutetek = {};
     const amalganFilling = false;
