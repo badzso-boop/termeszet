@@ -44,5 +44,32 @@ CREATE TABLE homeworks(
     megoldas VARCHAR(512),
     ready BOOLEAN,
     createdAt DATE,
-    updatedAt DATE
+    updatedAt DATE,
+    CONSTRAINT fk_homeworks_user
+        FOREIGN KEY (felhasznaloId) REFERENCES users(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+-- courseregisters: Sequelize a `courseregister` modellnevet alapértelmezetten
+-- `courseregisters`-re pluralizálja, ez a tényleges tábla neve az adatbázisban.
+-- Ez a tábla korábban hiányzott ebből a referenciafájlból, csak a modellből
+-- jött létre sequelize.sync()-kel — most itt is dokumentáljuk, a FK-kkal együtt.
+CREATE TABLE courseregisters(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    userId INT NOT NULL,
+    courseId INT NOT NULL,
+    enabled BOOLEAN NOT NULL,
+    paid BOOLEAN,
+    adminPaid BOOLEAN,
+    createdAt DATE,
+    updatedAt DATE,
+    CONSTRAINT fk_courseregisters_user
+        FOREIGN KEY (userId) REFERENCES users(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT fk_courseregisters_course
+        FOREIGN KEY (courseId) REFERENCES minikurzus(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
