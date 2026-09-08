@@ -49,7 +49,8 @@ const faqData = [
   },
   {
     question: "Mi a visszatérítési politika, ha nem vagyok elégedett a kurzussal?",
-    answer: "Nemtudom xd",
+    answer:
+      "Ha nem vagy elégedett a kurzussal, keress meg minket a kapcsolati elérhetőségeken, és egyedileg megvizsgáljuk a lehetőségeket. A pontos feltételeket az ÁSZF tartalmazza.",
   },
   {
     question: "Hogyan működik a videókurzusok online megtekintése?",
@@ -66,19 +67,23 @@ const faqData = [
   },
   {
     question: "Mik azok a talpreflexológiai kezelések, és hogyan működnek?",
-    answer: "nemtom",
+    answer:
+      "A reflexológia egy természetes gyógymód, amely a talpon található reflexpontok stimulálásával támogatja a test öngyógyító folyamatait. A reflexológus nyomást gyakorol a talp bizonyos pontjaira, amelyek kapcsolatban állnak a test különböző szerveivel, így serkentve a vérkeringést és az energiaáramlást.",
   },
   {
     question: "Van-e lehetőség személyes konzultációra vagy kezelésre?",
-    answer: "nemtom",
+    answer:
+      "Igen. Minden kezelés előtt átbeszéljük az igényeidet és panaszaidat, hogy a kezelés pontosan hozzád legyen szabva – ehhez a regisztráció után vedd fel velünk a kapcsolatot.",
   },
   {
     question: "Milyen előnyökkel jár a talpreflexológia rendszeres gyakorlása?",
-    answer: "nemtom",
+    answer:
+      "Stresszcsökkentés és relaxáció, fájdalomcsillapítás (fejfájás, hátfájás, ízületi fájdalmak), emésztési problémák enyhítése, hormonális egyensúly javítása, valamint az általános immunitás és energiaszint növelése.",
   },
   {
     question: "Ki végezheti el a kurzusokat, és szükséges-e hozzá előzetes képzettség?",
-    answer: "nemtom",
+    answer:
+      "Bárki jelentkezhet, aki érdeklődik a téma iránt – előzetes képzettség általában nem szükséges, de ha egy adott kurzusnál mégis van megkötés, azt mindig feltüntetjük a kurzus leírásánál.",
   },
   {
     question: "Milyen eszközökre van szükségem a videókurzusok követéséhez?",
@@ -86,19 +91,23 @@ const faqData = [
   },
   {
     question: "Miért érdemes előfizetni az oldalon található kurzusokra?",
-    answer: "nemtom",
+    answer:
+      "Mert szakértő vezetésével, saját tempódban, otthonról is elsajátíthatod a reflexológia és a hangtálterápia alapjait, videóanyagok és személyre szabott konzultáció segítségével.",
   },
   {
     question: "Milyen különbségek vannak az egyes kurzusok között?",
-    answer: "nemtom",
+    answer:
+      "A kurzusok témában, időpontban, helyszínben (személyes vagy online) és árban is különböznek – minden kurzusnál a kurzus oldalán találod a pontos részleteket.",
   },
   {
     question: "Hogyan garantálja az oldal a személyes adataim biztonságát?",
-    answer: "A felhasználók adatát a GDPR szerint nem adjuk ki 3. félnek és megfelelő módon titkosítva vannak.",
+    answer:
+      "Az adataidat a GDPR előírásainak megfelelően kezeljük, és nem adjuk ki harmadik félnek. Az adatvédelemmel kapcsolatos részletekért lásd az Adatvédelmi Tájékoztatót.",
   },
   {
     question: "Hol található a Szolgáltató által nyújtott oktatási anyagok szerzői jogaival kapcsolatos információ?",
-    answer: "még kitalálás alatt van",
+    answer:
+      "A szerzői jogokkal kapcsolatos részletes tájékoztatást az ÁSZF és a Felhasználási feltételek oldalakon találod.",
   },
   {
     question: "Milyen visszajelzéseket adhatok a kurzusokról és tartalmakról?",

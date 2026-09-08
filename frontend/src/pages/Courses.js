@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpa } from "@fortawesome/free-solid-svg-icons";
 
 import { useAdmin } from "../context/AdminContext";
 import { useAuth } from "../context/AuthContext";
@@ -67,12 +69,23 @@ const Courses = () => {
   };
 
   return (
-    <>
-      <div className="w-full border bg-primary">
+    <div className="min-h-screen flex flex-col">
+      <div className="w-full flex-1 border bg-primary">
         <p className="text-center uppercase text-3xl font-bold mt-3">
           kurzusok
         </p>
         <div className="flex flex-wrap border w-full justify-center">
+          {dataLoaded && courses.length === 0 && (
+            <div className="flex flex-col items-center text-center w-full sm:w-2/3 lg:w-1/2 my-10 mx-4 p-8 rounded-xl bg-secondary">
+              <FontAwesomeIcon icon={faSpa} className="text-5xl mb-4" />
+              <p className="text-xl font-semibold mb-2">
+                Jelenleg nincsenek elérhető kurzusok
+              </p>
+              <p className="text-base">
+                Hamarosan új kurzusokkal jelentkezünk – nézz vissza később, vagy iratkozz fel a hírlevélre a főoldalon, hogy elsőként értesülj róluk!
+              </p>
+            </div>
+          )}
           {courses.map((item) => (
             <div
               key={item.id}
@@ -143,7 +156,7 @@ const Courses = () => {
       </div>
 
       <Footer />
-    </>
+    </div>
   );
 };
 

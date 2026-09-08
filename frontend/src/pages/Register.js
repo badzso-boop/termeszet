@@ -23,10 +23,10 @@ const Register = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
       <div className="bg-secondary p-8 rounded-lg shadow-lg w-full max-w-lg">
-        <h1 className="text-2xl font-bold mb-6 text-center">Register</h1>
+        <h1 className="text-2xl font-bold mb-6 text-center">Regisztráció</h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block font-bold text-xl mb-2">Email:</label>
+            <label className="block font-bold text-xl mb-2">Email cím:</label>
             <input
               type="email"
               value={email}
@@ -36,7 +36,7 @@ const Register = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="block font-bold text-xl mb-2">Password:</label>
+            <label className="block font-bold text-xl mb-2">Jelszó:</label>
             <input
               type="password"
               value={pwd}
@@ -46,7 +46,7 @@ const Register = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="block font-bold text-xl mb-2">Username:</label>
+            <label className="block font-bold text-xl mb-2">Felhasználónév:</label>
             <input
               type="text"
               value={username}
@@ -55,7 +55,7 @@ const Register = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="block font-bold text-xl mb-2">Full Name:</label>
+            <label className="block font-bold text-xl mb-2">Teljes név:</label>
             <input
               type="text"
               value={fullName}
@@ -68,7 +68,7 @@ const Register = () => {
               type="submit"
               className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600"
             >
-              Register
+              Regisztráció
             </button>
           </div>
         </form>

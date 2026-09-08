@@ -24,7 +24,7 @@ const App = () => {
     <Router>
       <div className="flex">
         <Navigation />
-        <div className="flex-1 pl-4">
+        <div className="flex-1 pt-16 sm:pt-0">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/courses" element={<Courses />} />

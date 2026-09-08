@@ -22,12 +22,15 @@ app.use(cors(corsOptions));
 
 const termeszetBuildPath = path.join(__dirname, '..', 'public');
 app.use('/', express.static(termeszetBuildPath));
-app.get('/', (req, res) => {
-  res.sendFile(path.join(termeszetBuildPath, 'index.html'));
-});
 
 app.use('/api', userRoutes);
 app.use('/api/admin', adminRoutes);
+
+// SPA fallback: minden nem-API GET kérés (pl. /courses közvetlen megnyitása vagy
+// frissítése) az index.html-t kapja, hogy a React Router kliens oldalon tudja kezelni.
+app.get(/^\/(?!api\/).*/, (req, res) => {
+  res.sendFile(path.join(termeszetBuildPath, 'index.html'));
+});
 
 
 async function syncDatabaseWithRetry(retries = 10, delayMs = 3000) {

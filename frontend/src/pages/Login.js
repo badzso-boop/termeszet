@@ -31,10 +31,10 @@ const Login = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
       <div className="bg-secondary p-8 rounded-lg shadow-lg w-full max-w-lg">
-        <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
+        <h1 className="text-2xl font-bold mb-6 text-center">Bejelentkezés</h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block font-bold text-xl mb-2">Email:</label>
+            <label className="block font-bold text-xl mb-2">Email cím:</label>
             <input
               type="email"
               value={email}
@@ -44,7 +44,7 @@ const Login = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="block font-bold text-xl mb-2">Password:</label>
+            <label className="block font-bold text-xl mb-2">Jelszó:</label>
             <input
               type="password"
               value={password}
@@ -58,7 +58,7 @@ const Login = () => {
               type="submit"
               className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600"
             >
-              Login
+              Bejelentkezés
             </button>
           </div>
         </form>
