@@ -61,12 +61,12 @@ nyitni.
   `tests/admin.registercourse.test.js` — admin CRUD happy-path + 404 esetek, és egy
   külön teszt, ami dokumentálja, hogy a `verifyAdmin` middleware ma ténylegesen
   `req.body.userId`-t nézi, nem valódi JWT-t (lásd `docs/security-review.md`).
-- `tests/characterization.orphaned-registrations.test.js` — "characterization test":
-  dokumentálja, hogy a mai (asszociáció/cascade nélküli) modell-rétegen egy user törlése
-  NEM törli automatikusan a hozzá tartozó `CourseRegister` sorokat. Ha ez a teszt egy
-  jövőbeli, `feature/db-associations`-t is tartalmazó merge után megbukik, az azt jelzi,
-  hogy a viselkedés megváltozott (cascade delete bekerült) — akkor a tesztet frissíteni
-  kell az új elvárt viselkedésre.
+- `tests/cascade-delete.test.js` — ellenőrzi, hogy a `src/models/associations.js`-ben
+  definiált FK constraint-ek (`ON DELETE CASCADE`) ténylegesen működnek: user törlésekor a
+  hozzá tartozó `CourseRegister` sor, kurzus törlésekor szintén a hozzá tartozó
+  `CourseRegister` sor automatikusan eltűnik. (Korábban ez egy "characterization test" volt,
+  ami a `feature/db-associations` main-be kerülése ELŐTTI, kaszkád nélküli állapotot
+  dokumentálta — a merge után frissült az új, elvárt viselkedésre.)
 
 ## 4. Takarítás
 
@@ -80,6 +80,12 @@ gyors iterációhoz) — ha végleg nincs rá szükség, állítsd le és törö
 ```bash
 docker compose -p testbackend down -v
 ```
+
+**Fontos**: mivel a `sequelize.sync()` `CREATE TABLE IF NOT EXISTS`-t generál, egy már
+létező (korábbi futtatásból megmaradt) tábla-készleten NEM ad hozzá utólag FK
+constraint-eket, ha időközben módosult a `src/models/associations.js`. Ha sémát érintő
+változtatás (pl. új asszociáció) után furcsán viselkedik egy teszt, indíts friss teszt-DB-t:
+`docker compose -p testbackend down -v && docker compose -p testbackend up -d db`.
 
 **Az éles `termeszet`/`termeszet-db` konténereket ez semmilyen módon nem érinti** — azok
 teljesen más projekt-névtér (`-p testbackend` vs. az éles compose névtér) és port alatt
