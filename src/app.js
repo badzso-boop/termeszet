@@ -3,6 +3,9 @@ const dotenv = require('dotenv');
 const sequelize = require('./config/db');
 const userRoutes = require('./routes/userRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+// Modell-asszociációk (FK constraint-ek a sync()-hez) — a route-ok modelleket
+// betöltő require-jei után, de a sequelize.sync() hívás előtt kell lennie.
+require('./models/associations');
 const cors = require('cors');
 const path = require('path');
 
