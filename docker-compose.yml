@@ -1,0 +1,49 @@
+services:
+  db:
+    image: mysql:8
+    container_name: termeszet-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME:-termeszet}
+      MYSQL_USER: ${DB_USER:-termeszet}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_ROOT_PASSWORD}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      # MySQL első induláskor belsőleg újraindítja magát (init -> temp server -> valódi
+      # restart), ami ~45-60s is lehet — enélkül a start_period nélkül a healthcheck idő
+      # előtt "unhealthy"-nek jelezné a service-t, mielőtt a belső restart lezajlana.
+      start_period: 90s
+    # Nincs ports: — csak a belső docker-hálózaton érhető el, host-portra nincs kitéve.
+
+  app:
+    build: .
+    container_name: termeszet
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8087:5000"
+    env_file:
+      - .env
+    environment:
+      DB_HOST: db
+      DB_NAME: ${DB_NAME:-termeszet}
+      DB_USER: ${DB_USER:-termeszet}
+      DB_PASSWORD: ${DB_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      EMAIL_USER: ${EMAIL_USER}
+      EMAIL_PASS: ${EMAIL_PASS}
+      PORT: 5000
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - uploads_data:/app/uploads
+
+volumes:
+  db_data:
+  uploads_data:
