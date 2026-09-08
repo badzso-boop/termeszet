@@ -4,7 +4,7 @@
   "description": "termeszetgyogyasz szerver",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --runInBand"
   },
   "author": "",
   "license": "ISC",
@@ -19,5 +19,10 @@
     "nodemailer": "^6.9.15",
     "nodemon": "^3.1.4",
     "sequelize": "^6.37.3"
+  },
+  "devDependencies": {
+    "cross-env": "^10.1.0",
+    "jest": "^30.5.1",
+    "supertest": "^7.2.2"
   }
 }
