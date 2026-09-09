@@ -147,3 +147,10 @@ dist
 
 # Claude Code local settings (personal, not team-shared)
 .claude/settings.local.json
+
+# Adatbázis-dumpok: éles jelszóhasheket és egészségügyi PII-t (allergies/mutetek/drugs/
+# complaints) tartalmazhatnak (lásd docs/security-review.md #4) -- csak séma-only, adat
+# nélküli dump kerülhet verziókezelésbe, azt viszont ki kell venni ez alól explicit
+# allowlist-bejegyzéssel, ahogy a config/data alatti fájloknál is szokás (lásd a repo
+# README-jét).
+sql/*.sql
