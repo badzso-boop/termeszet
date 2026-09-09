@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'; // Assuming axios is being used
 import { useAuth } from "../context/AuthContext";
+import { useAdmin } from "../context/AdminContext";
+import UserPicker from "./UserPicker";
 
 const AdminCreate = () => {
   const { rang, userId } = useAuth();
+  const { users, fetchUsers } = useAdmin();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -17,6 +20,7 @@ const AdminCreate = () => {
     leiras: '',
     szoveg: '',
   });
+  const [felhasznalok, setFelhasznalok] = useState([]);
   const [message, setMessage] = useState('');
   const [isFileValid, setIsFileValid] = useState(true);
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
@@ -26,6 +30,12 @@ const AdminCreate = () => {
       navigate('/');
     }
   }, [rang, navigate]);
+
+  useEffect(() => {
+    if (rang === 'a') {
+      fetchUsers();
+    }
+  }, [rang, fetchUsers]);
 
   const handleChange = (e) => {
     const { name, type, value, files } = e.target;
@@ -53,6 +63,7 @@ const AdminCreate = () => {
       data.append(key, formData[key]);
     }
 
+    data.append('felhasznalok', JSON.stringify(felhasznalok));
     data.append('userId', userId);
 
     try {
@@ -153,6 +164,15 @@ const AdminCreate = () => {
                   value={formData.szoveg}
                   onChange={handleChange}
                   className="w-full h-32 px-4 py-2 border border-gray-300 rounded-md"
+                />
+              </div>
+              <div>
+                <UserPicker
+                  users={users}
+                  selectedIds={felhasznalok}
+                  onChange={setFelhasznalok}
+                  label="Felhasználók"
+                  emptyHint="Nincs kiválasztva (üresen mindenki hozzáfér)"
                 />
               </div>
             </div>

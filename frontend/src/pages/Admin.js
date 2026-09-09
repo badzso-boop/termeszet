@@ -30,6 +30,12 @@ const Admin = () => {
   const [dataLoaded, setDataLoaded] = useState(false);
   const navigate = useNavigate();
 
+  const PAGE_SIZE = 10;
+  const [userSearch, setUserSearch] = useState("");
+  const [userPage, setUserPage] = useState(1);
+  const [courseSearch, setCourseSearch] = useState("");
+  const [coursePage, setCoursePage] = useState(1);
+
   useEffect(() => {
     if (rang !== "a") {
       navigate("/");
@@ -50,6 +56,38 @@ const Admin = () => {
   if (rang !== "a") {
     return null;
   }
+
+  const filteredUsers = users.filter((item) => {
+    const q = userSearch.trim().toLowerCase();
+    if (!q) return true;
+    return (
+      item.fullName?.toLowerCase().includes(q) ||
+      item.username?.toLowerCase().includes(q) ||
+      item.email?.toLowerCase().includes(q)
+    );
+  });
+  const userTotalPages = Math.max(1, Math.ceil(filteredUsers.length / PAGE_SIZE));
+  const userPageSafe = Math.min(userPage, userTotalPages);
+  const pagedUsers = filteredUsers.slice(
+    (userPageSafe - 1) * PAGE_SIZE,
+    userPageSafe * PAGE_SIZE
+  );
+
+  const filteredCourses = courses.filter((item) => {
+    const q = courseSearch.trim().toLowerCase();
+    if (!q) return true;
+    return (
+      item.cim?.toLowerCase().includes(q) ||
+      item.helyszin?.toLowerCase().includes(q) ||
+      item.temakor?.toLowerCase().includes(q)
+    );
+  });
+  const courseTotalPages = Math.max(1, Math.ceil(filteredCourses.length / PAGE_SIZE));
+  const coursePageSafe = Math.min(coursePage, courseTotalPages);
+  const pagedCourses = filteredCourses.slice(
+    (coursePageSafe - 1) * PAGE_SIZE,
+    coursePageSafe * PAGE_SIZE
+  );
 
   return (
     <>
@@ -74,6 +112,19 @@ const Admin = () => {
           </button>
         </div>
 
+        <div className="w-full flex justify-center mb-4">
+          <input
+            type="text"
+            value={userSearch}
+            onChange={(e) => {
+              setUserSearch(e.target.value);
+              setUserPage(1);
+            }}
+            placeholder="Keresés név, felhasználónév vagy email alapján..."
+            className="w-full lg:w-3/4 px-4 py-2 border border-gray-300 rounded-md"
+          />
+        </div>
+
         <div className="overflow-x-auto flex items-center justify-center">
           <div className="w-full lg:w-3/4 border border-black rounded-lg">
             {/* Fejléc (csak nagy képernyőkön látszik) */}
@@ -82,7 +133,10 @@ const Admin = () => {
               <div className="w-1/3 text-xl border-r-2 border-r-black font-bold flex items-center p-2">Email</div>
               <div className="w-1/3 text-xl font-bold p-2 text-center">Műveletek</div>
             </div>
-            {users.map((item) => (
+            {filteredUsers.length === 0 && (
+              <div className="p-4 text-center text-gray-500">Nincs találat.</div>
+            )}
+            {pagedUsers.map((item) => (
               <div key={item.id} className="flex flex-wrap lg:flex-nowrap w-full border-t border-black">
                 {/* Teljes név */}
                 <div className="w-full lg:w-1/3 border-b lg:border-b-0 lg:border-r-2 border-black flex items-center text-lg p-1 truncate">
@@ -113,6 +167,28 @@ const Admin = () => {
             ))}
           </div>
         </div>
+
+        {userTotalPages > 1 && (
+          <div className="w-full flex justify-center items-center gap-4 mt-3">
+            <button
+              type="button"
+              disabled={userPageSafe <= 1}
+              onClick={() => setUserPage((p) => Math.max(1, p - 1))}
+              className="bg-gray-300 disabled:opacity-50 px-3 py-1 rounded-md"
+            >
+              Előző
+            </button>
+            <span>{userPageSafe} / {userTotalPages}</span>
+            <button
+              type="button"
+              disabled={userPageSafe >= userTotalPages}
+              onClick={() => setUserPage((p) => Math.min(userTotalPages, p + 1))}
+              className="bg-gray-300 disabled:opacity-50 px-3 py-1 rounded-md"
+            >
+              Következő
+            </button>
+          </div>
+        )}
       </div>
 
 
@@ -133,6 +209,19 @@ const Admin = () => {
           </Link>
         </div>
 
+        <div className="w-full flex justify-center mb-4">
+          <input
+            type="text"
+            value={courseSearch}
+            onChange={(e) => {
+              setCourseSearch(e.target.value);
+              setCoursePage(1);
+            }}
+            placeholder="Keresés cím, helyszín vagy témakör alapján..."
+            className="w-full lg:w-3/4 px-4 py-2 border border-gray-300 rounded-md"
+          />
+        </div>
+
         <div className="overflow-x-auto flex items-center justify-center">
           <div className="w-full lg:w-3/4 border border-black rounded-lg">
             {/* Fejléc (csak nagy képernyőkön látszik) */}
@@ -142,7 +231,10 @@ const Admin = () => {
               <div className="w-1/4 text-xl border-r-2 border-r-black font-bold flex items-center p-2">Helyszín</div>
               <div className="w-1/4 text-xl font-bold p-2 text-center">Műveletek</div>
             </div>
-            {courses.map((item) => (
+            {filteredCourses.length === 0 && (
+              <div className="p-4 text-center text-gray-500">Nincs találat.</div>
+            )}
+            {pagedCourses.map((item) => (
               <div key={item.id} className="flex flex-wrap lg:flex-nowrap w-full border-t border-black">
                 {/* Cím */}
                 <div className="w-full lg:w-1/4 border-b lg:border-b-0 lg:border-r-2 border-black flex items-center text-lg p-2 truncate">
@@ -177,6 +269,28 @@ const Admin = () => {
             ))}
           </div>
         </div>
+
+        {courseTotalPages > 1 && (
+          <div className="w-full flex justify-center items-center gap-4 mt-3">
+            <button
+              type="button"
+              disabled={coursePageSafe <= 1}
+              onClick={() => setCoursePage((p) => Math.max(1, p - 1))}
+              className="bg-gray-300 disabled:opacity-50 px-3 py-1 rounded-md"
+            >
+              Előző
+            </button>
+            <span>{coursePageSafe} / {courseTotalPages}</span>
+            <button
+              type="button"
+              disabled={coursePageSafe >= courseTotalPages}
+              onClick={() => setCoursePage((p) => Math.min(courseTotalPages, p + 1))}
+              className="bg-gray-300 disabled:opacity-50 px-3 py-1 rounded-md"
+            >
+              Következő
+            </button>
+          </div>
+        )}
       </div>
 
 

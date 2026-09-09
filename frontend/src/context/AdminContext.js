@@ -15,7 +15,7 @@ export const AdminProvider = ({ children }) => {
   // API base URL from the .env file
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const users = await axios.post(`${API_BASE_URL}/api/admin/users`, {
         userId: userId,
@@ -46,9 +46,9 @@ export const AdminProvider = ({ children }) => {
     } catch (error) {
       console.error("Error fetching admin data:", error);
     }
-  };
+  }, [userId, API_BASE_URL]);
 
-  const fetchUsers = async () => {
+  const fetchUsers = useCallback(async () => {
     try {
       const users = await axios.post(`${API_BASE_URL}/api/admin/users`, {
         userId: userId,
@@ -58,9 +58,9 @@ export const AdminProvider = ({ children }) => {
     } catch (error) {
       console.error("Error fetching admin data:", error);
     }
-  };
+  }, [userId, API_BASE_URL]);
 
-  const fetchCourses = async () => {
+  const fetchCourses = useCallback(async () => {
     try {
       const courses = await axios.post(`${API_BASE_URL}/api/admin/courses`, {
         userId: userId,
@@ -70,7 +70,7 @@ export const AdminProvider = ({ children }) => {
     } catch (error) {
       console.error("Error fetching admin data:", error);
     }
-  };
+  }, [userId, API_BASE_URL]);
 
   const fetchCoursesUser = useCallback(async () => {
     try {

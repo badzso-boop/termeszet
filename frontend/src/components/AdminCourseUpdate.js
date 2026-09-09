@@ -3,12 +3,14 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useAdmin } from "../context/AdminContext";
+import UserPicker from "./UserPicker";
+import LessonManager from "./LessonManager";
 
 const AdminUpdate = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { rang, userId } = useAuth();
-  const { getOneCourse } = useAdmin();
+  const { getOneCourse, users, fetchUsers } = useAdmin();
 
   const [dataLoaded, setDataLoaded] = useState(false);
   const [cim, setCim] = useState("");
@@ -54,6 +56,12 @@ const AdminUpdate = () => {
       navigate("/");
     }
   }, [rang, navigate]);
+
+  useEffect(() => {
+    if (rang === "a") {
+      fetchUsers();
+    }
+  }, [rang, fetchUsers]);
 
   const handleArrayChange = (index, value, setter) => {
     setter((prev) => {
@@ -203,33 +211,13 @@ const AdminUpdate = () => {
                 />
               </div>
               <div>
-                <label className="block font-bold text-xl mb-2">Felhasználók:</label>
-                {felhasznalok.map((value, index) => (
-                  <div key={index} className="flex items-center space-x-2 mb-2">
-                    <input
-                      type="text"
-                      value={value}
-                      onChange={(e) =>
-                        handleArrayChange(index, e.target.value, setFelhasznalok)
-                      }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => handleArrayRemove(index, setFelhasznalok)}
-                      className="bg-red-500 text-white px-2 py-1 rounded-md"
-                    >
-                      Remove
-                    </button>
-                  </div>
-                ))}
-                <button
-                  type="button"
-                  onClick={() => handleArrayAdd(setFelhasznalok)}
-                  className="bg-blue-500 text-white px-4 py-2 rounded-md"
-                >
-                  Add Felhasznalo
-                </button>
+                <UserPicker
+                  users={users}
+                  selectedIds={felhasznalok}
+                  onChange={setFelhasznalok}
+                  label="Felhasználók"
+                  emptyHint="Nincs kiválasztva (üresen mindenki hozzáfér)"
+                />
               </div>
               <div>
                 <label className="block font-bold text-xl mb-2">Megkötések:</label>
@@ -279,6 +267,8 @@ const AdminUpdate = () => {
             {message}
           </p>
         )}
+
+        {dataLoaded && <LessonManager courseId={id} />}
       </div>
     </div>
   );
