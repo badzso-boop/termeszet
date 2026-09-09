@@ -14,6 +14,7 @@ require('../../src/models/courseModel');
 require('../../src/models/courseRegisterModel');
 require('../../src/models/newsletterModel');
 require('../../src/models/homeworkModel');
+require('../../src/models/lessonModel');
 // A modell-asszociációkat (FK constraint-ek, ON DELETE CASCADE) is be kell tölteni, MIELŐTT
 // a sync() lefut -- különben, ha egy korábbi tesztfutásból már léteznek a táblák FK nélkül
 // (a docker teszt-DB volume-ja szándékosan megmarad futtatások között, lásd docs/testing.md),

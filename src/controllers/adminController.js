@@ -2,6 +2,7 @@ const Homework = require("../models/homeworkModel.js");
 const Course = require("../models/courseModel.js");
 const User = require("../models/userModel.js");
 const CourseRegister = require("../models/courseRegisterModel.js");
+const Lesson = require("../models/lessonModel.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -348,6 +349,97 @@ exports.toggleRegisteredCourseAdminPaid = async (req, res) => {
     const data = course.adminPaid
     await course.update({ adminPaid: !data });
     res.json({ message: "Course adminPaid successful." });
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ error: "Something went wrong." });
+  }
+};
+
+// Egy kurzus leckéinek lekérése, sorrend szerint
+exports.getLessons = async (req, res) => {
+  const { courseId } = req.body;
+  try {
+    const lessons = await Lesson.findAll({
+      where: { courseId },
+      order: [["sorrend", "ASC"], ["id", "ASC"]],
+    });
+    res.json(lessons);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Something went wrong." });
+  }
+};
+
+// Lecke létrehozása egy kurzushoz
+exports.createLesson = async (req, res) => {
+  const { courseId, cim, sorrend, szoveg } = req.body;
+  const videoUrl = req.file ? req.file.filename : null;
+
+  try {
+    const course = await Course.findByPk(courseId);
+    if (!course) {
+      return res.status(404).json({ error: "Course not found." });
+    }
+
+    const newLesson = await Lesson.create({
+      courseId,
+      cim,
+      sorrend: sorrend !== undefined ? sorrend : 0,
+      szoveg,
+      video: videoUrl,
+    });
+
+    res.status(201).json({ message: "Lesson creation successful.", lesson: newLesson });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ error: "Something went wrong." });
+  }
+};
+
+// Lecke szerkesztése
+exports.updateLesson = async (req, res) => {
+  const { id, cim, sorrend, szoveg } = req.body;
+  const videoUrl = req.file ? req.file.filename : null;
+
+  try {
+    const lesson = await Lesson.findByPk(id);
+    if (!lesson) {
+      return res.status(404).json({ error: "Lesson not found." });
+    }
+
+    if (cim) lesson.cim = cim;
+    if (sorrend !== undefined) lesson.sorrend = sorrend;
+    if (szoveg !== undefined) lesson.szoveg = szoveg;
+    if (videoUrl) lesson.video = videoUrl;
+
+    await lesson.save();
+    res.json({ message: "Lesson update successful." });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ error: "Something went wrong." });
+  }
+};
+
+// Lecke törlése
+exports.deleteLesson = async (req, res) => {
+  const { id } = req.body;
+  try {
+    const lesson = await Lesson.findByPk(id);
+    if (!lesson) {
+      return res.status(404).json({ error: "Lesson not found." });
+    }
+
+    if (lesson.video) {
+      const videoPath = path.join(__dirname, '../../uploads/', lesson.video);
+      if (fs.existsSync(videoPath)) {
+        fs.unlink(videoPath, (err) => {
+          if (err) console.error(err);
+        });
+      }
+    }
+
+    await lesson.destroy();
+    res.json({ message: "Lesson delete successful." });
   } catch (error) {
     console.error(error);
     res.status(400).json({ error: "Something went wrong." });

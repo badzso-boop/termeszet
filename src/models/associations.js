@@ -16,6 +16,7 @@ const User = require('./userModel');
 const Course = require('./courseModel');
 const CourseRegister = require('./courseRegisterModel');
 const Homework = require('./homeworkModel');
+const Lesson = require('./lessonModel');
 
 // User <-> CourseRegister (courseregister.userId -> users.id)
 User.hasMany(CourseRegister, {
@@ -53,9 +54,22 @@ Homework.belongsTo(User, {
   onUpdate: 'CASCADE',
 });
 
+// Course (minikurzus) <-> Lesson (lessons.courseId -> minikurzus.id)
+Course.hasMany(Lesson, {
+  foreignKey: 'courseId',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
+Lesson.belongsTo(Course, {
+  foreignKey: 'courseId',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
+
 module.exports = {
   User,
   Course,
   CourseRegister,
   Homework,
+  Lesson,
 };
