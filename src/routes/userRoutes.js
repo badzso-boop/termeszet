@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
 const newsletterController = require('../controllers/newsletterController');
+const { verifyTokenFromHeaderOrQuery } = require('../middleware/authMiddleware');
 
 router.post('/newsletter', newsletterController.subscribe);
 
@@ -15,7 +16,7 @@ router.get('/registercourses', userController.getRegisteredCourses);
 
 router.post('/paid', userController.toggleRegisteredCoursePaid);
 
-router.get('/video/:filename', userController.getVideo);
+router.get('/video/:filename', verifyTokenFromHeaderOrQuery, userController.getVideo);
 
 
 module.exports = router;

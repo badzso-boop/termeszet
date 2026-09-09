@@ -3,17 +3,19 @@ const buildTestApp = require('./helpers/testApp');
 const User = require('../src/models/userModel');
 const Course = require('../src/models/courseModel');
 const CourseRegister = require('../src/models/courseRegisterModel');
-const { createAdmin, createUser, createCourse, createCourseRegister } = require('./helpers/factories');
+const { createAdmin, createUser, createCourse, createCourseRegister, generateToken } = require('./helpers/factories');
 
 const app = buildTestApp();
 
 describe('Admin - kurzus-regisztráció kezelés (toggleRegisteredCourse / toggleRegisteredCourseAdminPaid)', () => {
   let admin;
+  let adminToken;
   let user;
   let course;
 
   beforeAll(async () => {
     ({ user: admin } = await createAdmin());
+    adminToken = generateToken(admin);
     ({ user } = await createUser());
     course = await createCourse();
   });
@@ -33,7 +35,8 @@ describe('Admin - kurzus-regisztráció kezelés (toggleRegisteredCourse / toggl
 
     const res = await request(app)
       .post('/api/admin/toggleregistercourse')
-      .send({ userId: admin.id, id: register.id });
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ id: register.id });
 
     expect(res.status).toBe(200);
 
@@ -44,7 +47,8 @@ describe('Admin - kurzus-regisztráció kezelés (toggleRegisteredCourse / toggl
   test('toggleRegisteredCourse: nem létező id esetén 404-et ad', async () => {
     const res = await request(app)
       .post('/api/admin/toggleregistercourse')
-      .send({ userId: admin.id, id: 999999999 });
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ id: 999999999 });
 
     expect(res.status).toBe(404);
   });
@@ -58,7 +62,8 @@ describe('Admin - kurzus-regisztráció kezelés (toggleRegisteredCourse / toggl
 
     const res = await request(app)
       .post('/api/admin/adminpaid')
-      .send({ userId: admin.id, CourseRegisterId: register.id });
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ CourseRegisterId: register.id });
 
     expect(res.status).toBe(200);
 
@@ -69,7 +74,8 @@ describe('Admin - kurzus-regisztráció kezelés (toggleRegisteredCourse / toggl
   test('toggleRegisteredCourseAdminPaid: nem létező id esetén 404-et ad', async () => {
     const res = await request(app)
       .post('/api/admin/adminpaid')
-      .send({ userId: admin.id, CourseRegisterId: 999999999 });
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ CourseRegisterId: 999999999 });
 
     expect(res.status).toBe(404);
   });

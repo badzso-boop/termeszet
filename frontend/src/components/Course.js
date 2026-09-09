@@ -13,7 +13,7 @@ const Course = () => {
     deleteUserRegisteredCourse,
     fetchUsers,
   } = useAdmin();
-  const { userId, rang } = useAuth(); // Assume 'rang' is also available
+  const { userId, rang, token } = useAuth(); // Assume 'rang' is also available
   // const navigate = useNavigate();
   const { id } = useParams();
   const [course, setCourse] = useState(null);
@@ -83,8 +83,11 @@ const Course = () => {
     return null;
   }
 
+  // A <video>/<source> tag nem tud Authorization headert küldeni, ezért a tokent
+  // query paraméterként adjuk át -- ezt a backend (verifyTokenFromHeaderOrQuery,
+  // src/middleware/authMiddleware.js) header helyett/mellett is elfogadja.
   const videoUrl = course.video
-    ? `${API_BASE_URL}/api/video/${course.video}`
+    ? `${API_BASE_URL}/api/video/${course.video}?token=${encodeURIComponent(token || "")}`
     : null;
 
   let arr = [];
@@ -148,6 +151,38 @@ const Course = () => {
                 {course.szoveg}
               </div>
             </div>
+
+            {/* Leckék: a kurzushoz tartozó, sorrendezett video+szöveg blokkok */}
+            {course.lessons && course.lessons.length > 0 && (
+              <div className="w-full flex flex-col items-center mt-6">
+                <h2 className="text-2xl font-bold mb-4">Leckék</h2>
+                <div className="w-full flex flex-col gap-6">
+                  {course.lessons.map((lesson) => {
+                    const lessonVideoUrl = lesson.video
+                      ? `${API_BASE_URL}/api/video/${lesson.video}?token=${encodeURIComponent(token || "")}`
+                      : null;
+                    return (
+                      <div key={lesson.id} className="w-full bg-secondary rounded-lg p-4">
+                        <h3 className="text-xl font-bold mb-2 text-center">{lesson.cim}</h3>
+                        <div className="flex flex-col lg:flex-row">
+                          <div className="w-full lg:w-1/2 flex justify-center">
+                            {lessonVideoUrl && (
+                              <video controls className="m-4 rounded-lg max-w-full h-auto" controlsList="nodownload" onContextMenu={(e) => e.preventDefault()}>
+                                <source src={lessonVideoUrl} type="video/mp4" />
+                                Your browser does not support the video tag.
+                              </video>
+                            )}
+                          </div>
+                          <div className="w-full lg:w-1/2 p-4 flex justify-center items-center overflow-auto">
+                            {lesson.szoveg}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
         ) : (
           <div className="w-full text-center mt-4">

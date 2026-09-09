@@ -1,5 +1,11 @@
 # Biztonsági átvilágítás — `termeszet` backend
 
+**Frissítés (2026-09-09):** a #1 (admin JWT-hitelesítés), #3 (videó path traversal + auth) és
+#9 (JWT payload kulcsnév-eltérés) pontok javítva -- lásd `src/middleware/authMiddleware.js`,
+`src/routes/adminRoutes.js`, `src/routes/userRoutes.js`, `src/controllers/userController.js`
+és a hozzájuk tartozó tesztek (`tests/admin.*.test.js`, `tests/video.test.js`). A többi (#2,
+#4-#8, #10) pont még nyitott, a lenti leírás továbbra is érvényes rájuk.
+
 Dátum: 2026-09-08
 Terjedelem: `src/` (Node.js/Express + MySQL/Sequelize backend), érintőlegesen `sql/` és a fájlfeltöltés/videó kiszolgálás. A frontend nem volt fókuszban.
 

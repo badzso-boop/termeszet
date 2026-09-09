@@ -60,7 +60,7 @@
 - **Description:** Get course details.
 - **Input Parameters:**
   - `id` (required): Course's unique identifier.
-- **Output:** JSON of the course.
+- **Output:** JSON of the course, including a `lessons` array (ordered by `sorrend`).
 
 ##### Get Courses Endpoint
 - **URL:** `/api/courses`
@@ -126,12 +126,19 @@
 ##### Get RegisterCourses Endpoint
 - **URL:** `/api/video/:filename`
 - **Method:** GET
-- **Description:** Get all a specific video.
+- **Description:** Get a specific video. Requires a valid JWT (`Authorization: Bearer <JWT>`
+  header, or `?token=<JWT>` query param — the `<video>` tag can't set custom headers). Admins
+  get any video; other users only get it if they have an `enabled`+`paid`+`adminPaid`
+  `CourseRegister` row for the course (or lesson) that owns the video file.
 - **Input Parameters:** none
-- **Output:** video file.
+- **Output:** video file, or 401/403/404.
 
 
 #### Admin Routes
+
+**Minden admin route `Authorization: Bearer <JWT>` headert igényel** (a `/api/login`
+válaszban kapott token), és a JWT tulajdonosának `rang: "a"`-nak kell lennie. A `userId`
+body-mezőnek itt nincs auth szerepe.
 
 ##### Admin Get Users Endpoint
 - **URL:** `/api/admin/users`
@@ -394,6 +401,40 @@
       "error": "Something went wrong."
     }
     ```
+
+##### Admin Get Lessons Endpoint
+- **URL:** `/api/admin/lessons`
+- **Method:** POST
+- **Description:** Retrieve all lessons of a course, ordered by `sorrend`.
+- **Input Parameters:**
+  - `courseId` (required)
+- **Output:** JSON array of lessons.
+
+##### Admin Create Lesson Endpoint
+- **URL:** `/api/admin/createLesson`
+- **Method:** POST (multipart/form-data)
+- **Description:** Create a new lesson under a course.
+- **Input Parameters:**
+  - `courseId` (required)
+  - `cim` (required): Lesson title.
+  - `sorrend` (optional): Order within the course.
+  - `szoveg` (optional): Text content.
+  - `video` (optional): Video file.
+
+##### Admin Update Lesson Endpoint
+- **URL:** `/api/admin/updateLesson`
+- **Method:** PUT (multipart/form-data)
+- **Description:** Update a lesson.
+- **Input Parameters:**
+  - `id` (required)
+  - `cim`, `sorrend`, `szoveg`, `video` (all optional)
+
+##### Admin Delete Lesson Endpoint
+- **URL:** `/api/admin/deleteLesson`
+- **Method:** DELETE
+- **Description:** Delete a lesson (and its video file, if any).
+- **Input Parameters:**
+  - `id` (required)
 
 ##### Admin Create Minikurzus Endpoint
 - **URL:** `/api/admin/createKurzus`

@@ -5,10 +5,20 @@
 
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const User = require('../../src/models/userModel');
 const Course = require('../../src/models/courseModel');
 const CourseRegister = require('../../src/models/courseRegisterModel');
+const Lesson = require('../../src/models/lessonModel');
+
+// Valódi JWT előállítása egy usernek, ugyanazzal a payload-formával (`{ userId }`), mint
+// amit a login endpoint (src/controllers/userController.js) kiad -- így a
+// verifyToken/verifyAdmin middleware-ek a tesztekben is a valós auth-utat futtatják végig,
+// nem a body.userId-t.
+function generateToken(user) {
+  return jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+}
 
 function uniqueSuffix() {
   return `${Date.now()}_${crypto.randomBytes(4).toString('hex')}`;
@@ -75,6 +85,15 @@ async function createCourseRegister(overrides = {}) {
   });
 }
 
+async function createLesson(overrides = {}) {
+  return Lesson.create({
+    courseId: overrides.courseId,
+    cim: overrides.cim || `Teszt lecke ${uniqueSuffix()}`,
+    sorrend: overrides.sorrend !== undefined ? overrides.sorrend : 0,
+    szoveg: overrides.szoveg || 'Lecke szöveg',
+  });
+}
+
 module.exports = {
   uniqueEmail,
   uniqueUsername,
@@ -82,4 +101,6 @@ module.exports = {
   createAdmin,
   createCourse,
   createCourseRegister,
+  createLesson,
+  generateToken,
 };

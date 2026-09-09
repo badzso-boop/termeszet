@@ -58,9 +58,14 @@ nyitni.
 - `tests/newsletter.test.js` — hírlevél-feliratkozás (érvényes/érvénytelen email,
   duplikáció).
 - `tests/admin.users.test.js`, `tests/admin.courses.test.js`,
-  `tests/admin.registercourse.test.js` — admin CRUD happy-path + 404 esetek, és egy
-  külön teszt, ami dokumentálja, hogy a `verifyAdmin` middleware ma ténylegesen
-  `req.body.userId`-t nézi, nem valódi JWT-t (lásd `docs/security-review.md`).
+  `tests/admin.registercourse.test.js`, `tests/admin.lessons.test.js` — admin CRUD
+  happy-path + 404 esetek, valódi JWT-vel (`Authorization: Bearer ...`) hitelesítve; van
+  külön teszt arra is, hogy Authorization header/érvényes admin JWT nélkül 401/403-at kapunk
+  (lásd `docs/security-review.md` #1 -- ez a hiba időközben javításra került).
+- `tests/video.test.js` — a `GET /api/video/:filename` végpont hitelesítése és
+  jogosultság-ellenőrzése (token nélkül 401, nem jogosult usernek 403, jogosultnak/adminnak
+  200, query-param tokent is elfogad a `<video>` tag miatt, path traversal kísérlet nem lép
+  ki az `uploads/` könyvtárból -- lásd `docs/security-review.md` #3).
 - `tests/cascade-delete.test.js` — ellenőrzi, hogy a `src/models/associations.js`-ben
   definiált FK constraint-ek (`ON DELETE CASCADE`) ténylegesen működnek: user törlésekor a
   hozzá tartozó `CourseRegister` sor, kurzus törlésekor szintén a hozzá tartozó

@@ -4,6 +4,8 @@ const { send } = require('../helpers/emailSender.js');
 const User = require("../models/userModel.js");
 const Course = require("../models/courseModel.js");
 const CourseRegister = require("../models/courseRegisterModel.js");
+const Lesson = require("../models/lessonModel.js");
+const fs = require("fs");
 require('dotenv').config();
 
 const path = require("path");
@@ -181,12 +183,16 @@ exports.getOneCourse = async (req, res) => {
   const { id } = req.body;
 
   try {
-    const course = await Course.findOne({ where: { id: id } });
-    if (course) {
-      res.json(course);
+    const course = await Course.findOne({
+      where: { id: id },
+      include: [{ model: Lesson, order: [["sorrend", "ASC"]] }],
+    });
+    if (!course) {
+      return res.status(404).json({ error: "Not found this course!" });
     }
 
-    res.status(404).json({ error: "Not found this course!" });
+    course.lessons?.sort((a, b) => a.sorrend - b.sorrend);
+    res.json(course);
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Something went wrong." });
@@ -264,7 +270,53 @@ exports.getRegisteredCourses = async (req, res) => {
 };
 
 exports.getVideo = async (req, res) => {
-  console.log(req.params.filename);
-  const filePath = path.join(__dirname, "../../uploads", req.params.filename);
-  res.sendFile(filePath);
+  // path.basename levágja a "../" szekvenciákat -- csak a fájlnevet tartjuk meg, a
+  // req.params.filename ezután nem tud az uploads/ könyvtáron kívülre mutatni.
+  const filename = path.basename(req.params.filename);
+
+  try {
+    const requester = await User.findByPk(req.userId);
+    if (!requester) {
+      return res.status(401).json({ error: "Unauthorized." });
+    }
+
+    if (requester.rang !== "a") {
+      let course = await Course.findOne({ where: { video: filename } });
+
+      if (!course) {
+        const lesson = await Lesson.findOne({ where: { video: filename } });
+        if (lesson) {
+          course = await Course.findByPk(lesson.courseId);
+        }
+      }
+
+      if (!course) {
+        return res.status(404).json({ error: "Not found." });
+      }
+
+      const register = await CourseRegister.findOne({
+        where: {
+          userId: requester.id,
+          courseId: course.id,
+          enabled: true,
+          paid: true,
+          adminPaid: true,
+        },
+      });
+
+      if (!register) {
+        return res.status(403).json({ error: "Access denied." });
+      }
+    }
+
+    const filePath = path.join(__dirname, "../../uploads", filename);
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({ error: "Not found." });
+    }
+
+    res.sendFile(filePath);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error." });
+  }
 };
