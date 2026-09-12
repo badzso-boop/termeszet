@@ -28,16 +28,16 @@ const Navigation = () => {
     <div className="flex">
       {/* Mobil felső sáv: márkázott háttér a hamburger gomb és az oldal neve mögött,
           hogy a gomb ne egy csupasz fehér csíkon "lebegjen" kis képernyőn */}
-      <div className="sm:hidden fixed top-0 left-0 right-0 z-50 h-16 bg-secondary shadow-md flex items-center px-4">
+      <div className="sm:hidden fixed top-0 left-0 right-0 z-50 h-16 bg-secondary shadow-sm flex items-center px-4">
         <button
           onClick={toggleSidebar}
           aria-label={isOpen ? 'Menü bezárása' : 'Menü megnyitása'}
-          className="text-black rounded-full w-10 h-10 flex items-center justify-center"
+          className="text-ink rounded-md w-10 h-10 flex items-center justify-center"
         >
           <FontAwesomeIcon icon={isOpen ? faTimes : faBars} className="text-xl" />
         </button>
-        <div className="flex items-center ml-2 text-black font-semibold truncate">
-          <FontAwesomeIcon icon={faSpa} className="mr-2 shrink-0" />
+        <div className="flex items-center ml-2 text-ink font-display font-semibold tracking-wide truncate">
+          <FontAwesomeIcon icon={faSpa} className="mr-2 shrink-0 text-gold" />
           <span className="truncate">Németh Gabriella</span>
         </div>
       </div>
@@ -51,14 +51,14 @@ const Navigation = () => {
       )}
 
       <div
-        className={`fixed inset-y-0 left-0 z-40 bg-secondary text-black transition-transform duration-300 ease-in-out ${
+        className={`fixed inset-y-0 left-0 z-40 bg-secondary text-ink transition-transform duration-300 ease-in-out ${
           isOpen
             ? 'translate-x-0 w-[260px] sm:w-[300px]'
             : '-translate-x-full sm:translate-x-0 sm:w-16'
         }`}
       >
         <div className={`p-4 hidden sm:flex ${isOpen ? 'justify-start' : 'justify-center'}`}>
-          <button onClick={toggleSidebar} className="text-black text-3xl">
+          <button onClick={toggleSidebar} className="text-ink text-3xl">
             <FontAwesomeIcon icon={isOpen ? faTimes : faBars} />
           </button>
         </div>
@@ -67,7 +67,7 @@ const Navigation = () => {
             <Link
               to="/"
               onClick={closeSidebar}
-              className={`flex justify-start ${isOpen ? 'sm:justify-start' : 'sm:justify-center'} items-center text-black hover:text-gray-300`}
+              className={`flex justify-start ${isOpen ? 'sm:justify-start' : 'sm:justify-center'} items-center text-ink hover:text-ink/60`}
             >
               <FontAwesomeIcon icon={faHome} className={`text-3xl ${isOpen ? 'mr-2' : 'sm:mr-0 mr-2'}`} />
               <span className={isOpen ? '' : 'sm:hidden'}>Főoldal</span>
@@ -77,7 +77,7 @@ const Navigation = () => {
             <Link
               to="/courses"
               onClick={closeSidebar}
-              className={`flex justify-start ${isOpen ? 'sm:justify-start' : 'sm:justify-center'} items-center text-black hover:text-gray-300`}
+              className={`flex justify-start ${isOpen ? 'sm:justify-start' : 'sm:justify-center'} items-center text-ink hover:text-ink/60`}
             >
               <FontAwesomeIcon icon={faTasks} className={`text-3xl ${isOpen ? 'mr-2' : 'sm:mr-0 mr-2'}`} />
               <span className={isOpen ? '' : 'sm:hidden'}>Kurzusok</span>
@@ -89,7 +89,7 @@ const Navigation = () => {
                 <Link
                   to="/login"
                   onClick={closeSidebar}
-                  className={`flex items-center justify-start ${isOpen ? 'sm:justify-start' : 'sm:justify-center'} text-black hover:text-gray-300`}
+                  className={`flex items-center justify-start ${isOpen ? 'sm:justify-start' : 'sm:justify-center'} text-ink hover:text-ink/60`}
                 >
                   <FontAwesomeIcon icon={faSignInAlt} className={`text-3xl ${isOpen ? 'mr-2' : 'sm:mr-0 mr-2'}`} />
                   <span className={isOpen ? '' : 'sm:hidden'}>Bejelentkezés</span>
@@ -99,7 +99,7 @@ const Navigation = () => {
                 <Link
                   to="/register"
                   onClick={closeSidebar}
-                  className={`flex items-center justify-start ${isOpen ? 'sm:justify-start' : 'sm:justify-center'} text-black hover:text-gray-300`}
+                  className={`flex items-center justify-start ${isOpen ? 'sm:justify-start' : 'sm:justify-center'} text-ink hover:text-ink/60`}
                 >
                   <FontAwesomeIcon icon={faUserPlus} className={`text-3xl ${isOpen ? 'mr-2' : 'sm:mr-0 mr-2'}`} />
                   <span className={isOpen ? '' : 'sm:hidden'}>Regisztráció</span>
@@ -112,7 +112,7 @@ const Navigation = () => {
               <Link
                 to="/admin"
                 onClick={closeSidebar}
-                className={`flex items-center justify-start ${isOpen ? 'sm:justify-start' : 'sm:justify-center'} text-black hover:text-gray-300`}
+                className={`flex items-center justify-start ${isOpen ? 'sm:justify-start' : 'sm:justify-center'} text-ink hover:text-ink/60`}
               >
                 <FontAwesomeIcon icon={faUserShield} className={`text-3xl ${isOpen ? 'mr-2' : 'sm:mr-0 mr-2'}`} />
                 <span className={isOpen ? '' : 'sm:hidden'}>Admin</span>
@@ -125,7 +125,7 @@ const Navigation = () => {
               <Link
                 to={`/user/${userId}`}
                 onClick={closeSidebar}
-                className={`flex items-center justify-start ${isOpen ? 'sm:justify-start' : 'sm:justify-center'} text-black hover:text-gray-300`}
+                className={`flex items-center justify-start ${isOpen ? 'sm:justify-start' : 'sm:justify-center'} text-ink hover:text-ink/60`}
               >
                 <FontAwesomeIcon icon={faUser} className={`text-3xl ${isOpen ? 'mr-2' : 'sm:mr-0 mr-2'}`} />
                 <span className={isOpen ? '' : 'sm:hidden'}>Profil</span>
@@ -134,7 +134,7 @@ const Navigation = () => {
             <li className="mb-4">
               <button
                 onClick={handleLogout}
-                className={`flex items-center justify-start ${isOpen ? 'sm:justify-start' : 'sm:justify-center'} text-black hover:text-gray-300 w-full`}
+                className={`flex items-center justify-start ${isOpen ? 'sm:justify-start' : 'sm:justify-center'} text-ink hover:text-ink/60 w-full`}
               >
                 <FontAwesomeIcon icon={faSignOutAlt} className={`text-3xl ${isOpen ? 'mr-2' : 'sm:mr-0 mr-2'}`} />
                 <span className={isOpen ? '' : 'sm:hidden'}>Kijelentkezés</span>

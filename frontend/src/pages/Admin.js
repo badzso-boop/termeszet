@@ -97,19 +97,14 @@ const Admin = () => {
 
 
       <div className="w-full my-4 px-2 sm:px-4 lg:px-6">
-        <h1 className="text-center text-2xl font-bold mb-4">Felhasználók</h1>
+        <h1 className="text-center font-display text-2xl font-semibold mb-6">Felhasználók</h1>
 
 
         <div className="w-full flex justify-center">
-          <button className="rounded-lg bg-red-500 p-2 mb-4">
-            <Link
-              to="/register"
-              className="flex items-center text-white hover:text-gray-300"
-            >
-              <FontAwesomeIcon icon={faUserPlus} className="text-2xl mr-2" />
-              <span>Új felhasználó</span>
-            </Link>
-          </button>
+          <Link to="/register" className="btn-brand mb-4">
+            <FontAwesomeIcon icon={faUserPlus} className="text-xl mr-2" />
+            <span>Új felhasználó</span>
+          </Link>
         </div>
 
         <div className="w-full flex justify-center mb-4">
@@ -121,36 +116,36 @@ const Admin = () => {
               setUserPage(1);
             }}
             placeholder="Keresés név, felhasználónév vagy email alapján..."
-            className="w-full lg:w-3/4 px-4 py-2 border border-gray-300 rounded-md"
+            className="w-full lg:w-3/4 px-4 py-2 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
           />
         </div>
 
         <div className="overflow-x-auto flex items-center justify-center">
-          <div className="w-full lg:w-3/4 border border-black rounded-lg">
+          <div className="w-full lg:w-3/4 border border-secondary/30 rounded-lg">
             {/* Fejléc (csak nagy képernyőkön látszik) */}
-            <div className="hidden lg:flex w-full border-b-2 border-b-black">
-              <div className="w-1/3 text-xl border-r-2 border-r-black font-bold flex items-center p-2">Teljes név</div>
-              <div className="w-1/3 text-xl border-r-2 border-r-black font-bold flex items-center p-2">Email</div>
+            <div className="hidden lg:flex w-full border-b-2 border-b-secondary/30">
+              <div className="w-1/3 text-xl border-r-2 border-r-secondary/30 font-bold flex items-center p-2">Teljes név</div>
+              <div className="w-1/3 text-xl border-r-2 border-r-secondary/30 font-bold flex items-center p-2">Email</div>
               <div className="w-1/3 text-xl font-bold p-2 text-center">Műveletek</div>
             </div>
             {filteredUsers.length === 0 && (
               <div className="p-4 text-center text-gray-500">Nincs találat.</div>
             )}
             {pagedUsers.map((item) => (
-              <div key={item.id} className="flex flex-wrap lg:flex-nowrap w-full border-t border-black">
+              <div key={item.id} className="flex flex-wrap lg:flex-nowrap w-full border-t border-secondary/30">
                 {/* Teljes név */}
-                <div className="w-full lg:w-1/3 border-b lg:border-b-0 lg:border-r-2 border-black flex items-center text-lg p-1 truncate">
+                <div className="w-full lg:w-1/3 border-b lg:border-b-0 lg:border-r-2 border-secondary/30 flex items-center text-lg p-1 truncate">
                   <span className="lg:hidden font-bold mr-2">Teljes név: </span> {item.fullName}
                 </div>
                 {/* Email */}
-                <div className="w-full lg:w-1/3 border-b lg:border-b-0 lg:border-r-2 border-black flex items-center text-lg p-1 truncate">
+                <div className="w-full lg:w-1/3 border-b lg:border-b-0 lg:border-r-2 border-secondary/30 flex items-center text-lg p-1 truncate">
                   <span className="lg:hidden font-bold mr-2">Email: </span>{item.email}
                 </div>
                 {/* Műveletek */}
-                <div className="w-full lg:w-1/3 p-2 flex justify-between items-center border-b-2 lg:border-b-0 border-black">
+                <div className="w-full lg:w-1/3 p-2 flex justify-between items-center border-b-2 lg:border-b-0 border-secondary/30">
                   <Link
                     to={`/adminupdateuser/${item.id}`}
-                    className="flex items-center hover:text-gray-300"
+                    className="flex items-center hover:text-ink/60"
                   >
                     <FontAwesomeIcon icon={faPenToSquare} className="text-lg mr-2" />
                     <span>Felhasználó szerkesztése</span>
@@ -174,7 +169,7 @@ const Admin = () => {
               type="button"
               disabled={userPageSafe <= 1}
               onClick={() => setUserPage((p) => Math.max(1, p - 1))}
-              className="bg-gray-300 disabled:opacity-50 px-3 py-1 rounded-md"
+              className="bg-primary text-ink disabled:opacity-40 px-3 py-1 rounded-md border border-secondary/30"
             >
               Előző
             </button>
@@ -183,7 +178,7 @@ const Admin = () => {
               type="button"
               disabled={userPageSafe >= userTotalPages}
               onClick={() => setUserPage((p) => Math.min(userTotalPages, p + 1))}
-              className="bg-gray-300 disabled:opacity-50 px-3 py-1 rounded-md"
+              className="bg-primary text-ink disabled:opacity-40 px-3 py-1 rounded-md border border-secondary/30"
             >
               Következő
             </button>
@@ -197,14 +192,11 @@ const Admin = () => {
 
 
       <div className="w-full my-4 px-2 sm:px-4 lg:px-6">
-        <h1 className="text-center text-2xl font-bold mb-4">Kurzusok</h1>
+        <h1 className="text-center font-display text-2xl font-semibold mb-6">Kurzusok</h1>
 
         <div className="w-full flex justify-center">
-          <Link
-            to="/admincreate/course"
-            className="rounded-lg bg-red-500 p-2 mb-4 text-white flex items-center hover:text-gray-300"
-          >
-            <FontAwesomeIcon icon={faSquarePlus} className="text-2xl mr-2" />
+          <Link to="/admincreate/course" className="btn-brand mb-4">
+            <FontAwesomeIcon icon={faSquarePlus} className="text-xl mr-2" />
             <span>Új kurzus</span>
           </Link>
         </div>
@@ -218,41 +210,41 @@ const Admin = () => {
               setCoursePage(1);
             }}
             placeholder="Keresés cím, helyszín vagy témakör alapján..."
-            className="w-full lg:w-3/4 px-4 py-2 border border-gray-300 rounded-md"
+            className="w-full lg:w-3/4 px-4 py-2 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
           />
         </div>
 
         <div className="overflow-x-auto flex items-center justify-center">
-          <div className="w-full lg:w-3/4 border border-black rounded-lg">
+          <div className="w-full lg:w-3/4 border border-secondary/30 rounded-lg">
             {/* Fejléc (csak nagy képernyőkön látszik) */}
-            <div className="hidden lg:flex w-full border-b-2 border-b-black">
-              <div className="w-1/4 text-xl border-r-2 border-r-black font-bold flex items-center p-2">Cím</div>
-              <div className="w-1/4 text-xl border-r-2 border-r-black font-bold flex items-center p-2">Időpont</div>
-              <div className="w-1/4 text-xl border-r-2 border-r-black font-bold flex items-center p-2">Helyszín</div>
+            <div className="hidden lg:flex w-full border-b-2 border-b-secondary/30">
+              <div className="w-1/4 text-xl border-r-2 border-r-secondary/30 font-bold flex items-center p-2">Cím</div>
+              <div className="w-1/4 text-xl border-r-2 border-r-secondary/30 font-bold flex items-center p-2">Időpont</div>
+              <div className="w-1/4 text-xl border-r-2 border-r-secondary/30 font-bold flex items-center p-2">Helyszín</div>
               <div className="w-1/4 text-xl font-bold p-2 text-center">Műveletek</div>
             </div>
             {filteredCourses.length === 0 && (
               <div className="p-4 text-center text-gray-500">Nincs találat.</div>
             )}
             {pagedCourses.map((item) => (
-              <div key={item.id} className="flex flex-wrap lg:flex-nowrap w-full border-t border-black">
+              <div key={item.id} className="flex flex-wrap lg:flex-nowrap w-full border-t border-secondary/30">
                 {/* Cím */}
-                <div className="w-full lg:w-1/4 border-b lg:border-b-0 lg:border-r-2 border-black flex items-center text-lg p-2 truncate">
+                <div className="w-full lg:w-1/4 border-b lg:border-b-0 lg:border-r-2 border-secondary/30 flex items-center text-lg p-2 truncate">
                   <span className="lg:hidden font-bold mr-2">Cím: </span>{item.cim}
                 </div>
                 {/* Ár */}
-                <div className="w-full lg:w-1/4 border-b lg:border-b-0 lg:border-r-2 border-black flex items-center text-lg p-2 truncate">
+                <div className="w-full lg:w-1/4 border-b lg:border-b-0 lg:border-r-2 border-secondary/30 flex items-center text-lg p-2 truncate">
                   <span className="lg:hidden font-bold mr-2">Időpont: </span>{item.idopont}
                 </div>
                 {/* Helyszín */}
-                <div className="w-full lg:w-1/4 border-b lg:border-b-0 lg:border-r-2 border-black flex items-center text-lg p-2 truncate">
+                <div className="w-full lg:w-1/4 border-b lg:border-b-0 lg:border-r-2 border-secondary/30 flex items-center text-lg p-2 truncate">
                   <span className="lg:hidden font-bold mr-2">Helyszín: </span>{item.helyszin}
                 </div>
                 {/* Műveletek */}
-                <div className="w-full lg:w-1/4 p-2 flex justify-between items-center border-b-2 lg:border-b-0 border-black">
+                <div className="w-full lg:w-1/4 p-2 flex justify-between items-center border-b-2 lg:border-b-0 border-secondary/30">
                   <Link
                     to={`/adminupdatecourse/${item.id}`}
-                    className="flex items-center hover:text-gray-300"
+                    className="flex items-center hover:text-ink/60"
                   >
                     <FontAwesomeIcon icon={faPenToSquare} className="text-lg mr-2" />
                     <span>Kurzus szerkesztése</span>
@@ -276,7 +268,7 @@ const Admin = () => {
               type="button"
               disabled={coursePageSafe <= 1}
               onClick={() => setCoursePage((p) => Math.max(1, p - 1))}
-              className="bg-gray-300 disabled:opacity-50 px-3 py-1 rounded-md"
+              className="bg-primary text-ink disabled:opacity-40 px-3 py-1 rounded-md border border-secondary/30"
             >
               Előző
             </button>
@@ -285,7 +277,7 @@ const Admin = () => {
               type="button"
               disabled={coursePageSafe >= courseTotalPages}
               onClick={() => setCoursePage((p) => Math.min(courseTotalPages, p + 1))}
-              className="bg-gray-300 disabled:opacity-50 px-3 py-1 rounded-md"
+              className="bg-primary text-ink disabled:opacity-40 px-3 py-1 rounded-md border border-secondary/30"
             >
               Következő
             </button>
@@ -298,10 +290,10 @@ const Admin = () => {
 
 
       <div className="w-full my-4 px-2 sm:px-4 lg:px-6">
-        <h1 className="text-center text-2xl font-bold mb-4">Kurzusra várók</h1>
+        <h1 className="text-center font-display text-2xl font-semibold mb-6">Kurzusra várók</h1>
 
         <div className="overflow-x-auto flex items-center justify-center">
-          <div className="w-full max-w-5xl border-r border-l border-b border-black rounded-lg">
+          <div className="w-full max-w-5xl border-r border-l border-b border-secondary/30 rounded-lg">
             {registerCourses &&
               registerCourses.map((item, index) => {
                 const user = users.find((user) => user.id === item.userId);
@@ -317,10 +309,10 @@ const Admin = () => {
                 return (
                   <div
                     key={index}
-                    className="flex flex-wrap lg:flex-nowrap w-full border-t border-black rounded-lg"
+                    className="flex flex-wrap lg:flex-nowrap w-full border-t border-secondary/30 rounded-lg"
                   >
                     {/* Felhasználó információ */}
-                    <div className="w-full lg:w-1/3 border-b lg:border-b-0 lg:border-r-2 border-black flex items-center p-2">
+                    <div className="w-full lg:w-1/3 border-b lg:border-b-0 lg:border-r-2 border-secondary/30 flex items-center p-2">
                       {user ? (
                         <>
                           <div className="truncate flex flex-col">
@@ -342,7 +334,7 @@ const Admin = () => {
                     </div>
 
                     {/* Kurzus információ és műveletek */}
-                    <div className="w-full lg:w-2/3 p-2 flex flex-col lg:flex-row justify-between items-center border-black border-b-2 lg:border-b-0">
+                    <div className="w-full lg:w-2/3 p-2 flex flex-col lg:flex-row justify-between items-center border-secondary/30 border-b-2 lg:border-b-0">
                       {course ? (
                         <>
                           <div className="flex flex-col lg:flex-grow lg:mr-4 truncate">
@@ -362,7 +354,7 @@ const Admin = () => {
                           <div className={`p-2 mx-1 text-center rounded-lg mt-2 lg:mt-0 ${item.paid ? "bg-green-300 text-black" : "bg-red-300 text-black"}`}>
                             {item.paid ? "Fizetve" : "Nem fizetett még"}
                           </div>
-                          <div className="border h-[120%] bg-black w-[1px] border-black mx-1">
+                          <div className="border h-[120%] bg-secondary/30 w-[1px] border-secondary/30 mx-1">
                             
                           </div>
                           <div className="flex lg:flex-row lg:space-x-2 mt-2 lg:mt-0">
@@ -423,7 +415,7 @@ const Admin = () => {
         <p>hazifeladatok</p>
         <Link
           to="/admincreate/homework"
-          className={`flex bg-red-900 items-center text-white hover:text-gray-300`}
+          className={`flex bg-red-900 items-center text-white hover:text-ink/60`}
         >
           <FontAwesomeIcon icon={faUserPlus} className={`text-3xl mr-2`} />
           <span>Új házi</span>

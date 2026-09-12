@@ -70,18 +70,17 @@ const Courses = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <div className="w-full flex-1 border bg-primary">
-        <p className="text-center uppercase text-3xl font-bold mt-3">
-          kurzusok
-        </p>
-        <div className="flex flex-wrap border w-full justify-center">
+      <div className="w-full flex-1 bg-primary/60 py-16 px-4">
+        <h1 className="section-heading">Kurzusok</h1>
+        <div className="divider-gold mt-4 mb-12" />
+        <div className="flex flex-wrap w-full justify-center gap-6">
           {dataLoaded && courses.length === 0 && (
-            <div className="flex flex-col items-center text-center w-full sm:w-2/3 lg:w-1/2 my-10 mx-4 p-8 rounded-xl bg-secondary">
-              <FontAwesomeIcon icon={faSpa} className="text-5xl mb-4" />
-              <p className="text-xl font-semibold mb-2">
+            <div className="flex flex-col items-center text-center w-full sm:w-2/3 lg:w-1/2 my-10 mx-4 p-8 rounded-md border border-secondary/20 bg-white">
+              <FontAwesomeIcon icon={faSpa} className="text-4xl mb-4 text-gold" />
+              <p className="font-display text-xl font-semibold mb-2">
                 Jelenleg nincsenek elérhető kurzusok
               </p>
-              <p className="text-base">
+              <p className="text-base text-gray-700">
                 Hamarosan új kurzusokkal jelentkezünk – nézz vissza később, vagy iratkozz fel a hírlevélre a főoldalon, hogy elsőként értesülj róluk!
               </p>
             </div>
@@ -89,61 +88,58 @@ const Courses = () => {
           {courses.map((item) => (
             <div
               key={item.id}
-              className="flex flex-col border w-full lg:w-1/5 md:w-1/4 my-3 items-center min-h-[350px] m-4 rounded-xl p-3 bg-secondary"
+              className="flex flex-col w-full lg:w-[22%] md:w-[30%] items-center min-h-[350px] rounded-md border border-secondary/30 p-4 bg-secondary/90 shadow-sm"
             >
-              <div className="w-3/4 text-center">
-                <p
-                  className="text-lg uppercase font-bold"
-                  
-                >
+              <div className="w-full text-center">
+                <p className="font-display text-lg tracking-wide uppercase font-semibold">
                   {item.cim}
                 </p>
-                <div className="text-base">
-                  {item.temakor !== "" ? item.temakor : "\u00A0"}
+                <div className="text-sm text-ink/70">
+                  {item.temakor !== "" ? item.temakor : " "}
                 </div>
               </div>
-              <div className="w-full flex flex-col md:flex-row text-xl border-b-4 border-b-primary m-2">
-                <div className="w-full md:w-1/2 text-base text-left">
+              <div className="w-full flex flex-col md:flex-row text-base border-b border-b-gold/40 my-3 pb-2">
+                <div className="w-full md:w-1/2 text-sm text-left">
                   {item.helyszin}
                 </div>
-                <div className="w-full md:w-1/2 text-base text-right">
+                <div className="w-full md:w-1/2 text-sm text-right">
                   {item.idopont}
                 </div>
               </div>
-              <div className="m-3 min-h-[250px]">{item.leiras}</div>
-              <div className="flex w-full flex-col justify-center items-center p-1 mt-auto">
-                <div className="m-1 w-full bg-red-600 rounded-full text-center text-base p-1 bg-primary">
+              <div className="mb-3 min-h-[200px] text-sm text-center">{item.leiras}</div>
+              <div className="flex w-full flex-col gap-2 justify-center items-center mt-auto">
+                <div className="w-full rounded-md text-center text-sm py-2 bg-ivory font-medium">
                   {item.ar} Ft
                 </div>
 
                 {rang === "a" ? (
                   <Link
                     to={`/course/${item.id}`}
-                    className="m-1 w-full bg-red-600 rounded-full text-center text-base p-1 bg-primary cursor-pointer"
+                    className="w-full btn-brand py-2 text-sm cursor-pointer"
                   >
                     Megtekintem
                   </Link>
                 ) : userId === null ? (
                   <Link
                     to="/register"
-                    className="m-1 w-full bg-red-600 rounded-full text-center text-base p-1 bg-primary"
+                    className="w-full btn-brand py-2 text-sm"
                   >
                     Felhasználó létrehozása!
                   </Link>
                 ) : localRegisterCourses && searchEnabledUser(userId, item.id) ? (
                   <Link
                     to={`/course/${item.id}`}
-                    className="m-1 w-full bg-red-600 rounded-full text-center text-base p-1 bg-primary cursor-pointer"
+                    className="w-full btn-brand py-2 text-sm cursor-pointer"
                   >
                     Megtekintem
                   </Link>
                 ) : localRegisterCourses && searchNotEnabledUser(userId, item.id) ? (
-                  <div className="m-1 w-full bg-red-600 rounded-full text-center text-base p-1 bg-primary">
+                  <div className="w-full rounded-md text-center text-sm py-2 bg-ivory">
                     Már regisztráltál!
                   </div>
                 ) : (
                   <div
-                    className="m-1 w-full bg-red-600 rounded-full text-center text-base p-1 bg-primary cursor-pointer"
+                    className="w-full btn-brand py-2 text-sm cursor-pointer"
                     onClick={() => handleRegistration(item.id)}
                   >
                     Regisztrálok!

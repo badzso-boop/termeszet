@@ -141,36 +141,36 @@ const AdminUpdate = (type) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-      <div className="bg-secondary p-8 rounded-lg shadow-lg w-full max-w-4xl">
-        <h1 className="text-2xl font-bold mb-6 text-center text-white">Update User</h1>
+    <div className="min-h-screen bg-primary/60 flex items-center justify-center p-4">
+      <div className="bg-secondary p-8 rounded-md border border-secondary/30 w-full max-w-4xl">
+        <h1 className="font-display text-2xl font-semibold mb-6 text-center text-ink">Update User</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block font-bold text-xl mb-2 text-white">Email:</label>
+            <label className="block font-medium text-base mb-2 text-ink">Email:</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-md"
+              className="w-full px-4 py-2 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
             />
           </div>
           <div>
-            <label className="block font-bold text-xl mb-2 text-white">Username:</label>
+            <label className="block font-medium text-base mb-2 text-ink">Username:</label>
             <input
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md"
+              className="w-full px-4 py-2 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
             />
           </div>
           <div>
-            <label className="block font-bold text-xl mb-2 text-white">Full Name:</label>
+            <label className="block font-medium text-base mb-2 text-ink">Full Name:</label>
             <input
               type="text"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md"
+              className="w-full px-4 py-2 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
             />
           </div>
           {[
@@ -181,7 +181,7 @@ const AdminUpdate = (type) => {
             { label: "Mutetek", state: mutetek, setter: setMutetek },
           ].map(({ label, state, setter }, i) => (
             <div key={i} className="space-y-2">
-              <label className="block font-bold text-xl mb-2 text-white">{label}:</label>
+              <label className="block font-medium text-base mb-2 text-ink">{label}:</label>
               {state.map(([key, value], index) => (
                 <div key={index} className="flex space-x-2 items-center mb-2">
                   <input
@@ -191,7 +191,7 @@ const AdminUpdate = (type) => {
                     onChange={(e) =>
                       handleJsonChange(index, e.target.value, value, setter)
                     }
-                    className="w-1/2 px-4 py-2 border border-gray-300 rounded-md"
+                    className="w-1/2 px-4 py-2 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
                   />
                   <input
                     type="text"
@@ -200,7 +200,7 @@ const AdminUpdate = (type) => {
                     onChange={(e) =>
                       handleJsonChange(index, key, e.target.value, setter)
                     }
-                    className="w-1/2 px-4 py-2 border border-gray-300 rounded-md"
+                    className="w-1/2 px-4 py-2 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
                   />
                   <button
                     type="button"
@@ -214,14 +214,14 @@ const AdminUpdate = (type) => {
               <button
                 type="button"
                 onClick={() => handleJsonAdd(setter)}
-                className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+                className="btn-brand"
               >
                 Add {label}
               </button>
             </div>
           ))}
           <div className="flex items-center space-x-2">
-            <label className="font-bold text-xl text-white">Amalgan Filling:</label>
+            <label className="font-medium text-base text-ink">Amalgan Filling:</label>
             <input
               type="checkbox"
               checked={amalganFilling}
@@ -230,41 +230,41 @@ const AdminUpdate = (type) => {
             />
           </div>
           <div>
-            <label className="block font-bold text-xl mb-2 text-white">Born Date:</label>
+            <label className="block font-medium text-base mb-2 text-ink">Born Date:</label>
             <input
               type="date"
               value={bornDate}
               onChange={(e) => setBornDate(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md"
+              className="w-full px-4 py-2 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
             />
           </div>
           <div>
-            <label className="block font-bold text-xl mb-2 text-white">Description:</label>
+            <label className="block font-medium text-base mb-2 text-ink">Description:</label>
             <input
               type="text"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md"
+              className="w-full px-4 py-2 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
             />
           </div>
           <div>
-            <label className="block font-bold text-xl mb-2 text-white">Goal:</label>
+            <label className="block font-medium text-base mb-2 text-ink">Goal:</label>
             <input
               type="text"
               value={goal}
               onChange={(e) => setGoal(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md"
+              className="w-full px-4 py-2 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
             />
           </div>
           <button
             type="submit"
-            className="bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-600"
+            className="btn-brand"
           >
             Update
           </button>
         </form>
         {message && (
-          <p className="bg-green-500 text-white rounded-lg p-4 mt-4 text-center">
+          <p className="bg-ink text-ivory rounded-md p-4 mt-4 text-center">
             {message}
           </p>
         )}

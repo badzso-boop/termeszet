@@ -29,41 +29,39 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-      <div className="bg-secondary p-8 rounded-lg shadow-lg w-full max-w-lg">
-        <h1 className="text-2xl font-bold mb-6 text-center">Bejelentkezés</h1>
+    <div className="min-h-screen bg-primary/60 flex items-center justify-center p-4">
+      <div className="bg-secondary p-8 rounded-md border border-secondary/30 shadow-sm w-full max-w-lg">
+        <h1 className="font-display text-2xl font-semibold mb-2 text-center">Bejelentkezés</h1>
+        <div className="divider-gold mb-6" />
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block font-bold text-xl mb-2">Email cím:</label>
+            <label className="block font-medium mb-2">Email cím:</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-md"
+              className="w-full px-4 py-2 border border-ink/20 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
             />
           </div>
-          <div className="mb-4">
-            <label className="block font-bold text-xl mb-2">Jelszó:</label>
+          <div className="mb-6">
+            <label className="block font-medium mb-2">Jelszó:</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-md"
+              className="w-full px-4 py-2 border border-ink/20 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
             />
           </div>
           <div className="flex justify-center">
-            <button
-              type="submit"
-              className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600"
-            >
+            <button type="submit" className="btn-brand w-full">
               Bejelentkezés
             </button>
           </div>
         </form>
         {message && (
-          <p className="bg-green-500 text-white rounded-lg p-4 mt-4 text-center">
+          <p className="bg-ink text-ivory rounded-md p-4 mt-4 text-center">
             {message}
           </p>
         )}

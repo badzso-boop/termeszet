@@ -4,11 +4,11 @@ import Footer from "../components/Footer";
 const ASZF = () => {
   return (
     <>
-      <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg my-4">
-        <h1 className="text-2xl font-bold mb-4">Általános Szerződési Feltételek (ÁSZF)</h1>
+      <div className="max-w-4xl mx-auto p-8 bg-white border border-secondary/20 rounded-md my-16">
+        <h1 className="font-display text-2xl font-semibold mb-6">Általános Szerződési Feltételek (ÁSZF)</h1>
 
         <section className="mb-6">
-          <h2 className="text-xl font-semibold mb-2">1. Bevezetés</h2>
+          <h2 className="font-display text-xl font-semibold mb-2 text-ink">1. Bevezetés</h2>
           <p className="text-gray-700">
             Az Általános Szerződési Feltételek (a továbbiakban: ÁSZF) szabályozzák a [Weboldal neve] (a továbbiakban: Szolgáltató) által nyújtott online szolgáltatások használatának feltételeit. A weboldalon elérhető szolgáltatások igénybevétele az alábbi feltételek elfogadásával történik.
           </p>
@@ -25,7 +25,7 @@ const ASZF = () => {
         </section>
 
         <section className="mb-6">
-          <h2 className="text-xl font-semibold mb-2">2. Felhasználási feltételek</h2>
+          <h2 className="font-display text-xl font-semibold mb-2 text-ink">2. Felhasználási feltételek</h2>
           <p className="text-gray-700">
             A weboldal használata és a szolgáltatások igénybevétele kizárólag a jelen ÁSZF-ben meghatározott feltételek szerint történhet. A weboldal használata során a felhasználó köteles betartani a vonatkozó jogszabályokat és nem sértheti más felhasználók jogait.
           </p>
@@ -37,7 +37,7 @@ const ASZF = () => {
         </section>
 
         <section className="mb-6">
-          <h2 className="text-xl font-semibold mb-2">3. Regisztráció és fiók létrehozása</h2>
+          <h2 className="font-display text-xl font-semibold mb-2 text-ink">3. Regisztráció és fiók létrehozása</h2>
           <p className="text-gray-700">
             A szolgáltatások igénybevételéhez a felhasználónak regisztrálnia kell a weboldalon. A regisztráció során a felhasználó köteles valós és pontos adatokat megadni. A fiók létrehozása után a felhasználó felelős a fiókja biztonságáért és a belépési adatai titokban tartásáért.
           </p>
@@ -49,7 +49,7 @@ const ASZF = () => {
         </section>
 
         <section className="mb-6">
-          <h2 className="text-xl font-semibold mb-2">4. Szolgáltatások leírása</h2>
+          <h2 className="font-display text-xl font-semibold mb-2 text-ink">4. Szolgáltatások leírása</h2>
           <p className="text-gray-700">
             A weboldal különböző típusú kurzusokat és előfizetési lehetőségeket kínál a felhasználók számára. Az elérhető kurzusok, azok időtartama, tartalma, valamint a hozzáférés módja és díjazása az egyes kurzusok részletei között találhatók meg.
           </p>
@@ -61,7 +61,7 @@ const ASZF = () => {
         </section>
 
         <section className="mb-6">
-          <h2 className="text-xl font-semibold mb-2">5. Előfizetési feltételek</h2>
+          <h2 className="font-display text-xl font-semibold mb-2 text-ink">5. Előfizetési feltételek</h2>
           <p className="text-gray-700">
             Az előfizetés lehetővé teszi a felhasználók számára a weboldalon elérhető kurzusokhoz való hozzáférést meghatározott időszakra. Az előfizetési díjak és feltételek az oldalon külön feltüntetésre kerülnek.
           </p>
@@ -73,7 +73,7 @@ const ASZF = () => {
         </section>
 
         <section className="mb-6">
-          <h2 className="text-xl font-semibold mb-2">6. Visszatérítési politika</h2>
+          <h2 className="font-display text-xl font-semibold mb-2 text-ink">6. Visszatérítési politika</h2>
           <p className="text-gray-700">
             A visszatérítési feltételek részletezik, hogy a felhasználók milyen esetekben igényelhetnek visszatérítést a kurzusok vagy az előfizetési díjak után.
           </p>
@@ -85,7 +85,7 @@ const ASZF = () => {
         </section>
 
         <section className="mb-6">
-          <h2 className="text-xl font-semibold mb-2">7. Szerzői jogok és szellemi tulajdon</h2>
+          <h2 className="font-display text-xl font-semibold mb-2 text-ink">7. Szerzői jogok és szellemi tulajdon</h2>
           <p className="text-gray-700">
             Az oldalon elérhető összes tartalom, beleértve a kurzusokat, cikkeket, képeket, videókat és egyéb anyagokat, a Szolgáltató vagy a tartalom készítőjének tulajdonát képezi.
           </p>
@@ -96,7 +96,7 @@ const ASZF = () => {
         </section>
 
         <section className="mb-6">
-          <h2 className="text-xl font-semibold mb-2">8. Felelősség korlátozása</h2>
+          <h2 className="font-display text-xl font-semibold mb-2 text-ink">8. Felelősség korlátozása</h2>
           <p className="text-gray-700">
             A Szolgáltató mindent megtesz annak érdekében, hogy a weboldalon elérhető tartalmak és szolgáltatások hibamentesen működjenek, azonban a következő felelősségkorlátozásokat érvényesíti:
           </p>
@@ -109,7 +109,7 @@ const ASZF = () => {
         </section>
 
         <section className="mb-6">
-          <h2 className="text-xl font-semibold mb-2">9. Adatvédelem</h2>
+          <h2 className="font-display text-xl font-semibold mb-2 text-ink">9. Adatvédelem</h2>
           <p className="text-gray-700">
             A Szolgáltató elkötelezett a felhasználók személyes adatainak védelme mellett, és betartja az Európai Unió általános adatvédelmi rendeletének (GDPR) előírásait.
           </p>
@@ -121,7 +121,7 @@ const ASZF = () => {
         </section>
 
         <section className="mb-6">
-          <h2 className="text-xl font-semibold mb-2">10. Jogviták rendezése</h2>
+          <h2 className="font-display text-xl font-semibold mb-2 text-ink">10. Jogviták rendezése</h2>
           <p className="text-gray-700">
             A Szolgáltató és a felhasználók között felmerülő jogvitákat a felek békés úton, tárgyalásos megbeszélés során próbálják rendezni. Amennyiben ez nem vezet eredményre, a jogviták rendezésére a Szolgáltató székhelye szerinti bíróság illetékes.
           </p>
@@ -132,7 +132,7 @@ const ASZF = () => {
         </section>
 
         <section className="mb-6">
-          <h2 className="text-xl font-semibold mb-2">11. ÁSZF módosításának lehetősége</h2>
+          <h2 className="font-display text-xl font-semibold mb-2 text-ink">11. ÁSZF módosításának lehetősége</h2>
           <p className="text-gray-700">
             A Szolgáltató fenntartja a jogot, hogy az ÁSZF-et bármikor módosítsa. A módosításokról a felhasználókat a weboldalon keresztül vagy e-mailben értesítjük.
           </p>
@@ -143,7 +143,7 @@ const ASZF = () => {
         </section>
 
         <section className="mb-6">
-          <h2 className="text-xl font-semibold mb-2">12. Kapcsolatfelvételi adatok</h2>
+          <h2 className="font-display text-xl font-semibold mb-2 text-ink">12. Kapcsolatfelvételi adatok</h2>
           <p className="text-gray-700">
             A felhasználók bármilyen kérdés, észrevétel vagy panasz esetén kapcsolatba léphetnek a Szolgáltatóval az alábbi elérhetőségeken:
           </p>

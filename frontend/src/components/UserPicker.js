@@ -47,7 +47,7 @@ const UserPicker = ({ users, selectedIds, onChange, label, emptyHint }) => {
         {selectedUsers.map((u) => (
           <span
             key={u.id}
-            className="flex items-center bg-blue-100 text-blue-800 rounded-full pl-3 pr-2 py-1 text-sm"
+            className="flex items-center bg-beige/40 border border-gold/40 text-ink rounded-full pl-3 pr-2 py-1 text-sm"
           >
             {u.fullName} ({u.username})
             <button
@@ -69,15 +69,15 @@ const UserPicker = ({ users, selectedIds, onChange, label, emptyHint }) => {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Keresés név, felhasználónév vagy email alapján..."
-        className="w-full px-4 py-2 border border-gray-300 rounded-md"
+        className="w-full px-4 py-2 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
       />
       {filtered.length > 0 && (
-        <ul className="border border-gray-300 rounded-md mt-1 max-h-48 overflow-y-auto bg-white">
+        <ul className="border border-secondary/30 rounded-md mt-1 max-h-48 overflow-y-auto bg-white">
           {filtered.map((u) => (
             <li
               key={u.id}
               onClick={() => addUser(u.id)}
-              className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
+              className="px-4 py-2 hover:bg-primary cursor-pointer text-sm"
             >
               {u.fullName} ({u.username}) — {u.email}
             </li>

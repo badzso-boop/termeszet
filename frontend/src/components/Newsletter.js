@@ -29,10 +29,11 @@ const Newsletter = () => {
   };
 
   return (
-    <section id="hirlevel" className="bg-secondary py-16 px-4">
+    <section id="hirlevel" className="bg-secondary py-20 px-4">
       <div className="container mx-auto max-w-xl text-center">
-        <h2 className="text-3xl font-semibold mb-4">Iratkozz fel a hírlevélre!</h2>
-        <p className="text-gray-800 mb-6">
+        <h2 className="font-display text-3xl font-semibold mb-4">Iratkozz fel a hírlevélre!</h2>
+        <div className="divider-gold mb-6" />
+        <p className="text-ink/80 mb-8">
           Legyél az elsők között, aki értesül az új kurzusokról és időpontokról.
         </p>
         <form
@@ -45,17 +46,14 @@ const Newsletter = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email címed"
-            className="flex-1 sm:flex-none sm:w-80 px-4 py-2 rounded-full border-none focus:outline-none focus:ring-2 focus:ring-primary"
+            className="flex-1 sm:flex-none sm:w-80 px-4 py-2 rounded-md border border-ink/20 focus:outline-none focus:ring-1 focus:ring-gold"
           />
-          <button
-            type="submit"
-            className="px-6 py-2 rounded-full bg-primary font-semibold hover:opacity-90 transition"
-          >
+          <button type="submit" className="btn-brand">
             Feliratkozom
           </button>
         </form>
         {status && (
-          <p className={`mt-4 font-medium ${status.type === "error" ? "text-red-700" : "text-green-800"}`}>
+          <p className={`mt-4 font-medium ${status.type === "error" ? "text-red-700" : "text-ink"}`}>
             {status.message}
           </p>
         )}

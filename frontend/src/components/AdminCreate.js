@@ -75,68 +75,68 @@ const AdminCreate = () => {
   };
 
   return (
-    <div className="flex bg-gray-100 items-center justify-center min-h-screen">
-      <div className="bg-secondary p-8 rounded-lg shadow-md w-full max-w-4xl">
-        <h1 className="text-2xl font-bold text-center mb-6">Kurzus létrehozása</h1>
+    <div className="flex bg-primary/60 items-center justify-center min-h-screen">
+      <div className="bg-secondary p-8 rounded-md border border-secondary/30 w-full max-w-4xl">
+        <h1 className="font-display text-2xl font-semibold text-center mb-6">Kurzus létrehozása</h1>
         <form onSubmit={handleSubmit} encType="multipart/form-data">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
               <div>
-                <label className="block font-bold text-xl mb-2">Cím:</label>
+                <label className="block font-medium text-base mb-2 text-ink">Cím:</label>
                 <input
                   type="text"
                   name="cim"
                   value={formData.cim}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-4 py-2 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
                 />
               </div>
               <div>
-                <label className="block font-bold text-xl mb-2">Ár:</label>
+                <label className="block font-medium text-base mb-2 text-ink">Ár:</label>
                 <input
                   type="number"
                   name="ar"
                   value={formData.ar}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-4 py-2 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
                 />
               </div>
               <div>
-                <label className="block font-bold text-xl mb-2">Helyszín:</label>
+                <label className="block font-medium text-base mb-2 text-ink">Helyszín:</label>
                 <input
                   type="text"
                   name="helyszin"
                   value={formData.helyszin}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-4 py-2 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
                 />
               </div>
               <div>
-                <label className="block font-bold text-xl mb-2">Időpont:</label>
+                <label className="block font-medium text-base mb-2 text-ink">Időpont:</label>
                 <input
                   type="date"
                   name="idopont"
                   value={formData.idopont}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-4 py-2 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
                 />
               </div>
               <div>
-                <label className="block font-bold text-xl mb-2">Témakör:</label>
+                <label className="block font-medium text-base mb-2 text-ink">Témakör:</label>
                 <input
                   type="text"
                   name="temakor"
                   value={formData.temakor}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-4 py-2 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
                 />
               </div>
               <div>
-                <label className="block font-bold text-xl mb-2">Videó:</label>
+                <label className="block font-medium text-base mb-2 text-ink">Videó:</label>
                 <input
                   type="file"
                   name="video"
@@ -149,21 +149,21 @@ const AdminCreate = () => {
             
             <div>
               <div>
-                <label className="block font-bold text-xl mb-2">Leírás:</label>
+                <label className="block font-medium text-base mb-2 text-ink">Leírás:</label>
                 <textarea
                   name="leiras"
                   value={formData.leiras}
                   onChange={handleChange}
-                  className="w-full h-32 px-4 py-2 border border-gray-300 rounded-md"
+                  className="w-full h-32 px-4 py-2 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
                 />
               </div>
               <div>
-                <label className="block font-bold text-xl mb-2">Szöveg:</label>
+                <label className="block font-medium text-base mb-2 text-ink">Szöveg:</label>
                 <textarea
                   name="szoveg"
                   value={formData.szoveg}
                   onChange={handleChange}
-                  className="w-full h-32 px-4 py-2 border border-gray-300 rounded-md"
+                  className="w-full h-32 px-4 py-2 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
                 />
               </div>
               <div>
@@ -182,14 +182,14 @@ const AdminCreate = () => {
             <button
               type="submit"
               disabled={!isFileValid}
-              className="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 disabled:opacity-50"
+              className="btn-brand disabled:opacity-50"
             >
               Kurzus létrehozása
             </button>
           </div>
         </form>
         <div className='flex justify-center'>
-        {message && <p className="text-center bg-green-500 w-1/3 mt-4 rounded-lg">{message}</p>}
+        {message && <p className="text-center bg-ink text-ivory w-full sm:w-1/2 mt-4 p-4 rounded-md">{message}</p>}
         </div>
       </div>
     </div>

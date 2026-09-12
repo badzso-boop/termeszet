@@ -80,8 +80,9 @@ const User = () => {
       {user && (
         <div className="w-full max-w-4xl mx-auto p-4">
           {/* Fejléc - Felhasználói Alapadatok */}
-          <div className="bg-secondary text-white p-6 rounded-lg mb-6">
-            <h1 className="text-3xl font-bold">{user.fullName}</h1>
+          <div className="bg-secondary text-ink p-6 rounded-md border border-secondary/30 mb-6">
+            <h1 className="font-display text-3xl font-semibold">{user.fullName}</h1>
+            <div className="divider-gold my-3" />
             <div className="w-full flex">
               <div className="w-1/2 flex flex-col">
                 <div>
@@ -105,8 +106,8 @@ const User = () => {
           </div>
 
           {/* Felhasználói További Információk */}
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-2xl font-bold mb-4">Egészségügyi és egyéb adatok</h2>
+          <div className="bg-white p-6 rounded-md border border-secondary/20">
+            <h2 className="font-display text-2xl font-semibold mb-4">Egészségügyi és egyéb adatok</h2>
 
             {/* További adatok táblázatos megjelenítése */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -197,16 +198,17 @@ const User = () => {
       )}
 
 
-      <div className="w-full flex flex-col justify-center items-center text-center">
-        <h1 className="text-3xl font-bold">Kurzusaim</h1>
+      <div className="w-full flex flex-col justify-center items-center text-center py-12">
+        <h1 className="section-heading mb-4">Kurzusaim</h1>
+        <div className="divider-gold mb-8" />
 
         {user && registerCourses.map((item, index) => {
           if (item.userId === user.id) {
             const course = courses.find((course) => course.id === item.courseId);
             return (
               <>
-                <div className="bg-secondary w-full lg:w-1/3 rounded-lg my-3 shadow p-3">
-                  <h1 className="font-bold text-xl">{course.cim}</h1>
+                <div className="bg-secondary/90 border border-secondary/30 w-full lg:w-1/3 rounded-md my-3 p-4">
+                  <h1 className="font-display font-semibold text-xl">{course.cim}</h1>
                   <div className="w-full flex">
                     <div className="w-1/2 p-2">
                       <p className="text-left">{course.helyszin}</p>
@@ -215,12 +217,12 @@ const User = () => {
                       <p className="text-right">{course.idopont}</p>
                     </div>
                   </div>
-                  
-                  <h1 className="font-bold text-lg">Leírás</h1>
+
+                  <h1 className="font-semibold text-lg">Leírás</h1>
                   <p>{course.description}</p>
 
-                  <div className="w-full flex justify-center">
-                    <Link to={`/course/${course.id}`} className="m-1 w-full lg:w-1/3 bg-red-600 rounded-full text-center text-base p-1 bg-primary cursor-pointer">Megtekintem</Link>
+                  <div className="w-full flex justify-center mt-2">
+                    <Link to={`/course/${course.id}`} className="m-1 w-full lg:w-1/3 btn-brand py-2 text-sm cursor-pointer">Megtekintem</Link>
                   </div>
                 </div>
               </>

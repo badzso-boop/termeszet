@@ -124,71 +124,71 @@ const AdminUpdate = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-      <div className="bg-secondary p-8 rounded-lg shadow-lg w-full max-w-4xl">
-        <h1 className="text-2xl font-bold text-center mb-6">Update Course</h1>
+    <div className="min-h-screen bg-primary/60 flex items-center justify-center p-4">
+      <div className="bg-secondary p-8 rounded-md border border-secondary/30 w-full max-w-4xl">
+        <h1 className="font-display text-2xl font-semibold text-center mb-6">Update Course</h1>
         <form onSubmit={handleSubmit} encType="multipart/form-data">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {/* Left Side Inputs */}
             <div className="space-y-4">
               <div>
-                <label className="block font-bold text-xl mb-2">Cím:</label>
+                <label className="block font-medium text-base mb-2 text-ink">Cím:</label>
                 <input
                   type="text"
                   value={cim}
                   onChange={(e) => setCim(e.target.value)}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-4 py-2 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
                 />
               </div>
               <div>
-                <label className="block font-bold text-xl mb-2">Helyszín:</label>
+                <label className="block font-medium text-base mb-2 text-ink">Helyszín:</label>
                 <input
                   type="text"
                   value={helyszin}
                   onChange={(e) => setHelyszin(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-4 py-2 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
                 />
               </div>
               <div>
-                <label className="block font-bold text-xl mb-2">Időpont:</label>
+                <label className="block font-medium text-base mb-2 text-ink">Időpont:</label>
                 <input
                   type="date"
                   value={idopont}
                   onChange={(e) => setIdopont(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-4 py-2 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
                 />
               </div>
               <div>
-                <label className="block font-bold text-xl mb-2">Ár:</label>
+                <label className="block font-medium text-base mb-2 text-ink">Ár:</label>
                 <input
                   type="number"
                   value={ar}
                   onChange={(e) => setAr(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-4 py-2 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
                 />
               </div>
               <div>
-                <label className="block font-bold text-xl mb-2">Témakör:</label>
+                <label className="block font-medium text-base mb-2 text-ink">Témakör:</label>
                 <input
                   type="text"
                   value={temakor}
                   onChange={(e) => setTemakor(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-4 py-2 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
                 />
               </div>
               <div>
-                <label className="block font-bold text-xl mb-2">Szöveg:</label>
+                <label className="block font-medium text-base mb-2 text-ink">Szöveg:</label>
                 <textarea
                   name="szoveg"
                   value={szoveg}
                   onChange={(e) => setSzoveg(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-4 py-2 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
                   rows="4"
                 />
               </div>
               <div>
-                <label className="block font-bold text-xl mb-2">Videó:</label>
+                <label className="block font-medium text-base mb-2 text-ink">Videó:</label>
                 <input
                   type="file"
                   name="video"
@@ -202,12 +202,12 @@ const AdminUpdate = () => {
             {/* Right Side Inputs */}
             <div className="space-y-4">
               <div>
-                <label className="block font-bold text-xl mb-2">Leírás:</label>
+                <label className="block font-medium text-base mb-2 text-ink">Leírás:</label>
                 <input
                   type="text"
                   value={leiras}
                   onChange={(e) => setLeiras(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-4 py-2 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
                 />
               </div>
               <div>
@@ -220,7 +220,7 @@ const AdminUpdate = () => {
                 />
               </div>
               <div>
-                <label className="block font-bold text-xl mb-2">Megkötések:</label>
+                <label className="block font-medium text-base mb-2 text-ink">Megkötések:</label>
                 {megkotesek.map((value, index) => (
                   <div key={index} className="flex items-center space-x-2 mb-2">
                     <input
@@ -229,7 +229,7 @@ const AdminUpdate = () => {
                       onChange={(e) =>
                         handleArrayChange(index, e.target.value, setMegkotesek)
                       }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                      className="w-full px-4 py-2 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
                     />
                     <button
                       type="button"
@@ -243,7 +243,7 @@ const AdminUpdate = () => {
                 <button
                   type="button"
                   onClick={() => handleArrayAdd(setMegkotesek)}
-                  className="bg-blue-500 text-white px-4 py-2 rounded-md"
+                  className="btn-outline"
                 >
                   Add Megkotes
                 </button>
@@ -256,14 +256,14 @@ const AdminUpdate = () => {
             <button
               type="submit"
               disabled={!isFileValid}
-              className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 disabled:opacity-50"
+              className="btn-brand disabled:opacity-50"
             >
               Update
             </button>
           </div>
         </form>
         {message && (
-          <p className="bg-green-500 text-white rounded-lg p-4 mt-4 text-center">
+          <p className="bg-ink text-ivory rounded-md p-4 mt-4 text-center">
             {message}
           </p>
         )}

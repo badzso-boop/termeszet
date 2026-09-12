@@ -2,12 +2,58 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Márka design tokenek (lásd tailwind.config.js `colors` -- ugyanazok az értékek,
+     CSS-változóként is elérhetők a nem-Tailwind (pl. inline style) helyekhez). */
+  --color-bg: #A29C96;
+  --color-text: #11110F;
+  --color-gold: #C9B38A;
+  --color-ivory: #D8D0C3;
+  --color-beige: #BFAF94;
+}
+
 body {
   margin: 0;
+  background-color: var(--color-ivory);
+  color: var(--color-text);
 }
 
 .ellipsis {
   overflow: hidden; /* Rejti a túlcsorduló szöveget */
   white-space: nowrap; /* Nem engedi, hogy a szöveg többsoros legyen */
   text-overflow: ellipsis; /* A túlcsorduló szöveg helyett ... jelenik meg */
+}
+
+@layer components {
+  /* Elsődleges CTA: sötét, visszafogott, éles sarok -- nem "pill", nem harsány. */
+  .btn-brand {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-md bg-ink text-ivory
+      font-medium tracking-wide border border-ink
+      transition-colors duration-300 ease-out
+      hover:bg-transparent hover:text-ink;
+  }
+
+  /* Másodlagos CTA: kontúros, taupe/arany akcentussal. */
+  .btn-outline {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-md bg-transparent
+      text-ink font-medium tracking-wide border border-ink/40
+      transition-colors duration-300 ease-out
+      hover:border-gold hover:text-ink hover:bg-gold/10;
+  }
+
+  /* Vékony arany elválasztó vonal -- a névjegykártya motívuma, section dividerként. */
+  .divider-gold {
+    @apply w-20 h-px mx-auto bg-gradient-to-r from-transparent via-gold to-transparent;
+  }
+
+  /* Editorial szekció-fejléc. */
+  .section-heading {
+    @apply font-display font-semibold text-3xl sm:text-4xl text-center text-ink;
+  }
+
+  /* Márka-aláírás jellegű, script betűtípusú kiemelés -- csak a hero/brand
+     pillanathoz, sosem hosszabb szöveghez vagy UI-elemekhez. */
+  .brand-script {
+    @apply font-script text-ink leading-none;
+  }
 }

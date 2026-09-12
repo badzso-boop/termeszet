@@ -100,7 +100,7 @@ const LessonManager = ({ courseId }) => {
 
   return (
     <div className="mt-8 border-t pt-6">
-      <h2 className="text-2xl font-bold text-center mb-4">Leckék</h2>
+      <h2 className="font-display text-2xl font-semibold text-center mb-4">Leckék</h2>
 
       {lessons.length === 0 && (
         <p className="text-center text-gray-500 mb-4">Ehhez a kurzushoz még nincs lecke felvéve.</p>
@@ -110,7 +110,7 @@ const LessonManager = ({ courseId }) => {
         {lessons.map((lesson) => {
           const edit = editing[lesson.id];
           return (
-            <div key={lesson.id} className="border border-gray-300 rounded-md p-4">
+            <div key={lesson.id} className="border border-secondary/30 rounded-md p-4">
               {edit ? (
                 <div className="space-y-2">
                   <input
@@ -119,7 +119,7 @@ const LessonManager = ({ courseId }) => {
                     onChange={(e) =>
                       setEditing((prev) => ({ ...prev, [lesson.id]: { ...prev[lesson.id], cim: e.target.value } }))
                     }
-                    className="w-full px-3 py-1 border border-gray-300 rounded-md"
+                    className="w-full px-3 py-1 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
                     placeholder="Cím"
                   />
                   <input
@@ -128,7 +128,7 @@ const LessonManager = ({ courseId }) => {
                     onChange={(e) =>
                       setEditing((prev) => ({ ...prev, [lesson.id]: { ...prev[lesson.id], sorrend: e.target.value } }))
                     }
-                    className="w-24 px-3 py-1 border border-gray-300 rounded-md"
+                    className="w-24 px-3 py-1 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
                     placeholder="Sorrend"
                   />
                   <textarea
@@ -136,7 +136,7 @@ const LessonManager = ({ courseId }) => {
                     onChange={(e) =>
                       setEditing((prev) => ({ ...prev, [lesson.id]: { ...prev[lesson.id], szoveg: e.target.value } }))
                     }
-                    className="w-full px-3 py-1 border border-gray-300 rounded-md"
+                    className="w-full px-3 py-1 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
                     rows="3"
                     placeholder="Szöveg"
                   />
@@ -154,14 +154,14 @@ const LessonManager = ({ courseId }) => {
                     <button
                       type="button"
                       onClick={() => saveEdit(lesson.id)}
-                      className="bg-blue-500 text-white px-3 py-1 rounded-md"
+                      className="btn-outline py-1 px-3"
                     >
                       Mentés
                     </button>
                     <button
                       type="button"
                       onClick={() => cancelEdit(lesson.id)}
-                      className="bg-gray-300 px-3 py-1 rounded-md"
+                      className="bg-primary text-ink border border-secondary/30 px-3 py-1 rounded-md"
                     >
                       Mégse
                     </button>
@@ -177,7 +177,7 @@ const LessonManager = ({ courseId }) => {
                     <button
                       type="button"
                       onClick={() => startEdit(lesson)}
-                      className="bg-blue-500 text-white px-3 py-1 rounded-md"
+                      className="btn-outline py-1 px-3"
                     >
                       Szerkesztés
                     </button>
@@ -196,42 +196,42 @@ const LessonManager = ({ courseId }) => {
         })}
       </div>
 
-      <form onSubmit={addLesson} className="border border-dashed border-gray-400 rounded-md p-4 space-y-2">
-        <h3 className="font-bold">Új lecke hozzáadása</h3>
+      <form onSubmit={addLesson} className="border border-dashed border-gold/50 rounded-md p-4 space-y-2">
+        <h3 className="font-display font-semibold text-lg">Új lecke hozzáadása</h3>
         <input
           type="text"
           value={newLesson.cim}
           onChange={(e) => setNewLesson((prev) => ({ ...prev, cim: e.target.value }))}
           placeholder="Cím"
           required
-          className="w-full px-3 py-1 border border-gray-300 rounded-md"
+          className="w-full px-3 py-1 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
         />
         <input
           type="number"
           value={newLesson.sorrend}
           onChange={(e) => setNewLesson((prev) => ({ ...prev, sorrend: e.target.value }))}
           placeholder="Sorrend"
-          className="w-24 px-3 py-1 border border-gray-300 rounded-md"
+          className="w-24 px-3 py-1 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
         />
         <textarea
           value={newLesson.szoveg}
           onChange={(e) => setNewLesson((prev) => ({ ...prev, szoveg: e.target.value }))}
           placeholder="Szöveg"
           rows="3"
-          className="w-full px-3 py-1 border border-gray-300 rounded-md"
+          className="w-full px-3 py-1 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
         />
         <input
           type="file"
           accept="video/mp4, video/x-matroska, video/x-msvideo"
           onChange={(e) => setNewLesson((prev) => ({ ...prev, video: e.target.files[0] || null }))}
         />
-        <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded-md">
+        <button type="submit" className="btn-brand">
           Lecke hozzáadása
         </button>
       </form>
 
       {message && (
-        <p className="bg-green-500 text-white rounded-lg p-4 mt-4 text-center">{message}</p>
+        <p className="bg-ink text-ivory rounded-md p-4 mt-4 text-center">{message}</p>
       )}
     </div>
   );

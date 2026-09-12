@@ -13,27 +13,26 @@ const Home = () => {
     <div className="min-h-screen flex flex-col">
       {/* Hőskép */}
       <section
-        className="relative bg-cover bg-center min-h-[24rem] sm:h-96"
+        className="relative bg-cover bg-center min-h-[28rem] sm:h-[32rem]"
         style={{ backgroundImage: `url(${Hero})` }}
       >
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="text-center text-white px-4">
-            <h1 className="text-3xl sm:text-4xl font-bold mb-4">
-              Fedezze fel a természetes gyógyulás útját és a hangtálak varázsát!
+        <div className="absolute inset-0 bg-ink/55 flex items-center justify-center">
+          <div className="text-center text-ivory px-4 max-w-3xl">
+            <p className="brand-script text-4xl sm:text-6xl mb-4">Németh Gabriella</p>
+            <div className="divider-gold mb-6" />
+            <h1 className="font-display text-2xl sm:text-3xl font-medium mb-4 leading-snug">
+              Fedezze fel a természetes gyógyulás útját és a hangtálak varázsát
             </h1>
-            <p className="text-lg sm:text-xl mb-6 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg mb-8 max-w-2xl mx-auto text-ivory/85">
               Reflexológia és hangtál-terápia egy tapasztalt szakember gondoskodó kezei alatt.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                to="/courses"
-                className="bg-secondary text-black px-6 py-3 rounded-full font-semibold hover:opacity-90 transition"
-              >
+              <Link to="/courses" className="btn-brand">
                 Kurzusok megtekintése
               </Link>
               <Link
                 to="/register"
-                className="bg-white text-black px-6 py-3 rounded-full font-semibold hover:opacity-90 transition"
+                className="inline-flex items-center justify-center px-6 py-3 rounded-md border border-ivory/60 text-ivory font-medium tracking-wide transition-colors duration-300 ease-out hover:border-gold hover:text-gold"
               >
                 Regisztráció
               </Link>
@@ -43,16 +42,17 @@ const Home = () => {
       </section>
 
       {/* Bemutatkozó Szöveg */}
-      <section id="about" className="container mx-auto py-16 px-4">
-        <h2 className="text-3xl font-semibold text-center mb-6">
+      <section id="about" className="container mx-auto py-20 sm:py-28 px-4">
+        <h2 className="section-heading mb-4">
           Bemutatkozás
         </h2>
-        <div className="flex flex-col md:flex-row items-center justify-center">
+        <div className="divider-gold mb-12" />
+        <div className="flex flex-col md:flex-row items-center justify-center gap-10">
           {/* Kép a masszőrről */}
           <img
             src={Profile}
             alt="Masszőr képe"
-            className="w-48 h-48 rounded-full shadow-md mb-6 md:mb-0 md:mr-6 object-cover object-top"
+            className="w-48 h-48 rounded-full shadow-sm mb-2 md:mb-0 object-cover object-top ring-1 ring-gold/40"
           />
           <div className="text-center md:text-left max-w-xl">
             <p className="text-gray-700 leading-relaxed mb-4">
@@ -85,24 +85,24 @@ const Home = () => {
         <h2 className="text-3xl font-semibold text-center mb-10">
           Miért engem válassz?
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           <div className="text-center p-4">
-            <FontAwesomeIcon icon={faCertificate} className="text-4xl mb-4 text-secondary" />
-            <h3 className="text-xl font-semibold mb-2">Okleveles szakértelem</h3>
+            <FontAwesomeIcon icon={faCertificate} className="text-3xl mb-4 text-gold" />
+            <h3 className="font-display text-xl font-semibold mb-2">Okleveles szakértelem</h3>
             <p className="text-gray-700">
               Képzett talpreflexológus és hangtál-terapeuta, folyamatosan bővülő szakmai tudással.
             </p>
           </div>
           <div className="text-center p-4">
-            <FontAwesomeIcon icon={faSpa} className="text-4xl mb-4 text-secondary" />
-            <h3 className="text-xl font-semibold mb-2">10+ év tapasztalat</h3>
+            <FontAwesomeIcon icon={faSpa} className="text-3xl mb-4 text-gold" />
+            <h3 className="font-display text-xl font-semibold mb-2">10+ év tapasztalat</h3>
             <p className="text-gray-700">
               Több mint egy évtizede kísérem ügyfeleimet a testi-lelki egyensúly megtalálásában.
             </p>
           </div>
           <div className="text-center p-4">
-            <FontAwesomeIcon icon={faHeart} className="text-4xl mb-4 text-secondary" />
-            <h3 className="text-xl font-semibold mb-2">Személyre szabott gondoskodás</h3>
+            <FontAwesomeIcon icon={faHeart} className="text-3xl mb-4 text-gold" />
+            <h3 className="font-display text-xl font-semibold mb-2">Személyre szabott gondoskodás</h3>
             <p className="text-gray-700">
               Minden kezelés egyéni igényeidhez igazodik, nyugodt, gondoskodó légkörben.
             </p>
@@ -111,29 +111,30 @@ const Home = () => {
       </section>
 
       {/* Szolgáltatások Bemutatása */}
-      <section id="services" className="bg-gray-100 py-16 px-4">
+      <section id="services" className="bg-primary/60 py-20 sm:py-28 px-4">
         <div className="container mx-auto">
-          <h2 className="text-3xl font-semibold text-center mb-6">
+          <h2 className="section-heading mb-4">
             Szolgáltatások
           </h2>
+          <div className="divider-gold mb-12" />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold mb-4">
+            <div className="bg-white p-8 rounded-md border border-secondary/20 shadow-sm">
+              <h3 className="font-display text-xl font-semibold mb-3">
                 Reflexológiai Talpmasszázs
               </h3>
               <p className="text-gray-700">
                 Stresszoldás és általános jólét növelése érdekében.
               </p>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold mb-4">Hangtálas Terápia</h3>
+            <div className="bg-white p-8 rounded-md border border-secondary/20 shadow-sm">
+              <h3 className="font-display text-xl font-semibold mb-3">Hangtálas Terápia</h3>
               <p className="text-gray-700">
                 Lelki egyensúly helyreállítása, stresszcsökkentés és mély
                 relaxáció hangtálakkal.
               </p>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold mb-4">
+            <div className="bg-white p-8 rounded-md border border-secondary/20 shadow-sm">
+              <h3 className="font-display text-xl font-semibold mb-3">
                 Kombinált Kezelések
               </h3>
               <p className="text-gray-700">
@@ -145,10 +146,11 @@ const Home = () => {
         </div>
       </section>
       {/* Reflexológia ismertetése */}
-      <section id="how-it-works" className="container mx-auto py-16 px-4">
-        <h2 className="text-3xl font-semibold text-center mb-6">
+      <section id="how-it-works" className="container mx-auto py-20 sm:py-28 px-4">
+        <h2 className="section-heading mb-4">
           Hogyan Működik a Reflexológia?
         </h2>
+        <div className="divider-gold mb-8" />
         <p className="text-center max-w-2xl mx-auto text-gray-700 leading-relaxed">
           A reflexológia egy természetes gyógymód, amely a talpon található
           reflexpontok stimulálásával támogatja a test öngyógyító folyamatait. A
@@ -157,21 +159,22 @@ const Home = () => {
           serkentve a vérkeringést és az energiaáramlást.
         </p>
         {/* Illusztráció hozzáadása */}
-        <div className="flex justify-center mt-8">
+        <div className="flex justify-center mt-10">
           <img
             src={Foot}
             alt="Reflexológiai pontok a talpon"
-            className="max-w-xs rounded-lg shadow-md"
+            className="max-w-xs rounded-md shadow-sm ring-1 ring-gold/30"
           />
         </div>
       </section>
 
       {/* Hangtálterápia ismertetése */}
-      <section id="hangtal" className="bg-gray-100 py-16 px-4">
+      <section id="hangtal" className="bg-primary/60 py-20 sm:py-28 px-4">
         <div className="container mx-auto">
-          <h2 className="text-3xl font-semibold text-center mb-6">
+          <h2 className="section-heading mb-4">
             Hogyan Működik a Hangtálterápia?
           </h2>
+          <div className="divider-gold mb-8" />
           <p className="text-center max-w-2xl mx-auto text-gray-700 leading-relaxed">
             A hangtálak rezgése és mély, tiszta hangja segít a testet és az
             elmét mély relaxációs állapotba juttatni. A hangtál rezgései a
@@ -184,36 +187,37 @@ const Home = () => {
       </section>
 
       {/* Mire számíthatsz egy kezelésen */}
-      <section id="process" className="container mx-auto py-16 px-4">
-        <h2 className="text-3xl font-semibold text-center mb-10">
+      <section id="process" className="container mx-auto py-20 sm:py-28 px-4">
+        <h2 className="section-heading mb-4">
           Mire számíthatsz egy kezelésen?
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="divider-gold mb-12" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           <div className="text-center p-4">
-            <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center mx-auto mb-4">
+            <div className="w-12 h-12 rounded-full bg-gold text-ink flex items-center justify-center mx-auto mb-4">
               <FontAwesomeIcon icon={faCalendarCheck} />
             </div>
-            <h3 className="text-xl font-semibold mb-2">1. Időpont egyeztetés</h3>
+            <h3 className="font-display text-xl font-semibold mb-2">1. Időpont egyeztetés</h3>
             <p className="text-gray-700">
               Regisztrálsz, kiválasztod a neked megfelelő kurzust vagy
               kezelést, és egyeztetjük a részleteket.
             </p>
           </div>
           <div className="text-center p-4">
-            <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center mx-auto mb-4">
+            <div className="w-12 h-12 rounded-full bg-gold text-ink flex items-center justify-center mx-auto mb-4">
               <FontAwesomeIcon icon={faCommentDots} />
             </div>
-            <h3 className="text-xl font-semibold mb-2">2. Konzultáció</h3>
+            <h3 className="font-display text-xl font-semibold mb-2">2. Konzultáció</h3>
             <p className="text-gray-700">
               Átbeszéljük az igényeidet, panaszaidat, hogy a kezelés pontosan
               rád legyen szabva.
             </p>
           </div>
           <div className="text-center p-4">
-            <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center mx-auto mb-4">
+            <div className="w-12 h-12 rounded-full bg-gold text-ink flex items-center justify-center mx-auto mb-4">
               <FontAwesomeIcon icon={faHandsHoldingCircle} />
             </div>
-            <h3 className="text-xl font-semibold mb-2">3. Kezelés és relaxáció</h3>
+            <h3 className="font-display text-xl font-semibold mb-2">3. Kezelés és relaxáció</h3>
             <p className="text-gray-700">
               Nyugodt, gondoskodó légkörben megkapod a reflexológiai és/vagy
               hangtálas kezelést, és testben-lélekben feltöltődve távozol.
@@ -223,12 +227,13 @@ const Home = () => {
       </section>
 
       {/* Előnyök és Eredmények */}
-      <section id="benefits" className="bg-secondary text-white py-16 px-4">
+      <section id="benefits" className="bg-ink text-ivory py-20 sm:py-28 px-4">
         <div className="container mx-auto">
-          <h2 className="text-3xl font-semibold text-center mb-6">
+          <h2 className="font-display font-semibold text-3xl sm:text-4xl text-center mb-4">
             Előnyök és Eredmények
           </h2>
-          <ul className="list-disc list-inside space-y-4 max-w-2xl mx-auto">
+          <div className="w-20 h-px mx-auto bg-gradient-to-r from-transparent via-gold to-transparent mb-10" />
+          <ul className="list-disc list-inside space-y-3 max-w-2xl mx-auto text-ivory/90">
             <li>Stresszcsökkentés és relaxáció.</li>
             <li>
               Fájdalomcsillapítás (fejfájás, hátfájás, ízületi fájdalmak).
@@ -238,72 +243,64 @@ const Home = () => {
             <li>Általános immunitás és energia növelése.</li>
           </ul>
           {/* Esettanulmányok és visszajelzések */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
-            <blockquote className="bg-white bg-opacity-10 rounded-lg p-6">
-              <FontAwesomeIcon icon={faQuoteLeft} className="mb-3 opacity-70" />
-              <p className="italic mb-3">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+            <blockquote className="bg-ivory/5 border border-gold/20 rounded-md p-6">
+              <FontAwesomeIcon icon={faQuoteLeft} className="mb-3 text-gold opacity-80" />
+              <p className="italic mb-3 text-ivory/90">
                 "A reflexológiai és hangtál terápia segített megszabadulni a
                 hosszú ideje fennálló migrénemtől!"
               </p>
-              <footer className="text-sm opacity-80">– Boldog Kliens</footer>
+              <footer className="text-sm text-ivory/60">– Boldog Kliens</footer>
             </blockquote>
-            <blockquote className="bg-white bg-opacity-10 rounded-lg p-6">
-              <FontAwesomeIcon icon={faQuoteLeft} className="mb-3 opacity-70" />
-              <p className="italic mb-3">
+            <blockquote className="bg-ivory/5 border border-gold/20 rounded-md p-6">
+              <FontAwesomeIcon icon={faQuoteLeft} className="mb-3 text-gold opacity-80" />
+              <p className="italic mb-3 text-ivory/90">
                 "Évek óta küzdöttem a stresszel, a hangtálas kezelés után
                 először éreztem igazi belső nyugalmat."
               </p>
-              <footer className="text-sm opacity-80">– Elégedett Vendég</footer>
+              <footer className="text-sm text-ivory/60">– Elégedett Vendég</footer>
             </blockquote>
-            <blockquote className="bg-white bg-opacity-10 rounded-lg p-6">
-              <FontAwesomeIcon icon={faQuoteLeft} className="mb-3 opacity-70" />
-              <p className="italic mb-3">
+            <blockquote className="bg-ivory/5 border border-gold/20 rounded-md p-6">
+              <FontAwesomeIcon icon={faQuoteLeft} className="mb-3 text-gold opacity-80" />
+              <p className="italic mb-3 text-ivory/90">
                 "Gondoskodó, figyelmes hozzáállás minden alkalommal – szívből
                 ajánlom bárkinek, aki feltöltődésre vágyik."
               </p>
-              <footer className="text-sm opacity-80">– Visszatérő Vendég</footer>
+              <footer className="text-sm text-ivory/60">– Visszatérő Vendég</footer>
             </blockquote>
           </div>
         </div>
       </section>
 
       {/* GYIK teaser */}
-      <section className="container mx-auto py-16 px-4">
-        <div className="bg-gray-100 rounded-xl p-8 flex flex-col sm:flex-row items-center justify-between gap-6 max-w-3xl mx-auto">
+      <section className="container mx-auto py-20 sm:py-24 px-4">
+        <div className="bg-primary/60 rounded-md border border-secondary/20 p-8 flex flex-col sm:flex-row items-center justify-between gap-6 max-w-3xl mx-auto">
           <div className="flex items-center gap-4">
-            <FontAwesomeIcon icon={faCircleQuestion} className="text-4xl text-secondary shrink-0" />
+            <FontAwesomeIcon icon={faCircleQuestion} className="text-3xl text-gold shrink-0" />
             <p className="text-gray-700">
               Kérdésed van a kezelésekkel vagy a kurzusokkal kapcsolatban? Nézd meg a gyakran
               ismételt kérdéseket, talán már megválaszoltuk!
             </p>
           </div>
-          <Link
-            to="/gyik"
-            className="bg-secondary text-black px-6 py-3 rounded-full font-semibold hover:opacity-90 transition whitespace-nowrap"
-          >
+          <Link to="/gyik" className="btn-outline whitespace-nowrap">
             GY.I.K.
           </Link>
         </div>
       </section>
 
       {/* Kapcsolat */}
-      <section id="contact" className="container mx-auto py-16 px-4 text-center">
-        <h2 className="text-3xl font-semibold mb-6">Vedd fel velem a kapcsolatot!</h2>
-        <p className="max-w-xl mx-auto text-gray-700 leading-relaxed mb-8">
+      <section id="contact" className="container mx-auto py-20 sm:py-28 px-4 text-center">
+        <h2 className="section-heading mb-4">Vedd fel velem a kapcsolatot!</h2>
+        <div className="divider-gold mb-8" />
+        <p className="max-w-xl mx-auto text-gray-700 leading-relaxed mb-10">
           Kérdésed van egy kezelésről vagy szeretnél időpontot foglalni? Nézd meg az elérhető
           kurzusokat, vagy regisztrálj, és személyesen egyeztetünk a részletekről.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link
-            to="/courses"
-            className="bg-secondary text-black px-6 py-3 rounded-full font-semibold hover:opacity-90 transition"
-          >
+          <Link to="/courses" className="btn-brand">
             Kurzusok megtekintése
           </Link>
-          <Link
-            to="/register"
-            className="bg-primary text-black px-6 py-3 rounded-full font-semibold border border-secondary hover:opacity-90 transition"
-          >
+          <Link to="/register" className="btn-outline">
             Regisztráció
           </Link>
         </div>

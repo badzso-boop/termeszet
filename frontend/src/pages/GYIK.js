@@ -4,15 +4,16 @@ import Footer from "../components/Footer";
 const GYIK = () => {
   return (
     <>
-      <div className="py-12">
+      <div className="py-20 sm:py-28 bg-primary/40">
         <div className="max-w-4xl mx-auto px-6">
-          <h2 className="text-3xl font-semibold text-black mb-8 text-center">
+          <h2 className="section-heading mb-4">
             Gyakran Ismételt Kérdések
           </h2>
-          <div className="space-y-6">
+          <div className="divider-gold mb-12" />
+          <div className="space-y-4">
             {faqData.map((item, index) => (
-              <div key={index} className="bg-secondary shadow-md rounded-lg p-6">
-                <h3 className="text-xl font-bold text-gray-800 mb-2">
+              <div key={index} className="bg-white border border-secondary/20 rounded-md p-6">
+                <h3 className="font-display text-xl font-semibold text-ink mb-2">
                   {item.question}
                 </h3>
                 <p className="text-gray-600">{item.answer}</p>
