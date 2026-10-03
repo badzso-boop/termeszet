@@ -1,0 +1,227 @@
+{
+  "notice": "",
+  "terms": {
+    "title": "Általános Szerződési Feltételek (ÁSZF)",
+    "sections": [
+      {
+        "heading": "1. Bevezetés",
+        "paragraphs": [
+          "Az Általános Szerződési Feltételek (a továbbiakban: ÁSZF) szabályozzák a [Weboldal neve] (a továbbiakban: Szolgáltató) által nyújtott online szolgáltatások használatának feltételeit. A weboldalon elérhető szolgáltatások igénybevétele az alábbi feltételek elfogadásával történik."
+        ],
+        "label": "Szolgáltató adatai:",
+        "items": [
+          "Cégnév: [Cégnév]",
+          "Székhely: [Cím]",
+          "Adószám: [Adószám]",
+          "Cégjegyzékszám: [Cégjegyzékszám]",
+          "Elérhetőség: [Email, Telefon]"
+        ]
+      },
+      {
+        "heading": "2. Felhasználási feltételek",
+        "paragraphs": [
+          "A weboldal használata és a szolgáltatások igénybevétele kizárólag a jelen ÁSZF-ben meghatározott feltételek szerint történhet. A weboldal használata során a felhasználó köteles betartani a vonatkozó jogszabályokat és nem sértheti más felhasználók jogait."
+        ],
+        "items": [
+          "A felhasználó köteles a valós adatokat megadni a regisztráció során.",
+          "A felhasználó nem jogosult harmadik fél adatait vagy jogosultságait használni.",
+          "A szolgáltatások használata során tilos bármilyen jogellenes tevékenység folytatása."
+        ]
+      },
+      {
+        "heading": "3. Regisztráció és fiók létrehozása",
+        "paragraphs": [
+          "A szolgáltatások igénybevételéhez a felhasználónak regisztrálnia kell a weboldalon. A regisztráció során a felhasználó köteles valós és pontos adatokat megadni. A fiók létrehozása után a felhasználó felelős a fiókja biztonságáért és a belépési adatai titokban tartásáért."
+        ],
+        "items": [
+          "A regisztráció során szükséges adatok: teljes név, e-mail cím, jelszó, stb.",
+          "A fiók létrehozásával a felhasználó elfogadja az ÁSZF-et és az Adatvédelmi nyilatkozatot.",
+          "A fiók tulajdonosa teljes mértékben felelős a fiók biztonságáért és az azzal kapcsolatos tevékenységekért."
+        ]
+      },
+      {
+        "heading": "4. Szolgáltatások leírása",
+        "paragraphs": [
+          "A weboldal különböző típusú kurzusokat és előfizetési lehetőségeket kínál a felhasználók számára. Az elérhető kurzusok, azok időtartama, tartalma, valamint a hozzáférés módja és díjazása az egyes kurzusok részletei között találhatók meg."
+        ],
+        "items": [
+          "Kurzusok típusai: [pl. online tanfolyamok, workshopok, videókurzusok].",
+          "Elérhetőség: A kurzusokhoz való hozzáférés [pl. előfizetés, egyszeri díj megfizetése stb.] révén lehetséges.",
+          "Az egyes kurzusok tartalmát, időtartamát, célját és oktatóit az adott kurzus leírása tartalmazza."
+        ]
+      },
+      {
+        "heading": "5. Előfizetési feltételek",
+        "paragraphs": [
+          "Az előfizetés lehetővé teszi a felhasználók számára a weboldalon elérhető kurzusokhoz való hozzáférést meghatározott időszakra. Az előfizetési díjak és feltételek az oldalon külön feltüntetésre kerülnek."
+        ],
+        "items": [
+          "Előfizetési lehetőségek: havi, negyedéves, éves.",
+          "Fizetési módok: bankkártya, átutalás, PayPal stb.",
+          "Lemondási feltételek: Az előfizetés bármikor lemondható, azonban a már kifizetett díjak nem téríthetők vissza, kivéve a jogszabály által előírt esetekben."
+        ]
+      },
+      {
+        "heading": "6. Visszatérítési politika",
+        "paragraphs": [
+          "A visszatérítési feltételek részletezik, hogy a felhasználók milyen esetekben igényelhetnek visszatérítést a kurzusok vagy az előfizetési díjak után."
+        ],
+        "items": [
+          "Elégedetlenség esetén: A felhasználónak lehetősége van az első [X nap] alatt visszatérítést kérni, ha nem elégedett a szolgáltatással.",
+          "Technikai problémák: Ha a szolgáltatás technikai problémák miatt nem elérhető, a felhasználó jogosult lehet részleges vagy teljes visszatérítésre.",
+          "Jogi rendelkezések: A visszatérítési politika megfelel a vonatkozó jogszabályoknak és fogyasztóvédelmi előírásoknak."
+        ]
+      },
+      {
+        "heading": "7. Szerzői jogok és szellemi tulajdon",
+        "paragraphs": [
+          "Az oldalon elérhető összes tartalom, beleértve a kurzusokat, cikkeket, képeket, videókat és egyéb anyagokat, a Szolgáltató vagy a tartalom készítőjének tulajdonát képezi."
+        ],
+        "items": [
+          "A tartalmak semmilyen formában nem másolhatók, terjeszthetők, módosíthatók, vagy használhatók fel a Szolgáltató előzetes írásos engedélye nélkül.",
+          "A felhasználók által feltöltött tartalmak esetében a felhasználó kijelenti, hogy jogosult a tartalom megosztására, és nem sérti harmadik fél jogait."
+        ]
+      },
+      {
+        "heading": "8. Felelősség korlátozása",
+        "paragraphs": [
+          "A Szolgáltató mindent megtesz annak érdekében, hogy a weboldalon elérhető tartalmak és szolgáltatások hibamentesen működjenek, azonban a következő felelősségkorlátozásokat érvényesíti:"
+        ],
+        "items": [
+          "Technikai hibák: A Szolgáltató nem vállal felelősséget a weboldal használata során felmerülő technikai problémákért, adatvesztésért, vagy bármilyen közvetett kárért, amely a felhasználó eszközeinek meghibásodásából ered.",
+          "Hozzáférési korlátozások: A Szolgáltató fenntartja a jogot a weboldalhoz való hozzáférés időszakos korlátozására, karbantartás vagy egyéb okok miatt.",
+          "Tartalmi pontatlanságok: A weboldalon található információk helyességéért és teljességéért a Szolgáltató nem vállal felelősséget. A felhasználó köteles saját belátása szerint eljárni az információk használatakor.",
+          "Harmadik felek szolgáltatásai: A Szolgáltató nem vállal felelősséget harmadik fél által nyújtott szolgáltatásokért vagy azok hibáiért, amelyek elérhetők a weboldalon keresztül."
+        ]
+      },
+      {
+        "heading": "9. Adatvédelem",
+        "paragraphs": [
+          "A Szolgáltató elkötelezett a felhasználók személyes adatainak védelme mellett, és betartja az Európai Unió általános adatvédelmi rendeletének (GDPR) előírásait."
+        ],
+        "items": [
+          "Adatgyűjtés és felhasználás: A Szolgáltató gyűjtheti és feldolgozhatja a felhasználók személyes adatait a weboldal használata során. Az adatkezelés céljai: szolgáltatások biztosítása, ügyfélszolgálat, marketing célú megkeresések, statisztikai elemzések.",
+          "Adatvédelmi tájékoztató: A felhasználók részletes adatvédelmi tájékoztatót érhetnek el az Adatvédelmi nyilatkozatban, amely meghatározza az adatgyűjtés, -feldolgozás és -tárolás módját.",
+          "Felhasználói jogok: A felhasználók bármikor kérhetik személyes adataik törlését, módosítását vagy az adatkezelés korlátozását."
+        ]
+      },
+      {
+        "heading": "10. Jogviták rendezése",
+        "paragraphs": [
+          "A Szolgáltató és a felhasználók között felmerülő jogvitákat a felek békés úton, tárgyalásos megbeszélés során próbálják rendezni. Amennyiben ez nem vezet eredményre, a jogviták rendezésére a Szolgáltató székhelye szerinti bíróság illetékes."
+        ],
+        "items": [
+          "Illetékes bíróság: A jogviták rendezésére az illetékes bíróság [Város neve] területén található.",
+          "Jogszabályi háttér: Az ÁSZF-ben nem szabályozott kérdésekben a Magyarország hatályos jogszabályai, különösen a Polgári Törvénykönyv rendelkezései az irányadók."
+        ]
+      },
+      {
+        "heading": "11. ÁSZF módosításának lehetősége",
+        "paragraphs": [
+          "A Szolgáltató fenntartja a jogot, hogy az ÁSZF-et bármikor módosítsa. A módosításokról a felhasználókat a weboldalon keresztül vagy e-mailben értesítjük."
+        ],
+        "items": [
+          "Módosítási jog: A Szolgáltató jogosult az ÁSZF egyoldalú módosítására, különösen, de nem kizárólag, jogszabályváltozás, új szolgáltatások bevezetése, vagy a szolgáltatások megszüntetése esetén.",
+          "Értesítési kötelezettség: A módosítás hatályba lépését megelőzően [X nappal] a Szolgáltató értesíti a felhasználókat a változásokról."
+        ]
+      },
+      {
+        "heading": "12. Kapcsolatfelvételi adatok",
+        "paragraphs": [
+          "A felhasználók bármilyen kérdés, észrevétel vagy panasz esetén kapcsolatba léphetnek a Szolgáltatóval az alábbi elérhetőségeken:"
+        ],
+        "items": [
+          "Ügyfélszolgálat: [Email cím, telefonszám]",
+          "Postai cím: [Cím]",
+          "Ügyfélszolgálati nyitva tartás: [Hétfőtől péntekig, 9:00-17:00]"
+        ]
+      }
+    ]
+  },
+  "privacy": {
+    "title": "Adatvédelmi Tájékoztató",
+    "sections": [
+      {
+        "heading": "1. Adatkezelő megnevezése és elérhetősége",
+        "fields": [
+          {
+            "label": "Név:",
+            "value": "[Weboldal Tulajdonosának Neve]"
+          },
+          {
+            "label": "Cím:",
+            "value": "[Weboldal Tulajdonosának Címe]"
+          },
+          {
+            "label": "E-mail:",
+            "value": "[E-mail cím]"
+          },
+          {
+            "label": "Telefonszám:",
+            "value": "[Telefonszám]"
+          }
+        ]
+      },
+      {
+        "heading": "2. A kezelt adatok köre",
+        "paragraphs": [
+          "A weboldalunkon kizárólag az alábbi adatokat gyűjtjük és kezeljük: név, e-mail cím, felhasználónév, jelszó (titkosított formában)."
+        ]
+      },
+      {
+        "heading": "3. Az adatkezelés célja és jogalapja",
+        "paragraphs": [
+          "Az adatkezelés célja: a felhasználók azonosítása, a weboldal szolgáltatásainak nyújtása, kurzusokhoz való hozzáférés biztosítása, és a felhasználói fiókok kezelése.",
+          "Az adatkezelés jogalapja: a felhasználó hozzájárulása a regisztráció során (GDPR 6. cikk (1) bekezdés a) pont)."
+        ]
+      },
+      {
+        "heading": "4. Az adatok tárolása és biztonsága",
+        "paragraphs": [
+          "A felhasználók adatait biztonságos MySQL szerveren tároljuk, amelyhez csak megfelelő jogosultsággal rendelkező személyek férhetnek hozzá. A jelszavak titkosítva vannak tárolva. Az adatokat harmadik félnek nem adjuk át, kivéve, ha erre jogszabályi kötelezettségünk van."
+        ]
+      },
+      {
+        "heading": "5. Adatok megőrzési ideje",
+        "paragraphs": [
+          "A felhasználói adatokat addig őrizzük meg, amíg az adott felhasználó regisztrációja aktív. A felhasználói fiók törlésekor az adatokat haladéktalanul töröljük."
+        ]
+      },
+      {
+        "heading": "6. A felhasználók jogai",
+        "paragraphs": [
+          "A felhasználóknak joguk van hozzáférni a róluk tárolt adatokhoz, kérni azok helyesbítését, törlését, korlátozását, vagy tiltakozni az adatkezelés ellen. Továbbá joguk van a hozzájárulás bármikor történő visszavonásához."
+        ]
+      },
+      {
+        "heading": "7. Adatvédelmi kapcsolattartó",
+        "paragraphs": [
+          "Ha kérdése van az adatvédelmi szabályzatunkkal kapcsolatban, kérjük, lépjen kapcsolatba velünk a fent megadott elérhetőségeken."
+        ]
+      }
+    ]
+  },
+  "termsOfUse": {
+    "title": "Felhasználási Feltételek",
+    "sections": [
+      {
+        "heading": "1. A weboldalon található tartalmak tulajdonjoga",
+        "paragraphs": [
+          "A weboldalon található minden tartalom – beleértve, de nem kizárólagosan, a cikkeket, videókat, tanfolyamokat és egyéb oktatási anyagokat – a weboldal tulajdonosának kizárólagos tulajdonát képezik. Ezek másolása, terjesztése, átdolgozása, vagy bármilyen más módon történő felhasználása kizárólag a tulajdonos előzetes írásbeli engedélyével lehetséges."
+        ]
+      },
+      {
+        "heading": "2. Szerzői jogok védelme",
+        "paragraphs": [
+          "A weboldal tartalmának bármilyen engedély nélküli felhasználása szerzői jogsértésnek minősül, és jogi eljárást von maga után. A tulajdonos fenntartja a jogot, hogy jogi lépéseket tegyen bármilyen engedély nélküli felhasználás esetén."
+        ]
+      },
+      {
+        "heading": "3. Felelősség kizárása",
+        "paragraphs": [
+          "A weboldal tulajdonosa nem vállal felelősséget a tartalmak felhasználásából eredő közvetlen vagy közvetett károkért."
+        ]
+      }
+    ]
+  }
+}

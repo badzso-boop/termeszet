@@ -1,0 +1,96 @@
+{
+  "brand": {
+    "name": "Gabriella Németh",
+    "tagline": "Reflexology and Forrás-kód® soul-creation guide",
+    "logoAlt": "Gabriella Németh logo"
+  },
+  "nav": {
+    "home": "Home",
+    "homeDesc": "Start page",
+    "courses": "Courses",
+    "coursesDesc": "Available trainings & materials",
+    "gallery": "Gallery",
+    "galleryDesc": "Photos & moments",
+    "contact": "Contact",
+    "contactDesc": "Contact details & getting in touch",
+    "login": "Log in",
+    "loginDesc": "Sign in to your account",
+    "register": "Sign up",
+    "registerDesc": "Create a new account",
+    "admin": "Admin",
+    "adminDesc": "Administration (in Hungarian)",
+    "profile": "Profile",
+    "profileDesc": "Your profile & details",
+    "logout": "Log out",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "toggleMenu": "Toggle menu",
+    "expandMenu": "Expand menu",
+    "collapseMenu": "Collapse menu"
+  },
+  "language": {
+    "label": "Language",
+    "switchTo": "Magyar",
+    "switchToShort": "HU",
+    "switchAria": "Váltás magyar nyelvre"
+  },
+  "footer": {
+    "phone": "Phone",
+    "email": "Email",
+    "faq": "FAQ",
+    "terms": "Terms & Conditions",
+    "termsOfUse": "Terms of Use",
+    "privacy": "Privacy Policy",
+    "rights": "All rights reserved."
+  },
+  "social": {
+    "facebookAria": "Facebook profile",
+    "youtubeAria": "YouTube channel"
+  },
+  "newsletter": {
+    "title": "Subscribe to the newsletter!",
+    "text": "Be among the first to hear about new courses and available appointments.",
+    "placeholder": "Your email address",
+    "submit": "Subscribe"
+  },
+  "lightbox": {
+    "viewer": "Photo viewer",
+    "zoomOut": "Zoom out",
+    "zoomOutTitle": "Zoom out (-)",
+    "zoomIn": "Zoom in",
+    "zoomInTitle": "Zoom in (+)",
+    "reset": "Reset",
+    "resetTitle": "Reset (R)",
+    "close": "Close",
+    "closeTitle": "Close (Esc)",
+    "prev": "Previous image",
+    "prevTitle": "Previous image (Left arrow)",
+    "next": "Next image",
+    "nextTitle": "Next image (Right arrow)",
+    "imageAlt": "Gallery image {{number}}",
+    "hint": "Pinch / scroll or use the buttons to zoom and browse"
+  },
+  "youtube": {
+    "heading": "Videos & Talks",
+    "intro": "Watch my talks, practical guides and uplifting thoughts on my official YouTube channel.",
+    "playerTitle": "YouTube video player",
+    "coverAlt": "Video thumbnail",
+    "clickToPlay": "Click to play",
+    "uploaded": "Uploaded: {{date}}",
+    "openOnYoutube": "Open on YouTube",
+    "latest": "Latest uploads",
+    "videoCount_one": "{{count}} video",
+    "videoCount_other": "{{count}} videos",
+    "channelTitle": "Gabriella Németh's YouTube Channel",
+    "channelText": "Follow the regularly published new videos, meditations and natural healing guides!",
+    "subscribeAria": "Subscribe to the YouTube channel",
+    "subscribe": "Subscribe to the channel",
+    "allVideos": "View all videos"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "text": "The page you are looking for does not exist or has been moved.",
+    "backHome": "Back to the home page"
+  },
+  "loading": "Loading..."
+}

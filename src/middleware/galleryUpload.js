@@ -1,6 +1,7 @@
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const apiError = require('../helpers/apiError');
 
 const uploadDir = path.join(process.cwd(), 'uploads', 'gallery');
 
@@ -47,7 +48,7 @@ const galleryUpload = multer({
       return cb(null, true);
     }
 
-    cb(new Error('Only image files (jpeg, jpg, png, webp, gif, heic, heif) are allowed.'));
+    cb(apiError('upload.invalidImageType'));
   }
 });
 

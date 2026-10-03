@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
+import apiMessage from "../i18n/apiMessage";
 
 // Egy kurzushoz tartozó leckék (sorrendezett video+szöveg blokkok) kezelése az admin
 // kurzus-szerkesztő oldalán. Az Authorization headert az AuthContext már beállította az
@@ -61,7 +62,7 @@ const LessonManager = ({ courseId }) => {
       await loadLessons();
       setMessage("Lecke frissítve.");
     } catch (error) {
-      setMessage(error.response?.data?.error || "Something went wrong.");
+      setMessage(apiMessage(error.response?.data?.error));
     }
   };
 
@@ -71,7 +72,7 @@ const LessonManager = ({ courseId }) => {
       await loadLessons();
       setMessage("Lecke törölve.");
     } catch (error) {
-      setMessage(error.response?.data?.error || "Something went wrong.");
+      setMessage(apiMessage(error.response?.data?.error));
     }
   };
 
@@ -94,7 +95,7 @@ const LessonManager = ({ courseId }) => {
       await loadLessons();
       setMessage("Lecke létrehozva.");
     } catch (error) {
-      setMessage(error.response?.data?.error || "Something went wrong.");
+      setMessage(apiMessage(error.response?.data?.error));
     }
   };
 

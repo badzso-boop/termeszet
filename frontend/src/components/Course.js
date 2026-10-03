@@ -3,6 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { useAdmin } from "../context/AdminContext";
+import { useTranslation } from "react-i18next";
+import apiMessage from "../i18n/apiMessage";
+import { useLocalizedPath } from "../i18n/useLocalizedPath";
 
 const Course = () => {
   const {
@@ -23,6 +26,8 @@ const Course = () => {
   const [localRegisterCourses, setLocalRegisterCourses] = useState([]);
 
   const navigate = useNavigate();
+  const { t } = useTranslation(["pages", "common"]);
+  const lp = useLocalizedPath();
 
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -75,11 +80,11 @@ const Course = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>{t("common:loading")}</div>;
   }
 
   if (!course) {
-    navigate('/courses');
+    navigate(lp('courses'));
     return null;
   }
 
@@ -105,12 +110,10 @@ const Course = () => {
       const response = await axios.post(`${API_BASE_URL}/api/paid`, {
         CourseRegisterId: eredmeny.id
       });
-      setPaymentMessage(response.data.message || "Payment successful.");
+      setPaymentMessage(response.data.message);
     } catch (error) {
       console.log(error)
-      setPaymentMessage(
-        error.response?.data?.error || "An error occurred while processing the payment."
-      );
+      setPaymentMessage(error.response?.data?.error || "generic.error");
     }
   };
 
@@ -143,7 +146,7 @@ const Course = () => {
                 {videoUrl && (
                   <video controls className="m-4 rounded-md max-w-full h-auto" controlsList="nodownload" onContextMenu={(e) => e.preventDefault()}>
                     <source src={videoUrl} type="video/mp4" />
-                    Your browser does not support the video tag.
+                    {t("course.videoNotSupported")}
                   </video>
                 )}
               </div>
@@ -156,7 +159,7 @@ const Course = () => {
             {/* Leckék: a kurzushoz tartozó, sorrendezett video+szöveg blokkok */}
             {course.lessons && course.lessons.length > 0 && (
               <div className="w-full flex flex-col items-center mt-6">
-                <h2 className="section-heading text-2xl mb-2">Leckék</h2>
+                <h2 className="section-heading text-2xl mb-2">{t("course.lessons")}</h2>
                 <div className="divider-gold mb-6" />
                 <div className="w-full flex flex-col gap-6">
                   {course.lessons.map((lesson) => {
@@ -171,7 +174,7 @@ const Course = () => {
                             {lessonVideoUrl && (
                               <video controls className="m-4 rounded-md max-w-full h-auto" controlsList="nodownload" onContextMenu={(e) => e.preventDefault()}>
                                 <source src={lessonVideoUrl} type="video/mp4" />
-                                Your browser does not support the video tag.
+                                {t("course.videoNotSupported")}
                               </video>
                             )}
                           </div>
@@ -188,30 +191,30 @@ const Course = () => {
           </div>
         ) : (
           <div className="w-full text-center mt-4">
-            <p className="bg-beige/40 border border-gold/40 text-ink rounded-md p-4">A videóhoz és a leíráshoz való hozzáférés korlátozott. Kérjük, győződjön meg róla, hogy regisztrált, kifizette a díjat, majd az admin engedélyezte.</p>
+            <p className="bg-beige/40 border border-gold/40 text-ink rounded-md p-4">{t("course.restricted")}</p>
           </div>
         )}
 
         {!isUserAllowed() && <div className="w-full sm:w-3/4 flex justify-center">
           <div className="m-4 w-full sm:w-1/2 text-center flex flex-col bg-secondary/90 border border-secondary/30 rounded-md p-4">
-            <span className="font-display text-2xl font-bold">Fizetés</span>
+            <span className="font-display text-2xl font-bold">{t("course.payment")}</span>
             <div className="divider-gold my-3" />
             <div className="w-full flex flex-col sm:flex-row">
               <div className="w-full sm:w-1/2 flex justify-center p-4">
                 <div className="text-left">
-                  <h1 className="font-bold text-lg uppercase">Címzett adatai:</h1>
+                  <h1 className="font-bold text-lg uppercase">{t("course.recipient")}</h1>
                   <div>
-                    <span className="text-regular font-bold">Név:</span>
+                    <span className="text-regular font-bold">{t("course.name")}</span>
                     <span className="text-regular"> Ujj Norbert</span>
                   </div>
                   <div>
-                    <span className="text-regular font-bold">Számlaszám:</span>
+                    <span className="text-regular font-bold">{t("course.accountNumber")}</span>
                     <span className="text-regular"> sok szám</span>
                   </div>
                 </div>
               </div>
               <div className="w-full sm:w-1/2 flex flex-col sm:flex-row justify-center items-center p-2">
-                <span className="font-bold">Közlemény:</span>
+                <span className="font-bold">{t("course.reference")}</span>
                 <span className="ml-3 italic">
                   {course.cim}-{course.id}-{userId}
                 </span>
@@ -221,7 +224,7 @@ const Course = () => {
             <div className="w-full flex flex-col sm:flex-row justify-center items-center">
               <div className="w-full sm:w-1/3 flex justify-center p-1">
                 <div className="mx-3 rounded-md bg-ivory font-bold p-2 text-center">
-                  {course.ar} Ft
+                  {t("courses.price", { amount: course.ar })}
                 </div>
               </div>
               <div className="w-full sm:w-1/3 flex justify-center p-1">
@@ -229,7 +232,7 @@ const Course = () => {
                   className="mx-3 btn-brand"
                   onClick={handlePayment}
                 >
-                  Befizettem!
+                  {t("course.paid")}
                 </button>
               </div>
             </div>
@@ -238,7 +241,7 @@ const Course = () => {
 
         {paymentMessage && (
           <div className="w-full text-center mt-4">
-            <p className="bg-ink text-ivory rounded-md p-4">{paymentMessage}</p>
+            <p className="bg-ink text-ivory rounded-md p-4">{apiMessage(paymentMessage)}</p>
           </div>
         )}
 

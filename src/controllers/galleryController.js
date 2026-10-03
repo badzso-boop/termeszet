@@ -15,7 +15,7 @@ exports.getGallery = async (req, res) => {
     res.json(images);
   } catch (error) {
     console.error('Error fetching gallery images:', error);
-    res.status(500).json({ error: 'Something went wrong.' });
+    res.status(500).json({ error: 'generic.error' });
   }
 };
 
@@ -30,7 +30,7 @@ exports.getFeaturedGallery = async (req, res) => {
     res.json(images);
   } catch (error) {
     console.error('Error fetching featured gallery images:', error);
-    res.status(500).json({ error: 'Something went wrong.' });
+    res.status(500).json({ error: 'generic.error' });
   }
 };
 
@@ -47,7 +47,7 @@ exports.uploadImages = async (req, res) => {
     }
 
     if (files.length === 0) {
-      return res.status(400).json({ error: 'No image files provided.' });
+      return res.status(400).json({ error: 'gallery.noFiles' });
     }
 
     const uploadDir = path.join(process.cwd(), 'uploads', 'gallery');
@@ -111,7 +111,7 @@ exports.uploadImages = async (req, res) => {
     res.status(201).json(createdImages);
   } catch (error) {
     console.error('Error in uploadImages:', error);
-    res.status(500).json({ error: 'Failed to process and upload images.' });
+    res.status(500).json({ error: 'gallery.uploadFailed' });
   }
 };
 
@@ -123,16 +123,16 @@ exports.toggleStar = async (req, res) => {
   try {
     const image = await Gallery.findByPk(imageId);
     if (!image) {
-      return res.status(404).json({ error: 'Image not found.' });
+      return res.status(404).json({ error: 'gallery.imageNotFound' });
     }
 
     image.isStarred = !image.isStarred;
     await image.save();
 
-    res.json({ message: 'Star status updated successfully', image });
+    res.json({ message: 'gallery.starUpdated', image });
   } catch (error) {
     console.error('Error toggling star status:', error);
-    res.status(500).json({ error: 'Something went wrong.' });
+    res.status(500).json({ error: 'generic.error' });
   }
 };
 
@@ -145,7 +145,7 @@ exports.updateImage = async (req, res) => {
   try {
     const image = await Gallery.findByPk(imageId);
     if (!image) {
-      return res.status(404).json({ error: 'Image not found.' });
+      return res.status(404).json({ error: 'gallery.imageNotFound' });
     }
 
     if (title !== undefined) {
@@ -156,10 +156,10 @@ exports.updateImage = async (req, res) => {
     }
 
     await image.save();
-    res.json({ message: 'Image updated successfully', image });
+    res.json({ message: 'gallery.imageUpdated', image });
   } catch (error) {
     console.error('Error updating gallery image:', error);
-    res.status(500).json({ error: 'Something went wrong.' });
+    res.status(500).json({ error: 'generic.error' });
   }
 };
 
@@ -171,7 +171,7 @@ exports.deleteImage = async (req, res) => {
   try {
     const image = await Gallery.findByPk(imageId);
     if (!image) {
-      return res.status(404).json({ error: 'Image not found.' });
+      return res.status(404).json({ error: 'gallery.imageNotFound' });
     }
 
     const uploadDir = path.join(process.cwd(), 'uploads', 'gallery');
@@ -205,9 +205,9 @@ exports.deleteImage = async (req, res) => {
     }
 
     await image.destroy();
-    res.json({ message: 'Image deleted successfully' });
+    res.json({ message: 'gallery.imageDeleted' });
   } catch (error) {
     console.error('Error deleting gallery image:', error);
-    res.status(500).json({ error: 'Something went wrong.' });
+    res.status(500).json({ error: 'generic.error' });
   }
 };

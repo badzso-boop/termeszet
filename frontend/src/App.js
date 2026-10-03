@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './pages/Home';
 import Courses from './pages/Courses';
 import Course from './components/Course';
@@ -13,6 +13,7 @@ import Adatvedelem from './pages/Adatvedelem';
 import GYIK from './pages/GYIK';
 import Contact from './pages/Contact';
 import Gallery from './pages/Gallery';
+import NotFound from './pages/NotFound';
 
 import AdminCreate from './components/AdminCreate';
 import AdminUserUpdate from './components/AdminUserUpdate';
@@ -20,38 +21,58 @@ import AdminCourseUpdate from './components/AdminCourseUpdate';
 import AdminHomeworkUpdate from './components/AdminHomeworkUpdate';
 
 import Navigation from './components/Navbar';
+import seoCore from './i18n/seoCore';
+import LanguageSync from './i18n/LanguageSync';
+import SeoManager from './i18n/SeoManager';
+
+// Útvonal-kulcs -> oldal. Az útvonalak nyelvenként az i18n/routes.json-ból jönnek
+// (pl. gallery: /galeria és /en/gallery), ugyanabból, amiből a szerver a SEO-tageket és a
+// sitemap.xml-t generálja.
+const PAGES = {
+  home: Home,
+  courses: Courses,
+  gallery: Gallery,
+  contact: Contact,
+  faq: GYIK,
+  terms: ASZF,
+  termsOfUse: FelhasznalasiFeltetelek,
+  privacy: Adatvedelem,
+  login: Login,
+  register: Register,
+  course: Course,
+  user: User,
+};
 
 const App = () => {
   return (
     <Router>
-      <div className="flex">
-        <Navigation />
-        <div className="flex-1 pt-16 sm:pt-0">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/courses" element={<Courses />} />
-            <Route path="/galeria" element={<Gallery />} />
-            <Route path="/gallery" element={<Gallery />} />
-            <Route path="/kapcsolat" element={<Contact />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/admin" element={<Admin />} />
+      <SeoManager />
+      <LanguageSync>
+        <div className="flex">
+          <Navigation />
+          <div className="flex-1 pt-16 sm:pt-0">
+            <Routes>
+              {seoCore.LANGUAGES.flatMap((lang) =>
+                Object.entries(PAGES).map(([key, Page]) => (
+                  <Route key={`${lang}-${key}`} path={seoCore.ROUTES[key][lang]} element={<Page />} />
+                ))
+              )}
+              {Object.entries(seoCore.REDIRECTS).map(([from, to]) => (
+                <Route key={from} path={from} element={<Navigate to={to} replace />} />
+              ))}
 
-            <Route path="/aszf" element={<ASZF />} />
-            <Route path="/felhasznalas" element={<FelhasznalasiFeltetelek />} />
-            <Route path="/adatvedelem" element={<Adatvedelem />} />
-            <Route path="/gyik" element={<GYIK />} />
+              {/* Admin felület: csak magyarul */}
+              <Route path="/admin" element={<Admin />} />
+              <Route path="/admincreate/course" element={<AdminCreate />} />
+              <Route path="/adminupdateuser/:id" element={<AdminUserUpdate type={"user"}/>} />
+              <Route path="/adminupdatecourse/:id" element={<AdminCourseUpdate type={"course"}/>} />
+              <Route path="/adminupdatehw/:id" element={<AdminHomeworkUpdate type={"hw"}/>} />
 
-            <Route path="/course/:id" element={<Course />} />
-            <Route path="/user/:id" element={<User />} />
-            <Route path="/admincreate/course" element={<AdminCreate />} />
-            <Route path="/adminupdateuser/:id" element={<AdminUserUpdate type={"user"}/>} />
-            <Route path="/adminupdatecourse/:id" element={<AdminCourseUpdate type={"course"}/>} />
-            <Route path="/adminupdatehw/:id" element={<AdminHomeworkUpdate type={"hw"}/>} />
-          </Routes>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </div>
         </div>
-      </div>
+      </LanguageSync>
     </Router>
   );
 };

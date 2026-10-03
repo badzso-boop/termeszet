@@ -34,7 +34,7 @@ describe('POST /api/newsletter', () => {
     expect(res.status).toBe(400);
   });
 
-  test('duplikált feliratkozás 200-at ad "már fel van iratkozva" üzenettel', async () => {
+  test('duplikált feliratkozás 200-at ad newsletter.alreadySubscribed kulccsal', async () => {
     const email = uniqueEmail('newsletter-dup');
     createdEmails.push(email);
 
@@ -43,7 +43,7 @@ describe('POST /api/newsletter', () => {
 
     const second = await request(app).post('/api/newsletter').send({ email });
     expect(second.status).toBe(200);
-    expect(second.body.message).toMatch(/már fel van iratkozva/i);
+    expect(second.body.message).toBe('newsletter.alreadySubscribed');
 
     const count = await NewsletterSubscriber.count({ where: { email } });
     expect(count).toBe(1);

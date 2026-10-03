@@ -1,0 +1,125 @@
+{
+  "hero": {
+    "roles": "Spiritual energy and soul healer · Foot reflexologist · Forrás-kód® soul-creation guide",
+    "intro": "I believe that body and soul are in constant dialogue with each other. Guidance towards your inner Source, your self-healing processes and a harmonious balance of body and soul.",
+    "viewCourses": "View courses",
+    "getInTouch": "Get in touch"
+  },
+  "about": {
+    "heading": "About me",
+    "role": "Soul-creation guide & reflexologist",
+    "paragraphs": [
+      "I believe that body and soul are in constant dialogue with each other. As a spiritual energy and soul healer, I use energy treatments and foot reflexology to accompany those who want to better understand what their body is telling them and how they can find their way back to their inner balance. Together with the people who come to me, we look at which physical and emotional processes may lie behind their symptoms. I support everyone in finding, at their own pace, the solutions that work best for them. For me this is a process that calls for presence and attention, in which I reveal the path that already lies within each guest, and help them become aware of the dormant abilities through which, by connecting to their inner Source, they can come to experience what their soul's purpose is.",
+      "As an empath, I have lived since childhood with a deep sensitivity that lets me gently attune to the inner processes of others. For more than thirty years this inner language has helped me sense deeper-rooted patterns, even those that span generations. For me, foot reflexology is a bridge: by working with the body's signals through the soles of the feet, we make room for old tensions and imprints to begin gently releasing. This is not a promise, but shared attention and guidance, at your own rhythm.",
+      "Even as a child I was strongly aware of people and the world around them. I made herbal teas, gave gentle massages and often found that pain eased. As a teenager I became more and more conscious of the subtle presence I felt in spaces and homes, and often a quiet, focused presence was enough for me to change the atmosphere of a place. Back then I could not yet name these experiences, I simply lived them; today I can see how much they shaped the path on which I now accompany people.",
+      "For more than ten years I have been accompanying people affected by cancer in finding their inner sources of support on their own path, at their own pace. I believe in cooperation. I support the people who come to me by offering complementary, supportive approaches alongside their medical care."
+    ]
+  },
+  "whyMe": {
+    "heading": "Why choose me?",
+    "items": [
+      {
+        "title": "30+ years of deep empathy",
+        "text": "A subtle attunement that has been with me since childhood, allowing me to sense deep-rooted, even generational patterns."
+      },
+      {
+        "title": "10+ years of experience",
+        "text": "For more than a decade I have been accompanying people living with cancer and chronic illness, as a complement to their medical care."
+      },
+      {
+        "title": "Personalised presence",
+        "text": "At your own rhythm, we uncover your inner Source and your dormant abilities for complete harmony."
+      }
+    ]
+  },
+  "services": {
+    "heading": "Services",
+    "duration": "Duration: {{duration}}",
+    "defaults": [
+      {
+        "title": "Combined Treatment",
+        "description": "Reflexology and energy treatment for the whole body, releasing physical blockages while harmonising the soul and your inner energies."
+      },
+      {
+        "title": "Blood Reflexology",
+        "description": "A targeted treatment that stimulates blood and lymph circulation and the optimal flow of body fluids, supporting the cells' oxygen and nutrient supply, detoxification and the renewal of the vascular network."
+      },
+      {
+        "title": "Lifestyle Counselling",
+        "description": "Through a personalised deep meditation I take you back to your state before birth and show you the processes that fit your current life, so that you can build your new life."
+      },
+      {
+        "title": "Nutrition and Energy Counselling",
+        "description": "Based on the processes your body shows, I put together your diet and recommend exercise, and we rebuild your life with life-renewing, mindset-shaping practices and exercises."
+      },
+      {
+        "title": "Soul-Creation Guide (Forrás-kód®)",
+        "description": "In this individual session you can ask for a new personality to be created in line with your original soul programme."
+      },
+      {
+        "title": "Foot Reflexology",
+        "description": "By working with the body's signals through the soles of the feet, we make room for old tensions, blockages and imprints to begin gently releasing."
+      }
+    ]
+  },
+  "gallery": {
+    "heading": "Gallery",
+    "intro": "Take a look at the most beautiful moments of the treatments, the courses and the peaceful surroundings.",
+    "previewAlt": "Gallery preview {{number}}",
+    "empty": "Our gallery will soon be filled with the latest moments.",
+    "more": "Go to the gallery"
+  },
+  "reflexology": {
+    "heading": "How Does Reflexology Work?",
+    "text": "Reflexology is a natural healing method that supports the body's self-healing processes by stimulating reflex points on the soles of the feet. Applying pressure to specific points on the sole activates their connection with the body's organs and energy systems, stimulating blood circulation and the flow of inner energy.",
+    "imageAlt": "Reflexology points on the sole of the foot"
+  },
+  "process": {
+    "heading": "What to expect from a treatment?",
+    "steps": [
+      {
+        "title": "1. Booking an appointment",
+        "text": "Get in touch with me by phone, email or through this website, and we will arrange the details."
+      },
+      {
+        "title": "2. Consultation",
+        "text": "We talk through your physical and emotional processes and symptoms in depth, so that the treatment is fully tailored to you and your pace."
+      },
+      {
+        "title": "3. Treatment and relaxation",
+        "text": "In a calm, caring atmosphere you receive the reflexology and/or energy treatment and leave recharged in body and soul."
+      }
+    ]
+  },
+  "testimonials": {
+    "heading": "What my clients say",
+    "items": [
+      {
+        "quote": "Thank you so much for your selfless and expert help in accompanying me through chemotherapy. You contributed greatly to my full recovery: you were always available and, working together with the doctors, gave me exactly the right methods.",
+        "author": "Zsuzsanna"
+      },
+      {
+        "quote": "Thank you for helping me recover from my bone marrow tumour.",
+        "author": "Erzsébet"
+      },
+      {
+        "quote": "I cannot be grateful enough for all the help, understanding and constant communication you gave us during the IVF programme. Without your help our little girl could not have been born. Thank you.",
+        "author": "Barbara"
+      },
+      {
+        "quote": "Dear Gabi, this is a huge miracle for me and I still can hardly believe it really happened! I'm pregnant! Everything is fine: hands, feet, fingers, nose, ears, heart, stomach, kidneys — everything is there and pulsing. Every part of my womb works well and is full of life!",
+        "author": "Katalin"
+      }
+    ]
+  },
+  "faqTeaser": {
+    "text": "Do you have a question about the treatments or the courses? Take a look at the frequently asked questions!",
+    "button": "FAQ"
+  },
+  "contact": {
+    "heading": "Get in touch with me!",
+    "text": "Do you have a question about the treatments or would you like to book an appointment? Feel free to call or email me!",
+    "details": "Full contact details",
+    "viewCourses": "View courses"
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "hero": {
+    "roles": "Spirituális energia- és lélekgyógyász · Talpreflexológus · Forrás-kód® lélekalkotás kísérő",
+    "intro": "Hiszem, hogy a test és a lélek folyamatosan párbeszédben van egymással. Kísérés a belső Forráshoz, az öngyógyító folyamatokhoz és a harmonikus testi-lelki egyensúlyhoz.",
+    "viewCourses": "Kurzusok megtekintése",
+    "getInTouch": "Kapcsolatfelvétel"
+  },
+  "about": {
+    "heading": "Bemutatkozás",
+    "role": "Lélekalkotás kísérő & Reflexológus",
+    "paragraphs": [
+      "Hiszem, hogy a test és a lélek folyamatosan párbeszédben van egymással. Spirituális energia- és lélekgyógyászként, energetikai kezeléssel és talpreflexológiával kísérem azokat, akik szeretnék jobban megérteni, mit üzen a testük, és hogyan találhatnak vissza a belső egyensúlyukhoz. A hozzám fordulókkal együtt nézzük meg, milyen testi-lelki folyamatok állhatnak a tünetek mögött. Abban támogatok mindenkit, hogy a saját tempójában haladva rátaláljon a számára leginkább működő megoldásokra. Számomra ez egy olyan jelenlétet és figyelmet igénylő folyamat, melyben a már a vendégemben lévő utat tárom fel önmagához, és tudatosítom benne azokat a szunnyadó képességeit, amit benső Forrásához kapcsolódva képessé válik megtapasztalni azt mi az Ő lélek feladata.",
+      "Empataként gyerekkorom óta velem él az a fajta mély érzékenység, amellyel finoman ráhangolódok mások belső folyamataira. Több mint harminc éve kísér ez a belső nyelv, amely segít ráérezni a mélyebben gyökerező, akár generációkon átívelő mintákra is. A talpreflexológia számomra egy híd: a talpon keresztül a test jelzéseivel dolgozva teret adunk annak, hogy régi feszültségek és lenyomatok finoman elkezdhessenek oldódni. Ez nem ígéret, hanem közös figyelem és kísérés, a saját ritmusodban.",
+      "Már gyerekkoromban is erősen érzékeltem az embereket és a körülöttük lévő világot. Gyógynövényteákat készítettem, gyengéden masszíroztam és sokszor azt tapasztaltam, hogy a fájdalom enyhül. Tinédzserként egyre tudatosabban figyeltem fel arra is, hogy terekben, otthonokban milyen más finom jelenlétet érzek, és számomra gyakran elég volt a csendes, koncentrált jelenlét ahhoz, hogy a hely atmoszférája megváltozzon. Ezeket a tapasztalatokat akkor még nem tudtam megnevezni, csak éltem őket, ma pedig már látom, hogy mennyire meghatározták azt az utat, amin ma kísérem az embereket.",
+      "Több mint tíz éve kísérek daganatos megbetegedéssel érintett embereket abban, hogy a saját útjukon, a saját tempójukban találják meg a belső támaszaikat. Hiszek az együttműködésben. A hozzám fordulókat abban támogatom, hogy az orvosi ellátás mellett kiegészítő, támogató megoldásokat adjak számukra."
+    ]
+  },
+  "whyMe": {
+    "heading": "Miért engem válassz?",
+    "items": [
+      {
+        "title": "30+ év mély empátia",
+        "text": "Gyerekkorom óta kísérő finom ráhangolódás, amellyel ráérzek a mélyen gyökerező, akár generációs mintákra is."
+      },
+      {
+        "title": "10+ év tapasztalat",
+        "text": "Több mint egy évtizede kísérek daganatos és krónikus betegséggel érintett embereket az orvosi ellátást kiegészítve."
+      },
+      {
+        "title": "Személyre szabott jelenlét",
+        "text": "A saját ritmusodban haladva tárjuk fel a belső Forrásodat és szunnyadó képességeidet a teljes harmóniáért."
+      }
+    ]
+  },
+  "services": {
+    "heading": "Szolgáltatások",
+    "duration": "Időtartam: {{duration}}",
+    "defaults": [
+      {
+        "title": "Kombinált Kezelés",
+        "description": "Reflexológia és energetikai kezelés az egész testre, amellyel a testi blokkok oldása mellett a lelket és a belső energiákat harmonizáljuk."
+      },
+      {
+        "title": "Vérreflexológia",
+        "description": "A vérkeringést, nyirokkeringést és a testnedvek optimális áramlását serkentő, célzott kezelés, amely elősegíti a sejtek oxigén- és tápanyagellátását, a méregtelenítést és az érhálózat megújulását."
+      },
+      {
+        "title": "Életmódtanácsadás",
+        "description": "Személyre szabott mély meditációval viszlek vissza a születés előtti állapotodhoz és mutatom be a jelenlegi életedhez illő folyamatokat, amivel az új életedet tudod felépíteni."
+      },
+      {
+        "title": "Táplálkozás és Energetikai Tanácsadás",
+        "description": "A tested által mutatott folyamatoknak megfelelően adom az étrendet, testmozgást javaslok, életmegújító, gondolkodásmód-formáló gyakorlatokkal és munkafolyamatokkal építjük újjá az életedet."
+      },
+      {
+        "title": "Lélekalkotás Kísérő (Forrás-kód®)",
+        "description": "Ezen a foglalkozáson egyénileg kérheted, hogy egy új személyiséget hozzunk létre a te eredendő lélekprogramodnak megfelelően."
+      },
+      {
+        "title": "Talpreflexológia",
+        "description": "A talpon keresztül a test jelzéseivel dolgozva teret adunk annak, hogy a régi feszültségek, blokkok és lenyomatok finoman elkezdhessenek oldódni."
+      }
+    ]
+  },
+  "gallery": {
+    "heading": "Galéria",
+    "intro": "Pillantson be a kezelések, a tanfolyamok és a békés környezet legszebb pillanataiba.",
+    "previewAlt": "Galéria előnézet {{number}}",
+    "empty": "Galériánk hamarosan feltöltésre kerül a legújabb pillanatokkal.",
+    "more": "Tovább a galériára"
+  },
+  "reflexology": {
+    "heading": "Hogyan Működik a Reflexológia?",
+    "text": "A reflexológia egy természetes gyógymód, amely a talpon található reflexpontok stimulálásával támogatja a test öngyógyító folyamatait. A talp bizonyos pontjaira gyakorolt nyomással aktiváljuk a test szerveivel és energetikai rendszereivel való kapcsolatot, serkentve a vérkeringést és a belső energiaáramlást.",
+    "imageAlt": "Reflexológiai pontok a talpon"
+  },
+  "process": {
+    "heading": "Mire számíthatsz egy kezelésen?",
+    "steps": [
+      {
+        "title": "1. Időpont-egyeztetés",
+        "text": "Vedd fel velem a kapcsolatot telefonon, emailben vagy az oldalon keresztül, és egyeztetjük a részleteket."
+      },
+      {
+        "title": "2. Konzultáció",
+        "text": "Alaposan átbeszéljük a testi-lelki folyamataidat, tüneteidet, hogy a kezelés teljesen rád és a tempódra legyen szabva."
+      },
+      {
+        "title": "3. Kezelés és relaxáció",
+        "text": "Nyugodt, gondoskodó légkörben megkapod a reflexológiai és/vagy energetikai kezelést, és testben-lélekben feltöltődve távozol."
+      }
+    ]
+  },
+  "testimonials": {
+    "heading": "Vendégvisszajelzések",
+    "items": [
+      {
+        "quote": "Hálásan köszönöm neked az önzetlen és szakértői segítségedet, amivel végigkísértél a kemoterápián, mert sokban hozzájárultál a teljes gyógyulásomhoz, hogy mindig elérhető voltál és a pontos módszereket az orvosokkal együttdolgozva adtad meg számomra.",
+        "author": "Zsuzsanna"
+      },
+      {
+        "quote": "Köszönöm, hogy a csontvelő daganatomból segítettél felépülni.",
+        "author": "Erzsébet"
+      },
+      {
+        "quote": "Nem tudok elég hálás lenni neked azért a sok segítségért, megértésért és folyamatos kommunikációért, amit a lombikos program alatt irányunkba mutattál. A segítséged nélkül nem születhetett volna meg kislányunk, köszönöm.",
+        "author": "Barbara"
+      },
+      {
+        "quote": "Drága Gabi, számomra hatalmas nagy csoda és még mindig alig hiszem el, hogy ez tényleg megtörtént! Várandós vagyok! Minden rendben, van keze lába, ujjai, orra, füle, szíve, gyomra, veséje, pulzál mindene. Az én méhem minden oldala jól működik és tele van élettel!",
+        "author": "Katalin"
+      }
+    ]
+  },
+  "faqTeaser": {
+    "text": "Kérdésed van a kezelésekkel vagy a kurzusokkal kapcsolatban? Nézd meg a gyakran ismételt kérdéseket!",
+    "button": "GY.I.K."
+  },
+  "contact": {
+    "heading": "Vedd fel velem a kapcsolatot!",
+    "text": "Kérdésed van a kezelésekről vagy szeretnél időpontot egyeztetni? Keress bátran telefonon vagy e-mailben!",
+    "details": "Részletes kapcsolati adatok",
+    "viewCourses": "Kurzusok megtekintése"
+  }
+}

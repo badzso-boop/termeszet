@@ -1,0 +1,215 @@
+{
+  "notice": "This is an English translation provided for convenience. In case of any discrepancy, the Hungarian version prevails.",
+  "terms": {
+    "title": "General Terms and Conditions",
+    "sections": [
+      {
+        "heading": "1. Introduction",
+        "paragraphs": [
+          "These General Terms and Conditions (hereinafter: Terms) govern the use of the online services provided by [Website name] (hereinafter: Service Provider). The services available on the website may be used by accepting the conditions below."
+        ],
+        "label": "Service Provider details:",
+        "items": [
+          "Company name: [Company name]",
+          "Registered office: [Address]",
+          "Tax number: [Tax number]",
+          "Company registration number: [Company registration number]",
+          "Contact: [Email, Phone]"
+        ]
+      },
+      {
+        "heading": "2. Conditions of use",
+        "paragraphs": [
+          "The website may be used and its services may be accessed exclusively under the conditions set out in these Terms. When using the website, users must comply with the applicable laws and must not infringe the rights of other users."
+        ],
+        "items": [
+          "Users must provide accurate information when registering.",
+          "Users are not entitled to use the data or permissions of third parties.",
+          "Any unlawful activity while using the services is prohibited."
+        ]
+      },
+      {
+        "heading": "3. Registration and creating an account",
+        "paragraphs": [
+          "To use the services, users must register on the website. When registering, users must provide true and accurate information. After creating an account, users are responsible for the security of their account and for keeping their login details confidential."
+        ],
+        "items": [
+          "Information required for registration: full name, email address, password, etc.",
+          "By creating an account, the user accepts the Terms and the Privacy Policy.",
+          "The account holder is fully responsible for the security of the account and for all activities related to it."
+        ]
+      },
+      {
+        "heading": "4. Description of services",
+        "paragraphs": [
+          "The website offers users various types of courses and subscription options. The available courses, their duration and content, as well as the method of access and fees, can be found in the details of each course."
+        ],
+        "items": [
+          "Types of courses: [e.g. online courses, workshops, video courses].",
+          "Access: Courses can be accessed via [e.g. subscription, payment of a one-off fee, etc.].",
+          "The content, duration, purpose and instructors of each course are set out in the description of the course in question."
+        ]
+      },
+      {
+        "heading": "5. Subscription terms",
+        "paragraphs": [
+          "A subscription gives users access to the courses available on the website for a specified period. Subscription fees and terms are displayed separately on the website."
+        ],
+        "items": [
+          "Subscription options: monthly, quarterly, yearly.",
+          "Payment methods: bank card, bank transfer, PayPal, etc.",
+          "Cancellation terms: The subscription can be cancelled at any time; however, fees already paid are non-refundable, except where required by law."
+        ]
+      },
+      {
+        "heading": "6. Refund policy",
+        "paragraphs": [
+          "The refund terms set out the cases in which users may request a refund of course or subscription fees."
+        ],
+        "items": [
+          "Dissatisfaction: Users may request a refund within the first [X days] if they are not satisfied with the service.",
+          "Technical problems: If the service is unavailable due to technical problems, the user may be entitled to a partial or full refund.",
+          "Legal provisions: The refund policy complies with the applicable laws and consumer protection regulations."
+        ]
+      },
+      {
+        "heading": "7. Copyright and intellectual property",
+        "paragraphs": [
+          "All content available on the website, including courses, articles, images, videos and other materials, is the property of the Service Provider or of the content's creator."
+        ],
+        "items": [
+          "The content may not be copied, distributed, modified or used in any form without the prior written permission of the Service Provider.",
+          "In the case of content uploaded by users, the user declares that they are entitled to share the content and that it does not infringe the rights of third parties."
+        ]
+      },
+      {
+        "heading": "8. Limitation of liability",
+        "paragraphs": [
+          "The Service Provider makes every effort to ensure that the content and services available on the website work without errors; however, it applies the following limitations of liability:"
+        ],
+        "items": [
+          "Technical errors: The Service Provider accepts no liability for technical problems, data loss or any indirect damage arising from the failure of the user's devices while using the website.",
+          "Access restrictions: The Service Provider reserves the right to temporarily restrict access to the website for maintenance or other reasons.",
+          "Content inaccuracies: The Service Provider accepts no liability for the correctness and completeness of the information on the website. Users must use their own judgement when using the information.",
+          "Third-party services: The Service Provider accepts no liability for services provided by third parties, or for their errors, that are accessible through the website."
+        ]
+      },
+      {
+        "heading": "9. Data protection",
+        "paragraphs": [
+          "The Service Provider is committed to protecting users' personal data and complies with the requirements of the European Union's General Data Protection Regulation (GDPR)."
+        ],
+        "items": [
+          "Data collection and use: The Service Provider may collect and process users' personal data during the use of the website. Purposes of processing: providing services, customer service, marketing communications, statistical analysis.",
+          "Privacy information: Users can find detailed information in the Privacy Policy, which sets out how data is collected, processed and stored.",
+          "User rights: Users may request the deletion or modification of their personal data, or the restriction of its processing, at any time."
+        ]
+      },
+      {
+        "heading": "10. Dispute resolution",
+        "paragraphs": [
+          "The parties shall try to settle any disputes arising between the Service Provider and users amicably, through negotiation. If this is unsuccessful, the court of the Service Provider's registered office shall have jurisdiction."
+        ],
+        "items": [
+          "Competent court: The court competent to settle disputes is located in [City name].",
+          "Governing law: Matters not regulated in these Terms are governed by the laws of Hungary in force, in particular the provisions of the Hungarian Civil Code."
+        ]
+      },
+      {
+        "heading": "11. Amendment of the Terms",
+        "paragraphs": [
+          "The Service Provider reserves the right to amend these Terms at any time. Users will be notified of any amendments via the website or by email."
+        ],
+        "items": [
+          "Right to amend: The Service Provider is entitled to amend these Terms unilaterally, in particular but not exclusively in the event of changes in legislation, the introduction of new services or the discontinuation of services.",
+          "Duty to notify: The Service Provider will notify users of the changes [X days] before the amendment takes effect."
+        ]
+      },
+      {
+        "heading": "12. Contact details",
+        "paragraphs": [
+          "Users may contact the Service Provider with any questions, comments or complaints at the following contact details:"
+        ],
+        "items": [
+          "Customer service: [Email address, phone number]",
+          "Postal address: [Address]",
+          "Customer service hours: [Monday to Friday, 9:00-17:00]"
+        ]
+      }
+    ]
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "sections": [
+      {
+        "heading": "1. Name and contact details of the data controller",
+        "fields": [
+          { "label": "Name:", "value": "[Name of the website owner]" },
+          { "label": "Address:", "value": "[Address of the website owner]" },
+          { "label": "Email:", "value": "[Email address]" },
+          { "label": "Phone:", "value": "[Phone number]" }
+        ]
+      },
+      {
+        "heading": "2. Scope of the data processed",
+        "paragraphs": [
+          "On our website we collect and process only the following data: name, email address, username, password (in encrypted form)."
+        ]
+      },
+      {
+        "heading": "3. Purpose and legal basis of processing",
+        "paragraphs": [
+          "Purpose of processing: identifying users, providing the website's services, providing access to courses, and managing user accounts.",
+          "Legal basis of processing: the user's consent given during registration (Article 6(1)(a) GDPR)."
+        ]
+      },
+      {
+        "heading": "4. Storage and security of data",
+        "paragraphs": [
+          "User data is stored on a secure MySQL server that can only be accessed by persons with the appropriate authorisation. Passwords are stored in encrypted form. We do not transfer data to third parties unless we are legally obliged to do so."
+        ]
+      },
+      {
+        "heading": "5. Data retention period",
+        "paragraphs": [
+          "We retain user data for as long as the user's registration is active. When a user account is deleted, the data is deleted without delay."
+        ]
+      },
+      {
+        "heading": "6. Users' rights",
+        "paragraphs": [
+          "Users have the right to access the data stored about them, to request its rectification, erasure or restriction, or to object to its processing. They also have the right to withdraw their consent at any time."
+        ]
+      },
+      {
+        "heading": "7. Data protection contact",
+        "paragraphs": [
+          "If you have any questions about our privacy policy, please contact us using the contact details given above."
+        ]
+      }
+    ]
+  },
+  "termsOfUse": {
+    "title": "Terms of Use",
+    "sections": [
+      {
+        "heading": "1. Ownership of the content on the website",
+        "paragraphs": [
+          "All content on the website – including but not limited to articles, videos, courses and other educational materials – is the exclusive property of the website owner. Copying, distributing, adapting or using it in any other way is only permitted with the owner's prior written consent."
+        ]
+      },
+      {
+        "heading": "2. Copyright protection",
+        "paragraphs": [
+          "Any unauthorised use of the website's content constitutes copyright infringement and will result in legal proceedings. The owner reserves the right to take legal action in the event of any unauthorised use."
+        ]
+      },
+      {
+        "heading": "3. Disclaimer",
+        "paragraphs": [
+          "The website owner accepts no liability for any direct or indirect damage resulting from the use of the content."
+        ]
+      }
+    ]
+  }
+}

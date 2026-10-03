@@ -1,0 +1,87 @@
+{
+  "generic": {
+    "error": "Hiba történt, kérjük, próbáld újra.",
+    "invalidData": "Érvénytelen vagy hiányzó adatok.",
+    "notFound": "A keresett elem nem található."
+  },
+  "auth": {
+    "invalidCredentials": "Hibás e-mail cím vagy jelszó.",
+    "loginSuccess": "Sikeres bejelentkezés.",
+    "noToken": "A művelethez be kell jelentkezned.",
+    "invalidToken": "A munkameneted lejárt, kérjük, jelentkezz be újra.",
+    "accessDenied": "Nincs jogosultságod ehhez a művelethez.",
+    "unauthorized": "A művelethez be kell jelentkezned."
+  },
+  "user": {
+    "notFound": "A felhasználó nem található.",
+    "alreadyExists": "Ezzel az e-mail címmel már létezik fiók.",
+    "registered": "Sikeres regisztráció! Most már bejelentkezhetsz.",
+    "created": "A felhasználó létrehozva.",
+    "updated": "A felhasználó adatai frissítve.",
+    "deleted": "A felhasználó törölve."
+  },
+  "course": {
+    "notFound": "A kurzus nem található.",
+    "created": "A kurzus létrehozva.",
+    "updated": "A kurzus frissítve.",
+    "deleted": "A kurzus törölve."
+  },
+  "courseRegistration": {
+    "notFound": "A kurzusjelentkezés nem található.",
+    "userOrCourseNotFound": "A felhasználó vagy a kurzus nem található.",
+    "registered": "Sikeresen jelentkeztél a kurzusra.",
+    "alreadyRegistered": "Erre a kurzusra már jelentkeztél.",
+    "paymentUpdated": "Köszönjük! A befizetésedet rögzítettük, a hozzáférést az ellenőrzés után aktiváljuk.",
+    "alreadyPaid": "A befizetésedet már korábban rögzítettük.",
+    "deleted": "A jelentkezés törölve.",
+    "enabledToggled": "A hozzáférés állapota módosítva.",
+    "adminPaidToggled": "A befizetés állapota módosítva."
+  },
+  "homework": {
+    "notFound": "A házi feladat nem található.",
+    "created": "A házi feladat létrehozva.",
+    "updated": "A házi feladat frissítve.",
+    "deleted": "A házi feladat törölve."
+  },
+  "lesson": {
+    "notFound": "A lecke nem található.",
+    "created": "A lecke létrehozva.",
+    "updated": "A lecke frissítve.",
+    "deleted": "A lecke törölve."
+  },
+  "video": {
+    "deleteFailed": "Nem sikerült törölni a videófájlt."
+  },
+  "gallery": {
+    "noFiles": "Nem választottál ki képet.",
+    "uploadFailed": "Nem sikerült feldolgozni és feltölteni a képeket.",
+    "imageNotFound": "A kép nem található.",
+    "imageDeleted": "A kép törölve.",
+    "imageUpdated": "A kép frissítve.",
+    "starUpdated": "A kiemelés módosítva."
+  },
+  "service": {
+    "titleAndDescriptionRequired": "A cím és a leírás megadása kötelező.",
+    "notFound": "A szolgáltatás nem található.",
+    "reorderFailed": "Nem sikerült frissíteni a sorrendet.",
+    "updateFailed": "Nem sikerült frissíteni a szolgáltatást.",
+    "fetchFeaturedFailed": "Nem sikerült lekérni a kiemelt szolgáltatásokat.",
+    "fetchFailed": "Nem sikerült lekérni a szolgáltatásokat.",
+    "createFailed": "Nem sikerült létrehozni a szolgáltatást.",
+    "starFailed": "Nem sikerült módosítani a kiemelést.",
+    "deleteFailed": "Nem sikerült törölni a szolgáltatást.",
+    "deleted": "A szolgáltatás sikeresen törölve.",
+    "starUpdated": "A kiemelés állapota sikeresen módosítva."
+  },
+  "newsletter": {
+    "invalidEmail": "Érvénytelen e-mail cím.",
+    "alreadySubscribed": "Ez az e-mail cím már fel van iratkozva.",
+    "subscribed": "Köszönjük a feliratkozást!"
+  },
+  "upload": {
+    "failed": "A fájl feltöltése nem sikerült.",
+    "fileTooLarge": "A fájl túl nagy.",
+    "invalidImageType": "Csak képfájl tölthető fel (jpeg, jpg, png, webp, gif, heic, heif).",
+    "invalidMediaType": "Csak MP4, MKV, AVI videó vagy MP3 hangfájl tölthető fel."
+  }
+}

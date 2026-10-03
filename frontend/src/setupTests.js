@@ -3,3 +3,6 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
+
+// Az i18n-t (react-i18next) a komponens-tesztek is az éles erőforrásokkal használják.
+import './i18n';

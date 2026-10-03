@@ -1,0 +1,57 @@
+{
+  "siteName": "Gabriella Németh",
+  "jobTitle": "Spiritual energy and soul healer, foot reflexologist, Forrás-kód® soul-creation guide",
+  "pages": {
+    "default": {
+      "title": "Gabriella Németh – Reflexology and Forrás-kód® Soul-Creation Guide",
+      "description": "Gabriella Németh – spiritual energy and soul healer, foot reflexologist and Forrás-kód® soul-creation guide. Reflexology foot massage, energy healing and combined treatments for balance of body and soul."
+    },
+    "home": {
+      "title": "Gabriella Németh – Foot Reflexology, Energy Healing and Forrás-kód® Soul Creation",
+      "description": "Foot reflexology, blood reflexology, energy healing and combined treatments, lifestyle and nutrition counselling. More than 10 years of experience in guiding people towards balance of body and soul."
+    },
+    "courses": {
+      "title": "Courses – Gabriella Németh",
+      "description": "Online and in-person courses on reflexology, self-awareness and connecting with your inner Source."
+    },
+    "gallery": {
+      "title": "Gallery – Gabriella Németh",
+      "description": "Moments from treatments, courses and the calm, harmonious practice environment."
+    },
+    "contact": {
+      "title": "Contact – Gabriella Németh",
+      "description": "Book an appointment or get in touch: +36 70 428 3858, azegy1@gmail.com. In-person treatments and online consultations."
+    },
+    "faq": {
+      "title": "Frequently Asked Questions – Gabriella Németh",
+      "description": "Answers to common questions about courses, payment, foot reflexology and energy treatments."
+    },
+    "terms": {
+      "title": "General Terms and Conditions – Gabriella Németh",
+      "description": "General terms and conditions for using the services and courses available on this website."
+    },
+    "termsOfUse": {
+      "title": "Terms of Use – Gabriella Németh",
+      "description": "Terms governing the use of the content on this website."
+    },
+    "privacy": {
+      "title": "Privacy Policy – Gabriella Németh",
+      "description": "Information about the personal data processed on this website, the purpose of processing and your rights."
+    },
+    "login": {
+      "title": "Log in – Gabriella Németh"
+    },
+    "register": {
+      "title": "Sign up – Gabriella Németh"
+    },
+    "course": {
+      "title": "Course – Gabriella Németh"
+    },
+    "user": {
+      "title": "Profile – Gabriella Németh"
+    },
+    "notFound": {
+      "title": "Page not found – Gabriella Németh"
+    }
+  }
+}

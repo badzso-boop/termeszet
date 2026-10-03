@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useTranslation } from 'react-i18next';
 import {
   faImages,
   faStar,
@@ -12,6 +13,7 @@ import Footer from '../components/Footer';
 import Newsletter from '../components/Newsletter';
 
 const Gallery = () => {
+  const { t } = useTranslation('pages');
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all'); // 'all' or 'starred'
@@ -57,10 +59,10 @@ const Gallery = () => {
           <div className="w-16 h-16 rounded-full bg-gold/20 text-gold flex items-center justify-center mx-auto mb-4">
             <FontAwesomeIcon icon={faImages} className="text-2xl" />
           </div>
-          <h1 className="brand-script text-4xl sm:text-6xl text-ink mb-3">Galéria</h1>
+          <h1 className="brand-script text-4xl sm:text-6xl text-ink mb-3">{t('gallery.heading')}</h1>
           <div className="divider-gold mb-4" />
           <p className="font-display text-lg sm:text-xl text-ink/80 max-w-2xl mx-auto">
-            Pillanatok a kezelésekről, a hangulatról és a természetgyógyászati térről.
+            {t('gallery.intro')}
           </p>
         </div>
       </section>
@@ -79,7 +81,7 @@ const Gallery = () => {
               }`}
             >
               <FontAwesomeIcon icon={faFilter} className="mr-2" />
-              Összes kép ({images.length})
+              {t('gallery.all', { count: images.length })}
             </button>
             <button
               onClick={() => setFilter('starred')}
@@ -90,7 +92,7 @@ const Gallery = () => {
               }`}
             >
               <FontAwesomeIcon icon={faStar} className="mr-2 text-gold" />
-              Kiemelt képek ({images.filter((i) => i.isStarred).length})
+              {t('gallery.starred', { count: images.filter((i) => i.isStarred).length })}
             </button>
           </div>
         )}
@@ -112,12 +114,12 @@ const Gallery = () => {
           <div className="text-center py-20 bg-white rounded-lg border border-secondary/20 p-8 max-w-md mx-auto shadow-sm">
             <FontAwesomeIcon icon={faImages} className="text-5xl text-gold/50 mb-4" />
             <h3 className="font-display text-xl font-semibold text-ink mb-2">
-              {filter === 'starred' ? 'Nincsenek kiemelt képek' : 'A galéria még üres'}
+              {filter === 'starred' ? t('gallery.noStarredTitle') : t('gallery.emptyTitle')}
             </h3>
             <p className="text-gray-600 text-sm">
               {filter === 'starred'
-                ? 'Jelenleg nincs egyetlen fénykép sem megjelölve kiemeltként.'
-                : 'Hamarosan feltöltésre kerülnek az első fényképek a rendelőről és kezelésekről.'}
+                ? t('gallery.noStarredText')
+                : t('gallery.emptyText')}
             </p>
           </div>
         )}
@@ -133,7 +135,7 @@ const Gallery = () => {
               >
                 <img
                   src={getThumbnailUrl(img)}
-                  alt={img.title || 'Galéria kép'}
+                  alt={img.title || t('gallery.imageAlt')}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                   loading="lazy"
                 />
@@ -149,7 +151,7 @@ const Gallery = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
                   <div className="flex items-center justify-between">
                     <p className="text-sm font-medium truncate drop-shadow-md">
-                      {img.title || 'Fénykép megtekintése'}
+                      {img.title || t('gallery.view')}
                     </p>
                     <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-ivory hover:text-gold shrink-0 ml-2">
                       <FontAwesomeIcon icon={faExpand} className="text-xs" />

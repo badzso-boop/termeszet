@@ -5,6 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import { useAdmin } from "../context/AdminContext";
 import UserPicker from "./UserPicker";
 import LessonManager from "./LessonManager";
+import apiMessage from "../i18n/apiMessage";
 
 const AdminUpdate = () => {
   const { id } = useParams();
@@ -117,9 +118,9 @@ const AdminUpdate = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      setMessage(response.data.message);
+      setMessage(apiMessage(response.data.message));
     } catch (error) {
-      setMessage(error.response?.data?.error || "Something went wrong.");
+      setMessage(apiMessage(error.response?.data?.error));
     }
   };
 

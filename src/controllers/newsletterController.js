@@ -6,20 +6,20 @@ exports.subscribe = async (req, res) => {
   const { email } = req.body;
 
   if (!email || !EMAIL_REGEX.test(email)) {
-    return res.status(400).json({ error: "Érvénytelen email cím." });
+    return res.status(400).json({ error: "newsletter.invalidEmail" });
   }
 
   try {
     const existing = await NewsletterSubscriber.findOne({ where: { email } });
     if (existing) {
-      return res.status(200).json({ message: "Ez az email cím már fel van iratkozva." });
+      return res.status(200).json({ message: "newsletter.alreadySubscribed" });
     }
 
     await NewsletterSubscriber.create({ email });
 
-    return res.status(201).json({ message: "Sikeres feliratkozás." });
+    return res.status(201).json({ message: "newsletter.subscribed" });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: "Szerverhiba történt." });
+    return res.status(500).json({ error: "generic.error" });
   }
 };

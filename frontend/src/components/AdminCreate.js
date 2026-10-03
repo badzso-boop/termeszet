@@ -4,6 +4,7 @@ import axios from 'axios'; // Assuming axios is being used
 import { useAuth } from "../context/AuthContext";
 import { useAdmin } from "../context/AdminContext";
 import UserPicker from "./UserPicker";
+import apiMessage from "../i18n/apiMessage";
 
 const AdminCreate = () => {
   const { rang, userId } = useAuth();
@@ -68,9 +69,9 @@ const AdminCreate = () => {
 
     try {
       const response = await axios.post(`${API_BASE_URL}/api/admin/createCourse`, data);
-      setMessage(response.data.message);
+      setMessage(apiMessage(response.data.message));
     } catch (error) {
-      setMessage(error.response?.data?.error || 'Something went wrong.');
+      setMessage(apiMessage(error.response?.data?.error));
     }
   };
 

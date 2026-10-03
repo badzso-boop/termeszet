@@ -24,6 +24,8 @@ COPY --chown=termeszet:nodejs package.json ./
 COPY --chown=termeszet:nodejs src ./src
 COPY --chown=termeszet:nodejs scripts ./scripts
 COPY --chown=termeszet:nodejs --from=frontend-builder /app/frontend/build ./public
+# Közös útvonaltábla + SEO-szövegek: a src/seo.js ebből injektálja a head-tageket
+COPY --chown=termeszet:nodejs --from=frontend-builder /app/frontend/src/i18n ./i18n
 
 RUN mkdir -p uploads/gallery && chown -R termeszet:nodejs uploads
 

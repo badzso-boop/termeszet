@@ -74,7 +74,7 @@ exports.getServices = async (req, res) => {
     res.json(services);
   } catch (error) {
     console.error('Error fetching services:', error);
-    res.status(500).json({ error: 'Nem sikerült lekérni a szolgáltatásokat.' });
+    res.status(500).json({ error: 'service.fetchFailed' });
   }
 };
 
@@ -92,7 +92,7 @@ exports.getFeaturedServices = async (req, res) => {
     res.json(services);
   } catch (error) {
     console.error('Error fetching featured services:', error);
-    res.status(500).json({ error: 'Nem sikerült lekérni a kiemelt szolgáltatásokat.' });
+    res.status(500).json({ error: 'service.fetchFeaturedFailed' });
   }
 };
 
@@ -102,7 +102,7 @@ exports.createService = async (req, res) => {
     const { title, description, price, duration, isStarred, iconType, order } = req.body;
 
     if (!title || !description) {
-      return res.status(400).json({ error: 'A cím és a leírás megadása kötelező.' });
+      return res.status(400).json({ error: 'service.titleAndDescriptionRequired' });
     }
 
     let iconUrl = null;
@@ -131,7 +131,7 @@ exports.createService = async (req, res) => {
     res.status(201).json(newService);
   } catch (error) {
     console.error('Error creating service:', error);
-    res.status(500).json({ error: 'Nem sikerült létrehozni a szolgáltatást.' });
+    res.status(500).json({ error: 'service.createFailed' });
   }
 };
 
@@ -141,7 +141,7 @@ exports.updateService = async (req, res) => {
   try {
     const service = await Service.findByPk(id);
     if (!service) {
-      return res.status(404).json({ error: 'A szolgáltatás nem található.' });
+      return res.status(404).json({ error: 'service.notFound' });
     }
 
     const { title, description, price, duration, isStarred, iconType, order } = req.body;
@@ -168,7 +168,7 @@ exports.updateService = async (req, res) => {
     res.json(service);
   } catch (error) {
     console.error('Error updating service:', error);
-    res.status(500).json({ error: 'Nem sikerült frissíteni a szolgáltatást.' });
+    res.status(500).json({ error: 'service.updateFailed' });
   }
 };
 
@@ -178,16 +178,16 @@ exports.toggleStarService = async (req, res) => {
   try {
     const service = await Service.findByPk(id);
     if (!service) {
-      return res.status(404).json({ error: 'A szolgáltatás nem található.' });
+      return res.status(404).json({ error: 'service.notFound' });
     }
 
     service.isStarred = !service.isStarred;
     await service.save();
 
-    res.json({ message: 'Csillagozás állapota sikeresen módosítva', service });
+    res.json({ message: 'service.starUpdated', service });
   } catch (error) {
     console.error('Error toggling service star:', error);
-    res.status(500).json({ error: 'Nem sikerült módosítani a kiemelést.' });
+    res.status(500).json({ error: 'service.starFailed' });
   }
 };
 
@@ -197,7 +197,7 @@ exports.deleteService = async (req, res) => {
   try {
     const service = await Service.findByPk(id);
     if (!service) {
-      return res.status(404).json({ error: 'A szolgáltatás nem található.' });
+      return res.status(404).json({ error: 'service.notFound' });
     }
 
     // Ha van egyedi feltöltött kép, opcionálisan törölhetjük a lemezről
@@ -213,10 +213,10 @@ exports.deleteService = async (req, res) => {
     }
 
     await service.destroy();
-    res.json({ message: 'A szolgáltatás sikeresen törölve.' });
+    res.json({ message: 'service.deleted' });
   } catch (error) {
     console.error('Error deleting service:', error);
-    res.status(500).json({ error: 'Nem sikerült törölni a szolgáltatást.' });
+    res.status(500).json({ error: 'service.deleteFailed' });
   }
 };
 
@@ -225,7 +225,7 @@ exports.reorderServices = async (req, res) => {
   try {
     const { items } = req.body; // Array of { id, order }
     if (!Array.isArray(items)) {
-      return res.status(400).json({ error: 'Érvénytelen adatformátum.' });
+      return res.status(400).json({ error: 'generic.invalidData' });
     }
 
     for (const item of items) {
@@ -247,6 +247,6 @@ exports.reorderServices = async (req, res) => {
     res.json(updated);
   } catch (error) {
     console.error('Error reordering services:', error);
-    res.status(500).json({ error: 'Nem sikerült frissíteni a sorrendet.' });
+    res.status(500).json({ error: 'service.reorderFailed' });
   }
 };

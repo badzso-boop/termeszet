@@ -1,0 +1,96 @@
+{
+  "brand": {
+    "name": "Németh Gabriella",
+    "tagline": "Reflexológia és Forrás-kód® lélekalkotás kísérő",
+    "logoAlt": "Németh Gabriella logó"
+  },
+  "nav": {
+    "home": "Főoldal",
+    "homeDesc": "Kezdőlap",
+    "courses": "Kurzusok",
+    "coursesDesc": "Elérhető képzések & tananyagok",
+    "gallery": "Galéria",
+    "galleryDesc": "Fényképek & pillanatok",
+    "contact": "Kapcsolat",
+    "contactDesc": "Elérhetőségek & kapcsolatfelvétel",
+    "login": "Bejelentkezés",
+    "loginDesc": "Fiók belépés",
+    "register": "Regisztráció",
+    "registerDesc": "Új fiók létrehozása",
+    "admin": "Admin",
+    "adminDesc": "Adminisztrációs felület",
+    "profile": "Profil",
+    "profileDesc": "Saját profil & adatok",
+    "logout": "Kijelentkezés",
+    "openMenu": "Menü megnyitása",
+    "closeMenu": "Menü bezárása",
+    "toggleMenu": "Menü kapcsoló",
+    "expandMenu": "Menü kinyitása",
+    "collapseMenu": "Menü összecsukása"
+  },
+  "language": {
+    "label": "Nyelv",
+    "switchTo": "English",
+    "switchToShort": "EN",
+    "switchAria": "Switch to English"
+  },
+  "footer": {
+    "phone": "Tel",
+    "email": "E-mail",
+    "faq": "GY.I.K.",
+    "terms": "ÁSZF",
+    "termsOfUse": "Felhasználási feltételek",
+    "privacy": "Adatvédelem",
+    "rights": "Minden jog fenntartva."
+  },
+  "social": {
+    "facebookAria": "Facebook profil",
+    "youtubeAria": "YouTube csatorna"
+  },
+  "newsletter": {
+    "title": "Iratkozz fel a hírlevélre!",
+    "text": "Legyél az elsők között, aki értesül az új kurzusokról és időpontokról.",
+    "placeholder": "Email címed",
+    "submit": "Feliratkozom"
+  },
+  "lightbox": {
+    "viewer": "Fénykép megtekintő",
+    "zoomOut": "Kicsinyítés",
+    "zoomOutTitle": "Kicsinyítés (-)",
+    "zoomIn": "Nagyítás",
+    "zoomInTitle": "Nagyítás (+)",
+    "reset": "Visszaállítás",
+    "resetTitle": "Visszaállítás (R)",
+    "close": "Bezárás",
+    "closeTitle": "Bezárás (Esc)",
+    "prev": "Előző kép",
+    "prevTitle": "Előző kép (Balra nyíl)",
+    "next": "Következő kép",
+    "nextTitle": "Következő kép (Jobbra nyíl)",
+    "imageAlt": "Galéria kép {{number}}",
+    "hint": "Érintéssel / görgetéssel vagy a gombokkal nagyíthatsz és lapozhatsz"
+  },
+  "youtube": {
+    "heading": "Videók & Előadások",
+    "intro": "Nézzen bele előadásaimba, gyakorlati útmutatóimba és lélekemelő gondolataimba a hivatalos YouTube csatornámon.",
+    "playerTitle": "YouTube videó lejátszó",
+    "coverAlt": "Videó borítókép",
+    "clickToPlay": "Kattintson a lejátszáshoz",
+    "uploaded": "Feltöltve: {{date}}",
+    "openOnYoutube": "Megnyitás YouTube-on",
+    "latest": "Legfrissebb feltöltések",
+    "videoCount_one": "{{count}} videó",
+    "videoCount_other": "{{count}} videó",
+    "channelTitle": "Németh Gabriella YouTube Csatornája",
+    "channelText": "Kövesd figyelemmel a rendszeresen megjelenő új videókat, meditációkat és természetgyógyászati útmutatókat!",
+    "subscribeAria": "Feliratkozás a YouTube csatornára",
+    "subscribe": "Feliratkozás a csatornára",
+    "allVideos": "Összes videó megtekintése"
+  },
+  "notFound": {
+    "title": "Az oldal nem található",
+    "text": "A keresett oldal nem létezik, vagy időközben elköltözött.",
+    "backHome": "Vissza a főoldalra"
+  },
+  "loading": "Betöltés..."
+}

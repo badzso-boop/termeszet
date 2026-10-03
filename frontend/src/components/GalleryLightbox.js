@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useTranslation } from 'react-i18next';
 import {
   faTimes,
   faChevronLeft,
@@ -57,6 +58,7 @@ const GalleryLightbox = ({
   onIndexChange
 }) => {
   const activeInitial = propIndex !== undefined ? propIndex : initialIndex;
+  const { t } = useTranslation();
   const [currentIndex, setCurrentIndex] = useState(activeInitial);
   const [scale, setScale] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -247,7 +249,7 @@ const GalleryLightbox = ({
     <div
       role="dialog"
       aria-modal="true"
-      aria-label="Fénykép megtekintő"
+      aria-label={t('lightbox.viewer')}
       className="fixed inset-0 z-50 bg-black/95 flex flex-col justify-between select-none animate-fadeIn backdrop-blur-sm"
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
@@ -272,8 +274,8 @@ const GalleryLightbox = ({
             onClick={zoomOut}
             disabled={scale <= 1}
             className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center hover:bg-white/10 disabled:opacity-30 transition-colors text-ivory border border-white/10"
-            title="Kicsinyítés (-)"
-            aria-label="Kicsinyítés"
+            title={t('lightbox.zoomOutTitle')}
+            aria-label={t('lightbox.zoomOut')}
           >
             <FontAwesomeIcon icon={faSearchMinus} className="text-sm sm:text-base" />
           </button>
@@ -282,8 +284,8 @@ const GalleryLightbox = ({
             onClick={zoomIn}
             disabled={scale >= 4}
             className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center hover:bg-white/10 disabled:opacity-30 transition-colors text-ivory border border-white/10"
-            title="Nagyítás (+)"
-            aria-label="Nagyítás"
+            title={t('lightbox.zoomInTitle')}
+            aria-label={t('lightbox.zoomIn')}
           >
             <FontAwesomeIcon icon={faSearchPlus} className="text-sm sm:text-base" />
           </button>
@@ -292,8 +294,8 @@ const GalleryLightbox = ({
               type="button"
               onClick={resetZoom}
               className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors text-ivory border border-gold/30 hover:border-gold"
-              title="Visszaállítás (R)"
-              aria-label="Visszaállítás"
+              title={t('lightbox.resetTitle')}
+              aria-label={t('lightbox.reset')}
             >
               <FontAwesomeIcon icon={faRotateRight} className="text-sm sm:text-base" />
             </button>
@@ -302,8 +304,8 @@ const GalleryLightbox = ({
             type="button"
             onClick={onClose}
             className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center hover:bg-white/10 text-ivory hover:text-gold transition-colors ml-1 sm:ml-2 border border-gold/40"
-            title="Bezárás (Esc)"
-            aria-label="Bezárás"
+            title={t('lightbox.closeTitle')}
+            aria-label={t('lightbox.close')}
           >
             <FontAwesomeIcon icon={faTimes} className="text-lg sm:text-xl" />
           </button>
@@ -328,8 +330,8 @@ const GalleryLightbox = ({
               handlePrev();
             }}
             className="absolute left-2 sm:left-6 z-20 w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center bg-black/40 hover:bg-black/80 text-white hover:text-gold border border-gold/30 hover:border-gold transition-all backdrop-blur-sm shadow-lg"
-            aria-label="Előző kép"
-            title="Előző kép (Balra nyíl)"
+            aria-label={t('lightbox.prev')}
+            title={t('lightbox.prevTitle')}
           >
             <FontAwesomeIcon icon={faChevronLeft} className="text-lg sm:text-xl" />
           </button>
@@ -345,7 +347,7 @@ const GalleryLightbox = ({
         >
           <img
             src={imgSrc}
-            alt={imgTitle || `Galéria kép ${currentIndex + 1}`}
+            alt={imgTitle || t('lightbox.imageAlt', { number: currentIndex + 1 })}
             className="max-h-[75vh] max-w-[92vw] sm:max-w-[85vw] object-contain shadow-2xl rounded transition-opacity duration-300 pointer-events-auto"
             draggable={false}
           />
@@ -360,8 +362,8 @@ const GalleryLightbox = ({
               handleNext();
             }}
             className="absolute right-2 sm:right-6 z-20 w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center bg-black/40 hover:bg-black/80 text-white hover:text-gold border border-gold/30 hover:border-gold transition-all backdrop-blur-sm shadow-lg"
-            aria-label="Következő kép"
-            title="Következő kép (Jobbra nyíl)"
+            aria-label={t('lightbox.next')}
+            title={t('lightbox.nextTitle')}
           >
             <FontAwesomeIcon icon={faChevronRight} className="text-lg sm:text-xl" />
           </button>
@@ -383,7 +385,7 @@ const GalleryLightbox = ({
           </div>
         ) : (
           <p className="text-white/60 text-xs sm:text-sm font-light">
-            Érintéssel / görgetéssel vagy a gombokkal nagyíthatsz és lapozhatsz
+            {t('lightbox.hint')}
           </p>
         )}
       </div>

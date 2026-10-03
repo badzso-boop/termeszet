@@ -8,6 +8,7 @@ const adminRoutes = require('./routes/adminRoutes');
 require('./models/associations');
 const cors = require('cors');
 const path = require('path');
+const seo = require('./seo');
 
 dotenv.config();
 const app = express();
@@ -32,7 +33,21 @@ if (!fs.existsSync(galleryUploadsDir)) {
 }
 
 const termeszetBuildPath = path.join(__dirname, '..', 'public');
-app.use('/', express.static(termeszetBuildPath));
+
+// SEO: sitemap/robots dinamikusan (a SITE_URL-lel és a közös útvonaltáblával), régi
+// aliasok és záró perjeles URL-ek 301-gyel a kanonikus címre.
+app.get('/sitemap.xml', (req, res) => res.type('application/xml').send(seo.sitemapXml()));
+app.get('/robots.txt', (req, res) => res.type('text/plain').send(seo.robotsTxt()));
+app.get(/^\/(?!api\/)/, (req, res, next) => {
+  const target = seo.redirectFor(req.path);
+  if (!target) return next();
+  const query = req.originalUrl.slice(req.path.length);
+  res.redirect(301, target + query);
+});
+
+// index: false -- a "/" se a nyers index.html-t kapja, hanem az SEO-tagekkel kiegészítettet
+// (lásd az SPA fallbacket lent).
+app.use('/', express.static(termeszetBuildPath, { index: false }));
 // Csak a galéria-mappa publikus: az uploads/ gyökerében a kurzusvideók vannak, azokat
 // kizárólag a jogosultság-ellenőrző /api/video/:filename végpont szolgálhatja ki.
 app.use('/uploads/gallery', express.static(galleryUploadsDir));
@@ -40,19 +55,33 @@ app.use('/uploads/gallery', express.static(galleryUploadsDir));
 app.use('/api', userRoutes);
 app.use('/api/admin', adminRoutes);
 
-// Hibakezelő middleware (Multer, token és általános szerverhibák JSON formátumban)
+// SPA fallback: minden nem-API GET kérés (pl. /courses közvetlen megnyitása vagy
+// frissítése) az index.html-t kapja, hogy a React Router kliens oldalon tudja kezelni --
+// az URL nyelvének megfelelő SEO-tagekkel, ismeretlen útvonalnál 404-es státusszal.
+let indexTemplate = null;
+app.get(/^\/(?!api\/).*/, (req, res, next) => {
+  try {
+    indexTemplate = indexTemplate || fs.readFileSync(path.join(termeszetBuildPath, 'index.html'), 'utf8');
+  } catch (err) {
+    return next(err);
+  }
+  const { status, html } = seo.renderPage(indexTemplate, req.path);
+  res.status(status).type('html').send(html);
+});
+
+// Hibakezelő middleware: mindig i18n-kulcsot küld vissza (`{ error: <kulcs> }`), a belső
+// hibaüzenetet csak naplózza -- a frontend fordítja a kulcsot a látogató nyelvére.
 app.use((err, req, res, next) => {
   console.error('Express Error Handler:', err);
   if (err.name === 'MulterError') {
-    return res.status(400).json({ error: `Feltöltési hiba: ${err.message}` });
+    const key = err.code === 'LIMIT_FILE_SIZE' ? 'upload.fileTooLarge' : 'upload.failed';
+    return res.status(400).json({ error: key });
   }
-  res.status(err.status || 500).json({ error: err.message || 'Szerverhiba történt.' });
-});
-
-// SPA fallback: minden nem-API GET kérés (pl. /courses közvetlen megnyitása vagy
-// frissítése) az index.html-t kapja, hogy a React Router kliens oldalon tudja kezelni.
-app.get(/^\/(?!api\/).*/, (req, res) => {
-  res.sendFile(path.join(termeszetBuildPath, 'index.html'));
+  if (err.messageKey) {
+    return res.status(err.status || 400).json({ error: err.messageKey });
+  }
+  const status = err.status || 500;
+  res.status(status).json({ error: status < 500 ? 'generic.invalidData' : 'generic.error' });
 });
 
 

@@ -16,7 +16,7 @@ exports.getUsers = async (req, res) => {
     res.json(users);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Something went wrong." });
+    res.status(500).json({ error: "generic.error" });
   }
 };
 
@@ -28,7 +28,7 @@ exports.updateUser = async (req, res) => {
   try {
     const user = await User.findByPk(id);
     if (!user) {
-      return res.status(404).json({ error: "User not found." });
+      return res.status(404).json({ error: "user.notFound" });
     }
 
     // Frissítendő mezők beállítása
@@ -46,10 +46,10 @@ exports.updateUser = async (req, res) => {
     if (mutetek) user.mutetek = mutetek;
 
     await user.save();
-    res.json({ message: "Update successful." });
+    res.json({ message: "user.updated" });
   } catch (error) {
     console.error(error);
-    res.status(400).json({ error: "Invalid data." });
+    res.status(400).json({ error: "generic.invalidData" });
   }
 };
 
@@ -59,12 +59,12 @@ exports.deleteUser = async (req, res) => {
   try {
     const user = await User.findByPk(id);
     if (!user) {
-      return res.status(404).json({ error: "User not found." });
+      return res.status(404).json({ error: "user.notFound" });
     }
     await user.destroy();
-    res.json({ message: "Delete successful." });
+    res.json({ message: "user.deleted" });
   } catch (error) {
-    res.status(400).json({ error: "Something went wrong." });
+    res.status(400).json({ error: "generic.error" });
   }
 };
 
@@ -90,10 +90,10 @@ exports.createUser = async (req, res) => {
       goal: "",
       courses: {},
     });
-    res.status(201).json({ message: "User creation successful." });
+    res.status(201).json({ message: "user.created" });
   } catch (error) {
     console.log(error);
-    res.status(400).json({ error: "Something went wrong." });
+    res.status(400).json({ error: "generic.error" });
   }
 };
 
@@ -104,7 +104,7 @@ exports.getHomeworks = async (req, res) => {
     res.json(homeworks);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Something went wrong." });
+    res.status(500).json({ error: "generic.error" });
   }
 };
 
@@ -129,10 +129,10 @@ exports.createUserHomework = async (req, res) => {
       megoldas,
       kesz,
     });
-    res.status(201).json({ message: "User homework creation successful." });
+    res.status(201).json({ message: "homework.created" });
   } catch (error) {
     console.log(error);
-    res.status(400).json({ error: "Something went wrong." });
+    res.status(400).json({ error: "generic.error" });
   }
 };
 
@@ -151,7 +151,7 @@ exports.updateUserHomework = async (req, res) => {
   try {
     const homework = await Homework.findByPk(id);
     if (!homework) {
-      return res.status(404).json({ error: "Homework not found." });
+      return res.status(404).json({ error: "homework.notFound" });
     }
     if (cim) homework.cim = cim;
     if (felhasznaloId) homework.felhasznaloId = felhasznaloId;
@@ -161,9 +161,9 @@ exports.updateUserHomework = async (req, res) => {
     if (megoldas) homework.megoldas = megoldas;
     if (kesz !== undefined) homework.kesz = kesz;
     await homework.save();
-    res.json({ message: "User homework update successful." });
+    res.json({ message: "homework.updated" });
   } catch (error) {
-    res.status(400).json({ error: "Something went wrong." });
+    res.status(400).json({ error: "generic.error" });
   }
 };
 
@@ -173,12 +173,12 @@ exports.deleteUserHomework = async (req, res) => {
   try {
     const homework = await Homework.findByPk(id);
     if (!homework) {
-      return res.status(404).json({ error: "Homework not found." });
+      return res.status(404).json({ error: "homework.notFound" });
     }
     await homework.destroy();
-    res.json({ message: "User homework delete successful." });
+    res.json({ message: "homework.deleted" });
   } catch (error) {
-    res.status(400).json({ error: "Something went wrong." });
+    res.status(400).json({ error: "generic.error" });
   }
 };
 
@@ -189,7 +189,7 @@ exports.getCourses = async (req, res) => {
     res.json(courses);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Something went wrong." });
+    res.status(500).json({ error: "generic.error" });
   }
 };
 
@@ -225,10 +225,10 @@ exports.createCourse = async (req, res) => {
       megkotesek,
       video: videoUrl
     });
-    res.status(201).json({ message: "Course creation successful." });
+    res.status(201).json({ message: "course.created" });
   } catch (error) {
     console.log("ezittaz", error);
-    res.status(400).json({ error: "Something went wrong." });
+    res.status(400).json({ error: "generic.error" });
   }
 };
 
@@ -253,7 +253,7 @@ exports.updateCourse = async (req, res) => {
   try {
     const course = await Course.findByPk(id);
     if (!course) {
-      return res.status(404).json({ error: "Course not found." });
+      return res.status(404).json({ error: "course.notFound" });
     }
 
     // Update fields if they are provided in the request
@@ -271,9 +271,9 @@ exports.updateCourse = async (req, res) => {
 
     await course.save();
 
-    res.json({ message: "Course update successful." });
+    res.json({ message: "course.updated" });
   } catch (error) {
-    res.status(400).json({ error: "Something went wrong." });
+    res.status(400).json({ error: "generic.error" });
   }
 };
 
@@ -284,7 +284,7 @@ exports.deleteCourse = async (req, res) => {
   try {
     const course = await Course.findByPk(id);
     if (!course) {
-      return res.status(404).json({ error: "Course not found." });
+      return res.status(404).json({ error: "course.notFound" });
     }
 
     if (course.video) {
@@ -294,7 +294,7 @@ exports.deleteCourse = async (req, res) => {
         fs.unlink(videoPath, (err) => {
           if (err) {
             console.error(err);
-            return res.status(500).json({ error: "Error deleting video file." });
+            return res.status(500).json({ error: "video.deleteFailed" });
           }
           // Fájl törölve
           console.log("Video file deleted successfully.");
@@ -303,10 +303,10 @@ exports.deleteCourse = async (req, res) => {
     }
 
     await course.destroy();
-    res.json({ message: "Course delete successful." });
+    res.json({ message: "course.deleted" });
   } catch (error) {
     console.error(error);
-    res.status(400).json({ error: "Something went wrong." });
+    res.status(400).json({ error: "generic.error" });
   }
 };
 
@@ -317,7 +317,7 @@ exports.registerCourses = async (req, res) => {
     res.json(courses);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Something went wrong." });
+    res.status(500).json({ error: "generic.error" });
   }
 };
 
@@ -326,15 +326,15 @@ exports.toggleRegisteredCourse = async (req, res) => {
   try {
     const course = await CourseRegister.findByPk(id);
     if (!course) {
-      return res.status(404).json({ error: "Course not found." });
+      return res.status(404).json({ error: "course.notFound" });
     }
 
     const data = course.enabled
     await course.update({ enabled: !data });
-    res.json({ message: "Course enabled successful." });
+    res.json({ message: "courseRegistration.enabledToggled" });
   } catch (error) {
     console.error(error);
-    res.status(400).json({ error: "Something went wrong." });
+    res.status(400).json({ error: "generic.error" });
   }
 };
 
@@ -343,15 +343,15 @@ exports.toggleRegisteredCourseAdminPaid = async (req, res) => {
   try {
     const course = await CourseRegister.findByPk(CourseRegisterId);
     if (!course) {
-      return res.status(404).json({ error: "Course not found." });
+      return res.status(404).json({ error: "course.notFound" });
     }
 
     const data = course.adminPaid
     await course.update({ adminPaid: !data });
-    res.json({ message: "Course adminPaid successful." });
+    res.json({ message: "courseRegistration.adminPaidToggled" });
   } catch (error) {
     console.error(error);
-    res.status(400).json({ error: "Something went wrong." });
+    res.status(400).json({ error: "generic.error" });
   }
 };
 
@@ -366,7 +366,7 @@ exports.getLessons = async (req, res) => {
     res.json(lessons);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Something went wrong." });
+    res.status(500).json({ error: "generic.error" });
   }
 };
 
@@ -378,7 +378,7 @@ exports.createLesson = async (req, res) => {
   try {
     const course = await Course.findByPk(courseId);
     if (!course) {
-      return res.status(404).json({ error: "Course not found." });
+      return res.status(404).json({ error: "course.notFound" });
     }
 
     const newLesson = await Lesson.create({
@@ -389,10 +389,10 @@ exports.createLesson = async (req, res) => {
       video: videoUrl,
     });
 
-    res.status(201).json({ message: "Lesson creation successful.", lesson: newLesson });
+    res.status(201).json({ message: "lesson.created", lesson: newLesson });
   } catch (error) {
     console.log(error);
-    res.status(400).json({ error: "Something went wrong." });
+    res.status(400).json({ error: "generic.error" });
   }
 };
 
@@ -404,7 +404,7 @@ exports.updateLesson = async (req, res) => {
   try {
     const lesson = await Lesson.findByPk(id);
     if (!lesson) {
-      return res.status(404).json({ error: "Lesson not found." });
+      return res.status(404).json({ error: "lesson.notFound" });
     }
 
     if (cim) lesson.cim = cim;
@@ -413,10 +413,10 @@ exports.updateLesson = async (req, res) => {
     if (videoUrl) lesson.video = videoUrl;
 
     await lesson.save();
-    res.json({ message: "Lesson update successful." });
+    res.json({ message: "lesson.updated" });
   } catch (error) {
     console.log(error);
-    res.status(400).json({ error: "Something went wrong." });
+    res.status(400).json({ error: "generic.error" });
   }
 };
 
@@ -426,7 +426,7 @@ exports.deleteLesson = async (req, res) => {
   try {
     const lesson = await Lesson.findByPk(id);
     if (!lesson) {
-      return res.status(404).json({ error: "Lesson not found." });
+      return res.status(404).json({ error: "lesson.notFound" });
     }
 
     if (lesson.video) {
@@ -439,10 +439,10 @@ exports.deleteLesson = async (req, res) => {
     }
 
     await lesson.destroy();
-    res.json({ message: "Lesson delete successful." });
+    res.json({ message: "lesson.deleted" });
   } catch (error) {
     console.error(error);
-    res.status(400).json({ error: "Something went wrong." });
+    res.status(400).json({ error: "generic.error" });
   }
 };
 
@@ -451,13 +451,13 @@ exports.deleteRegisteredCourse = async (req, res) => {
   try {
     const course = await CourseRegister.findByPk(id);
     if (!course) {
-      return res.status(404).json({ error: "Course not found." });
+      return res.status(404).json({ error: "course.notFound" });
     }
 
     await course.destroy()
-    res.status(200).json({ message: "Course deleted successful." });
+    res.status(200).json({ message: "courseRegistration.deleted" });
   } catch (error) {
     console.error(error);
-    res.status(400).json({ error: "Something went wrong." });
+    res.status(400).json({ error: "generic.error" });
   }
 };

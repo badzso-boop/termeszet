@@ -1,0 +1,89 @@
+{
+  "siteUrl": "https://termeszet.ujjweb.hu",
+  "languages": [
+    "hu",
+    "en"
+  ],
+  "defaultLanguage": "hu",
+  "routes": {
+    "home": {
+      "hu": "/",
+      "en": "/en",
+      "index": true,
+      "priority": "1.0"
+    },
+    "courses": {
+      "hu": "/courses",
+      "en": "/en/courses",
+      "index": true,
+      "priority": "0.8"
+    },
+    "gallery": {
+      "hu": "/galeria",
+      "en": "/en/gallery",
+      "index": true,
+      "priority": "0.7"
+    },
+    "contact": {
+      "hu": "/kapcsolat",
+      "en": "/en/contact",
+      "index": true,
+      "priority": "0.8"
+    },
+    "faq": {
+      "hu": "/gyik",
+      "en": "/en/faq",
+      "index": true,
+      "priority": "0.6"
+    },
+    "terms": {
+      "hu": "/aszf",
+      "en": "/en/terms",
+      "index": true,
+      "priority": "0.2"
+    },
+    "termsOfUse": {
+      "hu": "/felhasznalas",
+      "en": "/en/terms-of-use",
+      "index": true,
+      "priority": "0.2"
+    },
+    "privacy": {
+      "hu": "/adatvedelem",
+      "en": "/en/privacy",
+      "index": true,
+      "priority": "0.2"
+    },
+    "login": {
+      "hu": "/login",
+      "en": "/en/login",
+      "index": false
+    },
+    "register": {
+      "hu": "/register",
+      "en": "/en/register",
+      "index": false
+    },
+    "course": {
+      "hu": "/course/:id",
+      "en": "/en/course/:id",
+      "index": false
+    },
+    "user": {
+      "hu": "/user/:id",
+      "en": "/en/user/:id",
+      "index": false
+    }
+  },
+  "hungarianOnly": [
+    "/admin",
+    "/admincreate/course",
+    "/adminupdateuser/:id",
+    "/adminupdatecourse/:id",
+    "/adminupdatehw/:id"
+  ],
+  "redirects": {
+    "/gallery": "/galeria",
+    "/contact": "/kapcsolat"
+  }
+}

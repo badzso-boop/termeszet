@@ -36,7 +36,7 @@ describe('POST /api/registercourse', () => {
     expect(register.enabled).toBe(false);
   });
 
-  test('duplikált regisztráció 201-et ad "already registered" üzenettel (jelenlegi, dokumentált viselkedés)', async () => {
+  test('duplikált regisztráció 201-et ad courseRegistration.alreadyRegistered kulccsal (jelenlegi, dokumentált viselkedés)', async () => {
     // A kódban ma ez a viselkedés: a duplikátum HTTP 201-et kap (nem 400/409-et), a
     // hívó szempontjából megtévesztő lehet, de ez a jelenlegi tényleges működés — ezt a
     // tesztet ne "javítsd", csak dokumentálja a mai állapotot.
@@ -45,7 +45,7 @@ describe('POST /api/registercourse', () => {
       .send({ userId: user.id, courseId: course.id });
 
     expect(res.status).toBe(201);
-    expect(res.body.message).toMatch(/already registered/i);
+    expect(res.body.message).toBe('courseRegistration.alreadyRegistered');
 
     const count = await CourseRegister.count({
       where: { userId: user.id, courseId: course.id },

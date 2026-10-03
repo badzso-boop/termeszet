@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSpa,
@@ -32,10 +33,19 @@ import GalleryLightbox, {
   resolveImageTitle,
   resolveImageCaption
 } from "../components/GalleryLightbox";
+import { useLocalizedPath } from "../i18n/useLocalizedPath";
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "";
 
+// A "Miért engem válassz?", a beépített (DB-fallback) szolgáltatások és a kezelési lépések
+// ikonjai -- a szövegek sorrendben a locales/<nyelv>/home.json tömbjeiből jönnek.
+const WHY_ME_ICONS = [faEye, faCertificate, faHeart];
+const DEFAULT_SERVICE_ICON_TYPES = ["hands", "heart", "compass", "seedling", "spa", "feet"];
+const PROCESS_ICONS = [faCalendarCheck, faCommentDots, faHandsHoldingCircle];
+
 const Home = () => {
+  const { t } = useTranslation(["home", "common"]);
+  const lp = useLocalizedPath();
   const [featuredPhotos, setFeaturedPhotos] = useState([]);
   const [galleryLoading, setGalleryLoading] = useState(true);
   const [featuredServices, setFeaturedServices] = useState([]);
@@ -148,26 +158,25 @@ const Home = () => {
         <div className="max-w-4xl mx-auto text-center">
           <img
             src={Logo}
-            alt="Németh Gabriella Logó"
+            alt={t("common:brand.logoAlt")}
             className="max-h-64 sm:max-h-80 md:max-h-96 w-auto mx-auto mb-6 object-contain drop-shadow-md"
           />
           <h1 className="brand-script text-4xl sm:text-6xl text-ink mb-3">
-            Németh Gabriella
+            {t("common:brand.name")}
           </h1>
           <div className="divider-gold mb-6" />
           <p className="font-display text-xl sm:text-2xl font-semibold text-ink tracking-wide mb-4">
-            Spirituális energia- és lélekgyógyász · Talpreflexológus · Forrás-kód® lélekalkotás kísérő
+            {t("hero.roles")}
           </p>
           <p className="text-base sm:text-lg text-ink/80 max-w-2xl mx-auto mb-8 leading-relaxed">
-            Hiszem, hogy a test és a lélek folyamatosan párbeszédben van egymással. Kísérés a belső Forráshoz,
-            az öngyógyító folyamatokhoz és a harmonikus testi-lelki egyensúlyhoz.
+            {t("hero.intro")}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/courses" className="btn-brand">
-              Kurzusok megtekintése
+            <Link to={lp("courses")} className="btn-brand">
+              {t("hero.viewCourses")}
             </Link>
-            <Link to="/kapcsolat" className="btn-outline">
-              Kapcsolatfelvétel
+            <Link to={lp("contact")} className="btn-outline">
+              {t("hero.getInTouch")}
             </Link>
           </div>
         </div>
@@ -175,51 +184,24 @@ const Home = () => {
 
       {/* Bemutatkozó Szöveg */}
       <section id="about" className="container mx-auto py-20 sm:py-28 px-4">
-        <h2 className="section-heading mb-4">Bemutatkozás</h2>
+        <h2 className="section-heading mb-4">{t("about.heading")}</h2>
         <div className="divider-gold mb-12" />
         <div className="flex flex-col md:flex-row items-center justify-center gap-12 max-w-5xl mx-auto">
           {/* Kép a gyógyítóról */}
           <div className="shrink-0 text-center">
             <img
               src={Profile}
-              alt="Németh Gabriella"
+              alt={t("common:brand.name")}
               className="w-56 h-56 sm:w-64 sm:h-64 rounded-full shadow-md object-cover object-top ring-2 ring-gold/50 mx-auto"
             />
-            <p className="font-display text-xl font-semibold mt-4 text-ink">Németh Gabriella</p>
-            <p className="text-sm text-ink/70">Lélekalkotás kísérő & Reflexológus</p>
+            <p className="font-display text-xl font-semibold mt-4 text-ink">{t("common:brand.name")}</p>
+            <p className="text-sm text-ink/70">{t("about.role")}</p>
           </div>
 
           <div className="text-left space-y-4 text-gray-800 leading-relaxed">
-            <p>
-              Hiszem, hogy a test és a lélek folyamatosan párbeszédben van egymással. Spirituális energia- és
-              lélekgyógyászként, energetikai kezeléssel és talpreflexológiával kísérem azokat, akik szeretnék
-              jobban megérteni, mit üzen a testük, és hogyan találhatnak vissza a belső egyensúlyukhoz.
-              A hozzám fordulókkal együtt nézzük meg, milyen testi-lelki folyamatok állhatnak a tünetek mögött.
-              Abban támogatok mindenkit, hogy a saját tempójában haladva rátaláljon a számára leginkább működő
-              megoldásokra. Számomra ez egy olyan jelenlétet és figyelmet igénylő folyamat, melyben a már a vendégemben
-              lévő utat tárom fel önmagához, és tudatosítom benne azokat a szunnyadó képességeit, amit benső Forrásához
-              kapcsolódva képessé válik megtapasztalni azt mi az Ő lélek feladata.
-            </p>
-            <p>
-              Empataként gyerekkorom óta velem él az a fajta mély érzékenység, amellyel finoman ráhangolódok mások
-              belső folyamataira. Több mint harminc éve kísér ez a belső nyelv, amely segít ráérezni a mélyebben
-              gyökerező, akár generációkon átívelő mintákra is. A talpreflexológia számomra egy híd: a talpon keresztül
-              a test jelzéseivel dolgozva teret adunk annak, hogy régi feszültségek és lenyomatok finoman elkezdhessenek
-              oldódni. Ez nem ígéret, hanem közös figyelem és kísérés, a saját ritmusodban.
-            </p>
-            <p>
-              Már gyerekkoromban is erősen érzékeltem az embereket és a körülöttük lévő világot. Gyógynövényteákat
-              készítettem, gyengéden masszíroztam és sokszor azt tapasztaltam, hogy a fájdalom enyhül. Tinédzserként
-              egyre tudatosabban figyeltem fel arra is, hogy terekben, otthonokban milyen más finom jelenlétet érzek,
-              és számomra gyakran elég volt a csendes, koncentrált jelenlét ahhoz, hogy a hely atmoszférája megváltozzon.
-              Ezeket a tapasztalatokat akkor még nem tudtam megnevezni, csak éltem őket, ma pedig már látom, hogy
-              mennyire meghatározták azt az utat, amin ma kísérem az embereket.
-            </p>
-            <p>
-              Több mint tíz éve kísérek daganatos megbetegedéssel érintett embereket abban, hogy a saját útjukon,
-              a saját tempójukban találják meg a belső támaszaikat. Hiszek az együttműködésben. A hozzám fordulókat
-              abban támogatom, hogy az orvosi ellátás mellett kiegészítő, támogató megoldásokat adjak számukra.
-            </p>
+            {t("about.paragraphs", { returnObjects: true }).map((paragraph, idx) => (
+              <p key={idx}>{paragraph}</p>
+            ))}
           </div>
         </div>
       </section>
@@ -227,30 +209,16 @@ const Home = () => {
       {/* Miért engem válassz */}
       <section id="why-me" className="bg-primary/40 py-16 px-4 border-y border-secondary/20">
         <div className="container mx-auto">
-          <h2 className="text-3xl font-semibold text-center mb-4">Miért engem válassz?</h2>
+          <h2 className="text-3xl font-semibold text-center mb-4">{t("whyMe.heading")}</h2>
           <div className="divider-gold mb-10" />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-5xl mx-auto">
-            <div className="text-center p-6 bg-white rounded-md border border-secondary/20 shadow-sm">
-              <FontAwesomeIcon icon={faEye} className="text-3xl mb-4 text-gold" />
-              <h3 className="font-display text-xl font-semibold mb-2">30+ év mély empátia</h3>
-              <p className="text-gray-700">
-                Gyerekkorom óta kísérő finom ráhangolódás, amellyel ráérzek a mélyen gyökerező, akár generációs mintákra is.
-              </p>
-            </div>
-            <div className="text-center p-6 bg-white rounded-md border border-secondary/20 shadow-sm">
-              <FontAwesomeIcon icon={faCertificate} className="text-3xl mb-4 text-gold" />
-              <h3 className="font-display text-xl font-semibold mb-2">10+ év tapasztalat</h3>
-              <p className="text-gray-700">
-                Több mint egy évtizede kísérek daganatos és krónikus betegséggel érintett embereket az orvosi ellátást kiegészítve.
-              </p>
-            </div>
-            <div className="text-center p-6 bg-white rounded-md border border-secondary/20 shadow-sm">
-              <FontAwesomeIcon icon={faHeart} className="text-3xl mb-4 text-gold" />
-              <h3 className="font-display text-xl font-semibold mb-2">Személyre szabott jelenlét</h3>
-              <p className="text-gray-700">
-                A saját ritmusodban haladva tárjuk fel a belső Forrásodat és szunnyadó képességeidet a teljes harmóniáért.
-              </p>
-            </div>
+            {t("whyMe.items", { returnObjects: true }).map((item, idx) => (
+              <div key={idx} className="text-center p-6 bg-white rounded-md border border-secondary/20 shadow-sm">
+                <FontAwesomeIcon icon={WHY_ME_ICONS[idx]} className="text-3xl mb-4 text-gold" />
+                <h3 className="font-display text-xl font-semibold mb-2">{item.title}</h3>
+                <p className="text-gray-700">{item.text}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -258,47 +226,17 @@ const Home = () => {
       {/* Szolgáltatások Bemutatása */}
       <section id="services" className="py-20 sm:py-28 px-4">
         <div className="container mx-auto max-w-6xl">
-          <h2 className="section-heading mb-4">Szolgáltatások</h2>
+          <h2 className="section-heading mb-4">{t("services.heading")}</h2>
           <div className="divider-gold mb-12" />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {(featuredServices.length > 0 ? featuredServices : [
-              {
-                id: "def-1",
-                title: "Kombinált Kezelés",
-                description: "Reflexológia és energetikai kezelés az egész testre, amellyel a testi blokkok oldása mellett a lelket és a belső energiákat harmonizáljuk.",
-                iconType: "hands"
-              },
-              {
-                id: "def-2",
-                title: "Vérreflexológia",
-                description: "A vérkeringést, nyirokkeringést és a testnedvek optimális áramlását serkentő, célzott kezelés, amely elősegíti a sejtek oxigén- és tápanyagellátását, a méregtelenítést és az érhálózat megújulását.",
-                iconType: "heart"
-              },
-              {
-                id: "def-3",
-                title: "Életmódtanácsadás",
-                description: "Személyre szabott mély meditációval viszlek vissza a születés előtti állapotodhoz és mutatom be a jelenlegi életedhez illő folyamatokat, amivel az új életedet tudod felépíteni.",
-                iconType: "compass"
-              },
-              {
-                id: "def-4",
-                title: "Táplálkozás és Energetikai Tanácsadás",
-                description: "A tested által mutatott folyamatoknak megfelelően adom az étrendet, testmozgást javaslok, életmegújító, gondolkodásmód-formáló gyakorlatokkal és munkafolyamatokkal építjük újjá az életedet.",
-                iconType: "seedling"
-              },
-              {
-                id: "def-5",
-                title: "Lélekalkotás Kísérő (Forrás-kód®)",
-                description: "Ezen a foglalkozáson egyénileg kérheted, hogy egy új személyiséget hozzunk létre a te eredendő lélekprogramodnak megfelelően.",
-                iconType: "spa"
-              },
-              {
-                id: "def-6",
-                title: "Talpreflexológia",
-                description: "A talpon keresztül a test jelzéseivel dolgozva teret adunk annak, hogy a régi feszültségek, blokkok és lenyomatok finoman elkezdhessenek oldódni.",
-                iconType: "feet"
-              }
-            ]).map((service) => (
+            {(featuredServices.length > 0
+              ? featuredServices
+              : t("services.defaults", { returnObjects: true }).map((service, idx) => ({
+                  ...service,
+                  id: `def-${idx + 1}`,
+                  iconType: DEFAULT_SERVICE_ICON_TYPES[idx],
+                }))
+            ).map((service) => (
               <div
                 key={service.id || service.title}
                 className="bg-white p-8 rounded-md border border-secondary/20 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow"
@@ -341,7 +279,7 @@ const Home = () => {
                 </div>
                 {(service.price || service.duration) && (
                   <div className="pt-4 mt-4 border-t border-secondary/15 flex items-center justify-between text-xs text-ink/70 font-medium">
-                    {service.duration && <span>Időtartam: {service.duration}</span>}
+                    {service.duration && <span>{t("services.duration", { duration: service.duration })}</span>}
                     {service.price && <span className="text-ink font-semibold text-sm">{service.price}</span>}
                   </div>
                 )}
@@ -357,10 +295,10 @@ const Home = () => {
       {/* Galéria Előnézet Szekció */}
       <section id="gallery" className="bg-primary/30 py-20 sm:py-28 px-4 border-t border-secondary/20">
         <div className="container mx-auto max-w-6xl text-center">
-          <h2 className="section-heading mb-4">Galéria</h2>
+          <h2 className="section-heading mb-4">{t("gallery.heading")}</h2>
           <div className="divider-gold mb-4" />
           <p className="text-base sm:text-lg text-ink/80 max-w-2xl mx-auto mb-12 leading-relaxed">
-            Pillantson be a kezelések, a tanfolyamok és a békés környezet legszebb pillanataiba.
+            {t("gallery.intro")}
           </p>
 
           {/* Loading Skeleton */}
@@ -391,7 +329,7 @@ const Home = () => {
                   >
                     <img
                       src={src}
-                      alt={title || `Galéria előnézet ${idx + 1}`}
+                      alt={title || t("gallery.previewAlt", { number: idx + 1 })}
                       loading="lazy"
                       className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
                     />
@@ -421,7 +359,7 @@ const Home = () => {
             <div className="text-center py-10 px-4 mb-10 bg-white/60 rounded-lg border border-secondary/20 max-w-lg mx-auto">
               <FontAwesomeIcon icon={faImages} className="text-3xl text-gold mb-3" />
               <p className="text-gray-700 text-sm">
-                Galériánk hamarosan feltöltésre kerül a legújabb pillanatokkal.
+                {t("gallery.empty")}
               </p>
             </div>
           )}
@@ -429,10 +367,10 @@ const Home = () => {
           {/* Button to full Gallery page */}
           <div>
             <Link
-              to="/galeria"
+              to={lp("gallery")}
               className="btn-brand inline-flex items-center gap-2 shadow-sm"
             >
-              <span>Tovább a galériára</span>
+              <span>{t("gallery.more")}</span>
               <FontAwesomeIcon icon={faArrowRight} className="text-sm" />
             </Link>
           </div>
@@ -452,20 +390,16 @@ const Home = () => {
       <section id="how-it-works" className="bg-primary/50 py-20 sm:py-28 px-4 border-y border-secondary/20">
         <div className="container mx-auto max-w-4xl">
           <h2 className="section-heading mb-4">
-            Hogyan Működik a Reflexológia?
+            {t("reflexology.heading")}
           </h2>
           <div className="divider-gold mb-8" />
           <p className="text-center max-w-2xl mx-auto text-gray-800 leading-relaxed">
-            A reflexológia egy természetes gyógymód, amely a talpon található
-            reflexpontok stimulálásával támogatja a test öngyógyító folyamatait. A
-            talp bizonyos pontjaira gyakorolt nyomással aktiváljuk a test szerveivel
-            és energetikai rendszereivel való kapcsolatot, serkentve a vérkeringést
-            és a belső energiaáramlást.
+            {t("reflexology.text")}
           </p>
           <div className="flex justify-center mt-10">
             <img
               src={Foot}
-              alt="Reflexológiai pontok a talpon"
+              alt={t("reflexology.imageAlt")}
               className="max-w-xs rounded-md shadow-md ring-1 ring-gold/30"
             />
           </div>
@@ -475,37 +409,19 @@ const Home = () => {
       {/* Mire számíthatsz egy kezelésen */}
       <section id="process" className="container mx-auto py-20 sm:py-28 px-4">
         <h2 className="section-heading mb-4">
-          Mire számíthatsz egy kezelésen?
+          {t("process.heading")}
         </h2>
         <div className="divider-gold mb-12" />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-5xl mx-auto">
-          <div className="text-center p-4">
-            <div className="w-12 h-12 rounded-full bg-gold text-ink flex items-center justify-center mx-auto mb-4">
-              <FontAwesomeIcon icon={faCalendarCheck} />
+          {t("process.steps", { returnObjects: true }).map((step, idx) => (
+            <div key={idx} className="text-center p-4">
+              <div className="w-12 h-12 rounded-full bg-gold text-ink flex items-center justify-center mx-auto mb-4">
+                <FontAwesomeIcon icon={PROCESS_ICONS[idx]} />
+              </div>
+              <h3 className="font-display text-xl font-semibold mb-2">{step.title}</h3>
+              <p className="text-gray-700">{step.text}</p>
             </div>
-            <h3 className="font-display text-xl font-semibold mb-2">1. Időpont-egyeztetés</h3>
-            <p className="text-gray-700">
-              Vedd fel velem a kapcsolatot telefonon, emailben vagy az oldalon keresztül, és egyeztetjük a részleteket.
-            </p>
-          </div>
-          <div className="text-center p-4">
-            <div className="w-12 h-12 rounded-full bg-gold text-ink flex items-center justify-center mx-auto mb-4">
-              <FontAwesomeIcon icon={faCommentDots} />
-            </div>
-            <h3 className="font-display text-xl font-semibold mb-2">2. Konzultáció</h3>
-            <p className="text-gray-700">
-              Alaposan átbeszéljük a testi-lelki folyamataidat, tüneteidet, hogy a kezelés teljesen rád és a tempódra legyen szabva.
-            </p>
-          </div>
-          <div className="text-center p-4">
-            <div className="w-12 h-12 rounded-full bg-gold text-ink flex items-center justify-center mx-auto mb-4">
-              <FontAwesomeIcon icon={faHandsHoldingCircle} />
-            </div>
-            <h3 className="font-display text-xl font-semibold mb-2">3. Kezelés és relaxáció</h3>
-            <p className="text-gray-700">
-              Nyugodt, gondoskodó légkörben megkapod a reflexológiai és/vagy energetikai kezelést, és testben-lélekben feltöltődve távozol.
-            </p>
-          </div>
+          ))}
         </div>
       </section>
 
@@ -513,50 +429,22 @@ const Home = () => {
       <section id="testimonials" className="bg-ink text-ivory py-20 sm:py-28 px-4">
         <div className="container mx-auto max-w-5xl">
           <h2 className="font-display font-semibold text-3xl sm:text-4xl text-center mb-4 text-ivory">
-            Vendégvisszajelzések
+            {t("testimonials.heading")}
           </h2>
           <div className="w-20 h-px mx-auto bg-gradient-to-r from-transparent via-gold to-transparent mb-12" />
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <blockquote className="bg-ivory/5 border border-gold/20 rounded-md p-6 flex flex-col justify-between">
-              <div>
-                <FontAwesomeIcon icon={faQuoteLeft} className="mb-3 text-gold opacity-80" />
-                <p className="italic mb-4 text-ivory/90 leading-relaxed">
-                  "Hálásan köszönöm neked az önzetlen és szakértői segítségedet, amivel végigkísértél a kemoterápián, mert sokban hozzájárultál a teljes gyógyulásomhoz, hogy mindig elérhető voltál és a pontos módszereket az orvosokkal együttdolgozva adtad meg számomra."
-                </p>
-              </div>
-              <footer className="text-sm font-semibold text-gold">– Zsuzsanna</footer>
-            </blockquote>
-
-            <blockquote className="bg-ivory/5 border border-gold/20 rounded-md p-6 flex flex-col justify-between">
-              <div>
-                <FontAwesomeIcon icon={faQuoteLeft} className="mb-3 text-gold opacity-80" />
-                <p className="italic mb-4 text-ivory/90 leading-relaxed">
-                  "Köszönöm, hogy a csontvelő daganatomból segítettél felépülni."
-                </p>
-              </div>
-              <footer className="text-sm font-semibold text-gold">– Erzsébet</footer>
-            </blockquote>
-
-            <blockquote className="bg-ivory/5 border border-gold/20 rounded-md p-6 flex flex-col justify-between">
-              <div>
-                <FontAwesomeIcon icon={faQuoteLeft} className="mb-3 text-gold opacity-80" />
-                <p className="italic mb-4 text-ivory/90 leading-relaxed">
-                  "Nem tudok elég hálás lenni neked azért a sok segítségért, megértésért és folyamatos kommunikációért, amit a lombikos program alatt irányunkba mutattál. A segítséged nélkül nem születhetett volna meg kislányunk, köszönöm."
-                </p>
-              </div>
-              <footer className="text-sm font-semibold text-gold">– Barbara</footer>
-            </blockquote>
-
-            <blockquote className="bg-ivory/5 border border-gold/20 rounded-md p-6 flex flex-col justify-between">
-              <div>
-                <FontAwesomeIcon icon={faQuoteLeft} className="mb-3 text-gold opacity-80" />
-                <p className="italic mb-4 text-ivory/90 leading-relaxed">
-                  "Drága Gabi, számomra hatalmas nagy csoda és még mindig alig hiszem el, hogy ez tényleg megtörtént! Várandós vagyok! Minden rendben, van keze lába, ujjai, orra, füle, szíve, gyomra, veséje, pulzál mindene. Az én méhem minden oldala jól működik és tele van élettel!"
-                </p>
-              </div>
-              <footer className="text-sm font-semibold text-gold">– Katalin</footer>
-            </blockquote>
+            {t("testimonials.items", { returnObjects: true }).map((item) => (
+              <blockquote key={item.author} className="bg-ivory/5 border border-gold/20 rounded-md p-6 flex flex-col justify-between">
+                <div>
+                  <FontAwesomeIcon icon={faQuoteLeft} className="mb-3 text-gold opacity-80" />
+                  <p className="italic mb-4 text-ivory/90 leading-relaxed">
+                    "{item.quote}"
+                  </p>
+                </div>
+                <footer className="text-sm font-semibold text-gold">– {item.author}</footer>
+              </blockquote>
+            ))}
           </div>
         </div>
       </section>
@@ -567,12 +455,11 @@ const Home = () => {
           <div className="flex items-center gap-4">
             <FontAwesomeIcon icon={faCircleQuestion} className="text-3xl text-gold shrink-0" />
             <p className="text-gray-800">
-              Kérdésed van a kezelésekkel vagy a kurzusokkal kapcsolatban? Nézd meg a gyakran
-              ismételt kérdéseket!
+              {t("faqTeaser.text")}
             </p>
           </div>
-          <Link to="/gyik" className="btn-outline whitespace-nowrap">
-            GY.I.K.
+          <Link to={lp("faq")} className="btn-outline whitespace-nowrap">
+            {t("faqTeaser.button")}
           </Link>
         </div>
       </section>
@@ -580,10 +467,10 @@ const Home = () => {
       {/* Kapcsolat szekció */}
       <section id="contact" className="bg-primary/40 border-t border-secondary/20 py-20 px-4 text-center">
         <div className="max-w-3xl mx-auto">
-          <h2 className="section-heading mb-4">Vedd fel velem a kapcsolatot!</h2>
+          <h2 className="section-heading mb-4">{t("contact.heading")}</h2>
           <div className="divider-gold mb-8" />
           <p className="max-w-xl mx-auto text-gray-800 leading-relaxed mb-8">
-            Kérdésed van a kezelésekről vagy szeretnél időpontot egyeztetni? Keress bátran telefonon vagy e-mailben!
+            {t("contact.text")}
           </p>
           <div className="flex flex-col sm:flex-row flex-wrap gap-4 justify-center items-center mb-10">
             <a
@@ -604,7 +491,7 @@ const Home = () => {
               href="https://www.facebook.com/gabriella.ujj.10"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Facebook profil"
+              aria-label={t("common:social.facebookAria")}
               className="flex items-center gap-3 px-5 py-3 bg-[#1877F2] rounded-md text-white hover:opacity-90 transition-opacity font-medium shadow-sm"
             >
               <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
@@ -616,7 +503,7 @@ const Home = () => {
               href="https://www.youtube.com/@gabriellanemeth4897"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="YouTube csatorna"
+              aria-label={t("common:social.youtubeAria")}
               className="flex items-center gap-3 px-5 py-3 bg-[#FF0000] rounded-md text-white hover:opacity-90 transition-opacity font-medium shadow-sm"
             >
               <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
@@ -626,11 +513,11 @@ const Home = () => {
             </a>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/kapcsolat" className="btn-brand">
-              Részletes kapcsolati adatok
+            <Link to={lp("contact")} className="btn-brand">
+              {t("contact.details")}
             </Link>
-            <Link to="/courses" className="btn-outline">
-              Kurzusok megtekintése
+            <Link to={lp("courses")} className="btn-outline">
+              {t("contact.viewCourses")}
             </Link>
           </div>
         </div>

@@ -1,5 +1,9 @@
 ### Documentation
 
+> **Megjegyzés:** a végpontok `message` / `error` mezője ma már i18n-kulcsot ad vissza
+> (pl. `"auth.invalidCredentials"`), nem az alább látható szöveget — a kulcsok és fordításaik:
+> `frontend/src/i18n/locales/*/api.json`, részletek: `docs/i18n.md`.
+
 #### User routes
 
 ##### Registration Endpoint

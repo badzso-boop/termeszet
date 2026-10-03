@@ -17,6 +17,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../context/AuthContext";
 import { useAdmin } from "../context/AdminContext";
+import apiMessage from "../i18n/apiMessage";
 
 const MAX_FILE_SIZE_BYTES = 100 * 1024 * 1024; // 100 MB
 
@@ -280,11 +281,7 @@ export const AdminGalleryManager = () => {
       handleClearQueue();
     } catch (err) {
       console.error("Gallery upload error:", err);
-      const serverMsg =
-        err.response?.data?.error ||
-        err.response?.data?.message ||
-        "Hiba történt a képek feltöltése és optimalizálása során.";
-      setUploadError(serverMsg);
+      setUploadError(apiMessage(err.response?.data?.error, "gallery.uploadFailed"));
     } finally {
       setUploading(false);
       setUploadProgress(0);

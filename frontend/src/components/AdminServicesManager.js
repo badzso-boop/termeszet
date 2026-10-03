@@ -19,6 +19,7 @@ import {
   faSearch
 } from "@fortawesome/free-solid-svg-icons";
 import { useAdmin } from "../context/AdminContext";
+import apiMessage from "../i18n/apiMessage";
 
 const AI_SYSTEM_PROMPT = `Te egy professzionális grafikus és minimalista ikon-tervező vagy.
 Feladatod: Készíts egy finom vonalvezetésű, organikus, egyvonalas (single continuous line art / contour line drawing) fekete-fehér ikont/logót a megadott természetgyógyászati vagy spirituális szolgáltatáshoz.
@@ -173,7 +174,7 @@ const AdminServicesManager = () => {
       }, 800);
     } catch (err) {
       console.error(err);
-      setErrorMsg(err.response?.data?.error || "Hiba történt a mentés során.");
+      setErrorMsg(apiMessage(err.response?.data?.error));
     } finally {
       setSaving(false);
     }

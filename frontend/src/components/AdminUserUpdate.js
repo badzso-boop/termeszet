@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { useAuth } from "../context/AuthContext";
 import { useAdmin } from "../context/AdminContext";
+import apiMessage from "../i18n/apiMessage";
 
 const AdminUpdate = (type) => {
   const { id } = useParams();
@@ -134,9 +135,9 @@ const AdminUpdate = (type) => {
           mutetek: JSON.stringify(Object.fromEntries(mutetek)),
         }
       );
-      setMessage(response.data.message);
+      setMessage(apiMessage(response.data.message));
     } catch (error) {
-      setMessage(error.response.data.error);
+      setMessage(apiMessage(error.response?.data?.error));
     }
   };
 

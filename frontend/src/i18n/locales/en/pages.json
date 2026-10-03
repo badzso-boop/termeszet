@@ -1,0 +1,144 @@
+{
+  "contact": {
+    "heading": "Contact",
+    "intro": "You are warmly welcome if you would like to find your inner Source, release physical and emotional blockages, or are looking for guidance on your healing journey. Feel free to reach me at the contact details below!",
+    "phone": "Phone number",
+    "email": "Email address",
+    "booking": "Appointments",
+    "bookingText": "By prior appointment",
+    "followMe": "Follow me on social media:",
+    "logoAlt": "Logo",
+    "personalTitle": "Individual, Personalised Guidance",
+    "personalText": "I believe in cooperation and in the constant dialogue between body and soul. Every treatment and consultation is adapted to your individual needs, your own pace and your soul's purpose.",
+    "onlineTitle": "In-Person and Online Consultation",
+    "onlineText": "Treatments take place in person, in a calm and harmonious environment. Certain lifestyle and Forrás-kód® consultations are also available online."
+  },
+  "gallery": {
+    "heading": "Gallery",
+    "intro": "Moments from the treatments, the atmosphere and the natural healing space.",
+    "all": "All photos ({{count}})",
+    "starred": "Featured photos ({{count}})",
+    "noStarredTitle": "No featured photos",
+    "noStarredText": "No photos are currently marked as featured.",
+    "emptyTitle": "The gallery is still empty",
+    "emptyText": "The first photos of the practice and the treatments will be uploaded soon.",
+    "imageAlt": "Gallery image",
+    "view": "View photo"
+  },
+  "faq": {
+    "heading": "Frequently Asked Questions",
+    "items": [
+      {
+        "question": "How can I sign up for a course?",
+        "answer": "Under the Courses menu, click the 'Sign up' button on the course you have chosen. The system will then record your registration."
+      },
+      {
+        "question": "Which payment methods are accepted for the courses?",
+        "answer": "For now, payment is by bank transfer; we will arrange the details after you sign up."
+      },
+      {
+        "question": "Is there any free content available?",
+        "answer": "Yes, free introductory materials and posts are made available on the site from time to time."
+      },
+      {
+        "question": "How long can I access a course I have purchased?",
+        "answer": "You have continuous access to the course for as long as the site is running and your user account is active."
+      },
+      {
+        "question": "How does watching the video courses online work?",
+        "answer": "Once your payment has been confirmed, the administrator activates your access, and the videos and course materials immediately become available in your account."
+      },
+      {
+        "question": "What level of experience do I need to complete the courses?",
+        "answer": "It varies from course to course; no prior training is required for the introductory materials."
+      },
+      {
+        "question": "How can I get in touch if I have further questions?",
+        "answer": "You will find all the information on the Contact page: I can be reached by phone (+36 70 428 3858) and by email (azegy1@gmail.com)."
+      },
+      {
+        "question": "What are foot reflexology treatments and how do they work?",
+        "answer": "Reflexology is a natural healing method that supports the body's self-healing processes by stimulating reflex points on the soles of the feet. The reflexologist applies pressure to specific points on the sole that are connected to various organs of the body, stimulating circulation and the flow of energy."
+      },
+      {
+        "question": "Are personal consultations or treatments available?",
+        "answer": "Yes. Before every treatment we discuss your needs and complaints, so that the process is tailored precisely to you."
+      },
+      {
+        "question": "What are the benefits of foot reflexology and energy treatment?",
+        "answer": "Stress reduction, deep relaxation, relief of physical pain and blockages, digestive and hormonal harmony, and a strengthened deep connection with your inner Source."
+      },
+      {
+        "question": "Who can take the courses, and is prior training required?",
+        "answer": "Anyone who wants to deepen their self-knowledge and the processes of natural self-healing is welcome to sign up. No prior training is required."
+      },
+      {
+        "question": "What devices do I need to follow the video courses?",
+        "answer": "Any smart device with an internet connection (computer, tablet, phone) that supports video playback."
+      },
+      {
+        "question": "Why is it worth subscribing to the courses on this site?",
+        "answer": "You can learn the fundamentals of reflexology and of connecting with your Source, accompanied by practical and personal guidance."
+      },
+      {
+        "question": "How do the individual courses differ?",
+        "answer": "The courses differ in topic, depth and format. You can find a detailed description of each course under the Courses menu."
+      },
+      {
+        "question": "How does the site keep my personal data safe?",
+        "answer": "Your data is handled securely in accordance with the applicable data protection rules (GDPR) and is not disclosed to third parties."
+      }
+    ]
+  },
+  "courses": {
+    "heading": "Courses",
+    "emptyTitle": "There are no courses available at the moment",
+    "emptyText": "New courses are coming soon – check back later, or subscribe to the newsletter on the home page to be the first to hear about them!",
+    "price": "HUF {{amount}}",
+    "view": "View",
+    "createAccount": "Create an account!",
+    "alreadyRegistered": "You have already signed up!",
+    "register": "Sign up!"
+  },
+  "course": {
+    "videoNotSupported": "Your browser does not support video playback.",
+    "lessons": "Lessons",
+    "restricted": "Access to the video and the description is restricted. Please make sure that you have signed up, paid the fee, and that the administrator has approved your access.",
+    "payment": "Payment",
+    "recipient": "Recipient details:",
+    "name": "Name:",
+    "accountNumber": "Account number:",
+    "reference": "Payment reference:",
+    "paid": "I have paid!"
+  },
+  "user": {
+    "username": "Username:",
+    "email": "Email:",
+    "birthDate": "Date of birth:",
+    "description": "Description:",
+    "healthHeading": "Health and other details",
+    "allergies": "Allergies",
+    "surgeries": "Surgeries",
+    "amalgamFilling": "Amalgam fillings",
+    "yes": "Yes",
+    "no": "No",
+    "medications": "Medications",
+    "complaints": "Complaints",
+    "goals": "Goals",
+    "notSpecified": "Not specified",
+    "courses": "Courses",
+    "myCourses": "My courses",
+    "courseDescription": "Description",
+    "view": "View"
+  },
+  "auth": {
+    "loginTitle": "Log in",
+    "registerTitle": "Sign up",
+    "email": "Email address:",
+    "password": "Password:",
+    "username": "Username:",
+    "fullName": "Full name:",
+    "loginButton": "Log in",
+    "registerButton": "Sign up"
+  }
+}

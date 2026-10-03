@@ -1,0 +1,87 @@
+{
+  "generic": {
+    "error": "Something went wrong, please try again.",
+    "invalidData": "Invalid or missing data.",
+    "notFound": "The requested item could not be found."
+  },
+  "auth": {
+    "invalidCredentials": "Invalid email address or password.",
+    "loginSuccess": "Login successful.",
+    "noToken": "Please log in to continue.",
+    "invalidToken": "Your session has expired, please log in again.",
+    "accessDenied": "You don't have permission to do this.",
+    "unauthorized": "Please log in to continue."
+  },
+  "user": {
+    "notFound": "User not found.",
+    "alreadyExists": "An account with this email address already exists.",
+    "registered": "Registration successful! You can now log in.",
+    "created": "User created.",
+    "updated": "User details updated.",
+    "deleted": "User deleted."
+  },
+  "course": {
+    "notFound": "Course not found.",
+    "created": "Course created.",
+    "updated": "Course updated.",
+    "deleted": "Course deleted."
+  },
+  "courseRegistration": {
+    "notFound": "Course registration not found.",
+    "userOrCourseNotFound": "User or course not found.",
+    "registered": "You have successfully signed up for the course.",
+    "alreadyRegistered": "You have already signed up for this course.",
+    "paymentUpdated": "Thank you! Your payment has been recorded; access will be activated once it has been verified.",
+    "alreadyPaid": "Your payment has already been recorded.",
+    "deleted": "Registration deleted.",
+    "enabledToggled": "Access status updated.",
+    "adminPaidToggled": "Payment status updated."
+  },
+  "homework": {
+    "notFound": "Homework not found.",
+    "created": "Homework created.",
+    "updated": "Homework updated.",
+    "deleted": "Homework deleted."
+  },
+  "lesson": {
+    "notFound": "Lesson not found.",
+    "created": "Lesson created.",
+    "updated": "Lesson updated.",
+    "deleted": "Lesson deleted."
+  },
+  "video": {
+    "deleteFailed": "Could not delete the video file."
+  },
+  "gallery": {
+    "noFiles": "No images selected.",
+    "uploadFailed": "Could not process and upload the images.",
+    "imageNotFound": "Image not found.",
+    "imageDeleted": "Image deleted.",
+    "imageUpdated": "Image updated.",
+    "starUpdated": "Featured status updated."
+  },
+  "service": {
+    "titleAndDescriptionRequired": "Title and description are required.",
+    "notFound": "Service not found.",
+    "reorderFailed": "Could not update the order.",
+    "updateFailed": "Could not update the service.",
+    "fetchFeaturedFailed": "Could not load the featured services.",
+    "fetchFailed": "Could not load the services.",
+    "createFailed": "Could not create the service.",
+    "starFailed": "Could not change the featured status.",
+    "deleteFailed": "Could not delete the service.",
+    "deleted": "Service deleted.",
+    "starUpdated": "Featured status updated."
+  },
+  "newsletter": {
+    "invalidEmail": "Invalid email address.",
+    "alreadySubscribed": "This email address is already subscribed.",
+    "subscribed": "Thank you for subscribing!"
+  },
+  "upload": {
+    "failed": "File upload failed.",
+    "fileTooLarge": "The file is too large.",
+    "invalidImageType": "Only image files can be uploaded (jpeg, jpg, png, webp, gif, heic, heif).",
+    "invalidMediaType": "Only MP4, MKV, AVI video or MP3 audio files can be uploaded."
+  }
+}

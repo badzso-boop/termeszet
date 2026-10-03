@@ -1,5 +1,6 @@
 const multer = require('multer');
 const path = require('path');
+const apiError = require('../helpers/apiError');
 
 // Configure storage
 const storage = multer.diskStorage({
@@ -26,7 +27,7 @@ const upload = multer({
       return cb(null, true);
     }
 
-    cb(new Error('Only MP4, MKV, AVI videos, and MP3 audio files are allowed.'));
+    cb(apiError('upload.invalidMediaType'));
   }
 });
 

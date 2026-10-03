@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlay,
@@ -69,12 +70,12 @@ const DEFAULT_VIDEOS = [
   }
 ];
 
-function formatDateHu(dateString) {
+function formatDate(dateString, lang) {
   if (!dateString) return "";
   try {
     const d = new Date(dateString);
     if (isNaN(d.getTime())) return "";
-    return d.toLocaleDateString("hu-HU", {
+    return d.toLocaleDateString(lang === "en" ? "en-GB" : "hu-HU", {
       year: "numeric",
       month: "long",
       day: "numeric"
@@ -85,6 +86,7 @@ function formatDateHu(dateString) {
 }
 
 const YouTubeSection = () => {
+  const { t, i18n } = useTranslation();
   const [videos, setVideos] = useState(DEFAULT_VIDEOS);
   const [loading, setLoading] = useState(true);
   const [selectedVideo, setSelectedVideo] = useState(DEFAULT_VIDEOS[0]);
@@ -136,10 +138,10 @@ const YouTubeSection = () => {
       <div className="container mx-auto max-w-6xl">
         {/* Szekció Cím és leírás */}
         <div className="text-center mb-12">
-          <h2 className="section-heading mb-4">Videók & Előadások</h2>
+          <h2 className="section-heading mb-4">{t("youtube.heading")}</h2>
           <div className="divider-gold mb-4" />
           <p className="text-base sm:text-lg text-ink/80 max-w-2xl mx-auto leading-relaxed">
-            Nézzen bele előadásaimba, gyakorlati útmutatóimba és lélekemelő gondolataimba a hivatalos YouTube csatornámon.
+            {t("youtube.intro")}
           </p>
         </div>
 
@@ -152,7 +154,7 @@ const YouTubeSection = () => {
               {isPlaying ? (
                 <iframe
                   src={`https://www.youtube-nocookie.com/embed/${selectedVideo?.id}?autoplay=1&rel=0&modestbranding=1`}
-                  title={selectedVideo?.title || "YouTube videó lejátszó"}
+                  title={selectedVideo?.title || t("youtube.playerTitle")}
                   className="w-full h-full border-0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
@@ -165,7 +167,7 @@ const YouTubeSection = () => {
                   {/* Nagyfelbontású borítókép */}
                   <img
                     src={selectedVideo?.maxThumbnailUrl || selectedVideo?.thumbnailUrl}
-                    alt={selectedVideo?.title || "Videó borítókép"}
+                    alt={selectedVideo?.title || t("youtube.coverAlt")}
                     className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
                     onError={(e) => {
                       if (selectedVideo?.thumbnailUrl && e.target.src !== selectedVideo.thumbnailUrl) {
@@ -187,7 +189,7 @@ const YouTubeSection = () => {
                   <div className="absolute bottom-0 inset-x-0 p-4 sm:p-6 text-ivory">
                     <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-black/60 text-gold text-xs font-medium mb-2 backdrop-blur-sm border border-gold/20">
                       <FontAwesomeIcon icon={faCirclePlay} />
-                      <span>Kattintson a lejátszáshoz</span>
+                      <span>{t("youtube.clickToPlay")}</span>
                     </div>
                     <h3 className="font-display text-lg sm:text-2xl font-semibold text-ivory line-clamp-2 leading-tight">
                       {selectedVideo?.title}
@@ -207,7 +209,7 @@ const YouTubeSection = () => {
                   {selectedVideo?.published && (
                     <div className="flex items-center gap-2 text-xs text-ink/60 font-medium">
                       <FontAwesomeIcon icon={faCalendarDays} className="text-gold" />
-                      <span>Feltöltve: {formatDateHu(selectedVideo.published)}</span>
+                      <span>{t("youtube.uploaded", { date: formatDate(selectedVideo.published, i18n.language) })}</span>
                     </div>
                   )}
                 </div>
@@ -219,7 +221,7 @@ const YouTubeSection = () => {
                   rel="noopener noreferrer"
                   className="btn-outline text-xs sm:text-sm py-2 px-4 shrink-0 flex items-center gap-2 self-start sm:self-center"
                 >
-                  <span>Megnyitás YouTube-on</span>
+                  <span>{t("youtube.openOnYoutube")}</span>
                   <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="text-xs" />
                 </a>
               </div>
@@ -232,11 +234,11 @@ const YouTubeSection = () => {
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-red-600 animate-pulse" />
                 <h4 className="font-display font-semibold text-lg text-ink">
-                  Legfrissebb feltöltések
+                  {t("youtube.latest")}
                 </h4>
               </div>
               <span className="text-xs text-ink/60 font-medium">
-                {videos.length} videó
+                {t("youtube.videoCount", { count: videos.length })}
               </span>
             </div>
 
@@ -296,7 +298,7 @@ const YouTubeSection = () => {
                         </h5>
                         {vid.published && (
                           <span className="text-[11px] text-ink/60 mt-1">
-                            {formatDateHu(vid.published)}
+                            {formatDate(vid.published, i18n.language)}
                           </span>
                         )}
                       </div>
@@ -313,17 +315,17 @@ const YouTubeSection = () => {
           <div className="flex items-center gap-5 text-center sm:text-left flex-col sm:flex-row">
             <img
               src={Profile}
-              alt="Németh Gabriella"
+              alt={t("brand.name")}
               className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover object-top ring-2 ring-gold/60 shadow-md shrink-0"
             />
             <div>
               <div className="flex items-center justify-center sm:justify-start gap-2 mb-1">
                 <h4 className="font-display text-xl sm:text-2xl font-semibold text-ivory">
-                  Németh Gabriella YouTube Csatornája
+                  {t("youtube.channelTitle")}
                 </h4>
               </div>
               <p className="text-xs sm:text-sm text-ivory/80 max-w-xl leading-relaxed">
-                Kövesd figyelemmel a rendszeresen megjelenő új videókat, meditációkat és természetgyógyászati útmutatókat!
+                {t("youtube.channelText")}
               </p>
               <div className="text-xs text-gold/90 mt-1 font-mono">
                 @gabriellanemeth4897
@@ -336,13 +338,13 @@ const YouTubeSection = () => {
               href={subscribeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Feliratkozás a YouTube csatornára"
+              aria-label={t("youtube.subscribeAria")}
               className="inline-flex items-center justify-center gap-3 px-6 py-3.5 rounded-md bg-[#FF0000] text-white font-semibold text-sm hover:bg-[#CC0000] transition-colors shadow-md"
             >
               <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
                 <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
               </svg>
-              <span>Feliratkozás a csatornára</span>
+              <span>{t("youtube.subscribe")}</span>
             </a>
             <a
               href={channelUrl}
@@ -350,7 +352,7 @@ const YouTubeSection = () => {
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-md bg-white/10 hover:bg-white/20 text-ivory border border-gold/40 text-sm font-medium transition-colors"
             >
-              <span>Összes videó megtekintése</span>
+              <span>{t("youtube.allVideos")}</span>
               <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="text-xs text-gold" />
             </a>
           </div>

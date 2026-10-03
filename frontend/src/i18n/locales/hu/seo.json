@@ -1,0 +1,57 @@
+{
+  "siteName": "Németh Gabriella",
+  "jobTitle": "Spirituális energia- és lélekgyógyász, talpreflexológus, Forrás-kód® lélekalkotás kísérő",
+  "pages": {
+    "default": {
+      "title": "Németh Gabriella – Reflexológia és Forrás-kód® Lélekalkotás Kísérő",
+      "description": "Németh Gabriella – Spirituális energia- és lélekgyógyász, talpreflexológus, Forrás-kód® lélekalkotás kísérő. Reflexológiai talpmasszázs, energetikai és kombinált kezelések a testi-lelki egyensúlyért."
+    },
+    "home": {
+      "title": "Németh Gabriella – Talpreflexológia, energetikai kezelés és Forrás-kód® lélekalkotás",
+      "description": "Talpreflexológia, vérreflexológia, energetikai és kombinált kezelések, életmód- és táplálkozási tanácsadás. Több mint 10 év tapasztalat a testi-lelki egyensúly kísérésében."
+    },
+    "courses": {
+      "title": "Kurzusok – Németh Gabriella",
+      "description": "Online és személyes kurzusok a reflexológia, az önismeret és a belső Forrással való kapcsolódás témájában."
+    },
+    "gallery": {
+      "title": "Galéria – Németh Gabriella",
+      "description": "Pillanatok a kezelésekről, a tanfolyamokról és a nyugodt, harmonikus rendelői környezetről."
+    },
+    "contact": {
+      "title": "Kapcsolat – Németh Gabriella",
+      "description": "Időpont-egyeztetés és kapcsolatfelvétel: +36 70 428 3858, azegy1@gmail.com. Személyes kezelések és online konzultáció."
+    },
+    "faq": {
+      "title": "Gyakran ismételt kérdések – Németh Gabriella",
+      "description": "Válaszok a kurzusokkal, a fizetéssel, a talpreflexológiai és energetikai kezelésekkel kapcsolatos gyakori kérdésekre."
+    },
+    "terms": {
+      "title": "Általános Szerződési Feltételek – Németh Gabriella",
+      "description": "A weboldalon elérhető szolgáltatások és kurzusok igénybevételének általános szerződési feltételei."
+    },
+    "termsOfUse": {
+      "title": "Felhasználási feltételek – Németh Gabriella",
+      "description": "A weboldal tartalmainak felhasználására vonatkozó feltételek."
+    },
+    "privacy": {
+      "title": "Adatvédelmi tájékoztató – Németh Gabriella",
+      "description": "Tájékoztató a weboldalon kezelt személyes adatokról, az adatkezelés céljáról és a felhasználók jogairól."
+    },
+    "login": {
+      "title": "Bejelentkezés – Németh Gabriella"
+    },
+    "register": {
+      "title": "Regisztráció – Németh Gabriella"
+    },
+    "course": {
+      "title": "Kurzus – Németh Gabriella"
+    },
+    "user": {
+      "title": "Profil – Németh Gabriella"
+    },
+    "notFound": {
+      "title": "Az oldal nem található – Németh Gabriella"
+    }
+  }
+}

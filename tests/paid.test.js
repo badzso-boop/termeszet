@@ -39,7 +39,7 @@ describe('POST /api/paid', () => {
     expect(register.paid).toBe(true);
   });
 
-  test('már fizetett regisztrációnál 201-et ad "Már fizettél" üzenettel', async () => {
+  test('már fizetett regisztrációnál 201-et ad courseRegistration.alreadyPaid kulccsal', async () => {
     const register = await createCourseRegister({
       userId: user.id,
       courseId: course.id,
@@ -51,7 +51,7 @@ describe('POST /api/paid', () => {
       .send({ CourseRegisterId: register.id });
 
     expect(res.status).toBe(201);
-    expect(res.body.message).toBe('Már fizettél');
+    expect(res.body.message).toBe('courseRegistration.alreadyPaid');
   });
 
   test('nem létező CourseRegisterId esetén 404-et ad', async () => {

@@ -15,13 +15,13 @@ exports.register = async (req, res) => {
   console.log(req.body);
 
   if (!email || !pwd || !username || !fullName) {
-    return res.status(400).json({ error: "Invalid input data." });
+    return res.status(400).json({ error: "generic.invalidData" });
   }
 
   try {
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
-      return res.status(400).json({ error: "User already exists." });
+      return res.status(400).json({ error: "user.alreadyExists" });
     }
 
     const hashedPassword = await bcrypt.hash(pwd, 10);
@@ -67,10 +67,10 @@ exports.register = async (req, res) => {
       console.error('Error sending email:', emailError);
     }
 
-    return res.status(201).json({ message: "User registered successfully." });
+    return res.status(201).json({ message: "user.registered" });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ error: "Server error." });
+    return res.status(500).json({ error: "generic.error" });
   }
 };
 
@@ -79,18 +79,18 @@ exports.login = async (req, res) => {
   const { email, pwd } = req.body;
 
   if (!email || !pwd) {
-    return res.status(400).json({ error: "Invalid input data." });
+    return res.status(400).json({ error: "generic.invalidData" });
   }
 
   try {
     const user = await User.findOne({ where: { email } });
     if (!user) {
-      return res.status(401).json({ error: "Invalid email or password." });
+      return res.status(401).json({ error: "auth.invalidCredentials" });
     }
 
     const isMatch = await bcrypt.compare(pwd, user.pwd);
     if (!isMatch) {
-      return res.status(401).json({ error: "Invalid email or password." });
+      return res.status(401).json({ error: "auth.invalidCredentials" });
     }
 
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
@@ -104,11 +104,11 @@ exports.login = async (req, res) => {
       userId,
       rang,
       token,
-      message: "Login successful.",
+      message: "auth.loginSuccess",
     });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ error: "Server error." });
+    return res.status(500).json({ error: "generic.error" });
   }
 };
 
@@ -145,16 +145,16 @@ exports.registerCourse = async (req, res) => {
         }
       } else {
         console.error('User or Course not found.');
-        return res.status(404).json({ error: "User or Course not found." });
+        return res.status(404).json({ error: "courseRegistration.userOrCourseNotFound" });
       }
   
-      return res.status(200).json({ message: "Course registered successfully." }); 
+      return res.status(200).json({ message: "courseRegistration.registered" }); 
     } else {
-      return res.status(201).json({ message: "User has already registered for this course." });
+      return res.status(201).json({ message: "courseRegistration.alreadyRegistered" });
     }
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ error: "Server error." });
+    return res.status(500).json({ error: "generic.error" });
   }
 };
 
@@ -163,19 +163,19 @@ exports.oneUser = async (req, res) => {
   const { userId } = req.body;
 
   if (!userId) {
-    return res.status(400).json({ error: "Invalid input data." });
+    return res.status(400).json({ error: "generic.invalidData" });
   }
 
   try {
     const user = await User.findOne({ where: { id: userId } });
     if (!user) {
-      return res.status(404).json({ error: "User not found." });
+      return res.status(404).json({ error: "user.notFound" });
     }
 
     return res.status(200).json({ user });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ error: "Server error." });
+    return res.status(500).json({ error: "generic.error" });
   }
 };
 
@@ -188,14 +188,14 @@ exports.getOneCourse = async (req, res) => {
       include: [{ model: Lesson, order: [["sorrend", "ASC"]] }],
     });
     if (!course) {
-      return res.status(404).json({ error: "Not found this course!" });
+      return res.status(404).json({ error: "course.notFound" });
     }
 
     course.lessons?.sort((a, b) => a.sorrend - b.sorrend);
     res.json(course);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Something went wrong." });
+    res.status(500).json({ error: "generic.error" });
   }
 };
 
@@ -211,7 +211,7 @@ exports.toggleRegisteredCoursePaid = async (req, res) => {
 
     if (!courseRegister) {
       console.log("valami nem jo :)")
-      return res.status(404).json({ error: "Course registration not found." });
+      return res.status(404).json({ error: "courseRegistration.notFound" });
     }
 
     if (!courseRegister.paid) {
@@ -232,20 +232,20 @@ exports.toggleRegisteredCoursePaid = async (req, res) => {
         }
       } else {
         console.error('User or Course not found.');
-        return res.status(404).json({ error: "User or Course not found." });
+        return res.status(404).json({ error: "courseRegistration.userOrCourseNotFound" });
       }
   
       await courseRegister.update({ paid: true });
   
-      res.status(200).json({ message: "Course payment status updated successfully." });
+      res.status(200).json({ message: "courseRegistration.paymentUpdated" });
     }
     else {
-      res.status(201).json({ message: "Már fizettél" });
+      res.status(201).json({ message: "courseRegistration.alreadyPaid" });
     }
 
   } catch (error) {
     console.error(error);
-    res.status(400).json({ error: "Something went wrong." });
+    res.status(400).json({ error: "generic.error" });
   }
 };
 
@@ -255,7 +255,7 @@ exports.getCourses = async (req, res) => {
     res.json(courses);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Something went wrong." });
+    res.status(500).json({ error: "generic.error" });
   }
 };
 
@@ -265,7 +265,7 @@ exports.getRegisteredCourses = async (req, res) => {
     res.json(registeredCourses);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Something went wrong." });
+    res.status(500).json({ error: "generic.error" });
   }
 };
 
@@ -277,7 +277,7 @@ exports.getVideo = async (req, res) => {
   try {
     const requester = await User.findByPk(req.userId);
     if (!requester) {
-      return res.status(401).json({ error: "Unauthorized." });
+      return res.status(401).json({ error: "auth.unauthorized" });
     }
 
     if (requester.rang !== "a") {
@@ -291,7 +291,7 @@ exports.getVideo = async (req, res) => {
       }
 
       if (!course) {
-        return res.status(404).json({ error: "Not found." });
+        return res.status(404).json({ error: "generic.notFound" });
       }
 
       const register = await CourseRegister.findOne({
@@ -305,18 +305,18 @@ exports.getVideo = async (req, res) => {
       });
 
       if (!register) {
-        return res.status(403).json({ error: "Access denied." });
+        return res.status(403).json({ error: "auth.accessDenied" });
       }
     }
 
     const filePath = path.join(__dirname, "../../uploads", filename);
     if (!fs.existsSync(filePath)) {
-      return res.status(404).json({ error: "Not found." });
+      return res.status(404).json({ error: "generic.notFound" });
     }
 
     res.sendFile(filePath);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Server error." });
+    res.status(500).json({ error: "generic.error" });
   }
 };
