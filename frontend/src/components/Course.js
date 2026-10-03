@@ -6,6 +6,7 @@ import { useAdmin } from "../context/AdminContext";
 import { useTranslation } from "react-i18next";
 import apiMessage from "../i18n/apiMessage";
 import { useLocalizedPath } from "../i18n/useLocalizedPath";
+import { fallbackLang, formatContentDate } from "../i18n/contentLang";
 
 const Course = () => {
   const {
@@ -26,7 +27,7 @@ const Course = () => {
   const [localRegisterCourses, setLocalRegisterCourses] = useState([]);
 
   const navigate = useNavigate();
-  const { t } = useTranslation(["pages", "common"]);
+  const { t, i18n } = useTranslation(["pages", "common"]);
   const lp = useLocalizedPath();
 
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
@@ -122,19 +123,19 @@ const Course = () => {
     {course && <div className="ml-4">
       <div className="w-full flex items-center h-full flex-col">
         <div className="p-6 w-full sm:w-3/4 md:w-1/3 text-center mt-12 mb-12 rounded-md border border-secondary/30 bg-secondary/90">
-          <h1 className="font-display font-bold text-3xl">{course.cim}</h1>
-          <h3 className="italic text-lg text-ink/70">{course.temakor}</h3>
+          <h1 lang={fallbackLang(course, "cim")} className="font-display font-bold text-3xl">{course.cim}</h1>
+          <h3 lang={fallbackLang(course, "temakor")} className="italic text-lg text-ink/70">{course.temakor}</h3>
           <div className="divider-gold my-3" />
           <div className="w-full flex flex-col md:flex-row">
-            <div className="w-full md:w-1/2 pl-4 text-regular text-center md:text-left">
+            <div lang={fallbackLang(course, "helyszin")} className="w-full md:w-1/2 pl-4 text-regular text-center md:text-left">
               {course.helyszin}
             </div>
             <div className="w-full md:w-1/2 pr-4 text-regular text-center md:text-right">
-              {course.idopont}
+              {formatContentDate(course.idopont, i18n.language)}
             </div>
           </div>
           <div className="rounded-md p-2">
-            <span className="text-regular">{course.leiras}</span>
+            <span lang={fallbackLang(course, "leiras")} className="text-regular">{course.leiras}</span>
           </div>
         </div>
 

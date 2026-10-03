@@ -5,17 +5,11 @@
 // sitemap.xml-t és a robots.txt-t is.
 //
 // Az útvonaltábla, a tag-generáló logika és a szövegek a frontenddel közösek
-// (frontend/src/i18n/{routes.json,seoCore.js,locales/*/seo.json}) -- a Docker image ezt
-// a mappát /app/i18n alá másolja, lokálisan pedig közvetlenül a frontend forrásából olvassuk.
+// (frontend/src/i18n/{routes.json,seoCore.js,locales/*/seo.json}), lásd src/i18nConfig.js.
 const fs = require('fs');
 const path = require('path');
 
-const I18N_DIR = [
-  path.join(__dirname, '..', 'i18n'),
-  path.join(__dirname, '..', 'frontend', 'src', 'i18n'),
-].find((dir) => fs.existsSync(path.join(dir, 'seoCore.js')));
-
-const seoCore = require(path.join(I18N_DIR, 'seoCore.js'));
+const { I18N_DIR, seoCore } = require('./i18nConfig');
 
 const seoTexts = Object.fromEntries(
   seoCore.LANGUAGES.map((lang) => [

@@ -14,6 +14,7 @@ import AdminServicesManager from "../components/AdminServicesManager";
 
 import { useAuth } from "../context/AuthContext";
 import { useAdmin } from "../context/AdminContext";
+import { TranslationBadges } from "../components/AdminContentTranslation";
 
 const Admin = () => {
   const { rang, userId } = useAuth();
@@ -232,7 +233,11 @@ const Admin = () => {
               <div key={item.id} className="flex flex-wrap lg:flex-nowrap w-full border-t border-secondary/30">
                 {/* Cím */}
                 <div className="w-full lg:w-1/4 border-b lg:border-b-0 lg:border-r-2 border-secondary/30 flex items-center text-lg p-2 truncate">
-                  <span className="lg:hidden font-bold mr-2">Cím: </span>{item.cim}
+                  <span className="lg:hidden font-bold mr-2">Cím: </span>
+                  <span className="truncate">{item.cim}</span>
+                  <span className="ml-2 shrink-0">
+                    <TranslationBadges translations={item.translations} />
+                  </span>
                 </div>
                 {/* Ár */}
                 <div className="w-full lg:w-1/4 border-b lg:border-b-0 lg:border-r-2 border-secondary/30 flex items-center text-lg p-2 truncate">

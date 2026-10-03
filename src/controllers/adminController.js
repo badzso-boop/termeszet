@@ -3,6 +3,9 @@ const Course = require("../models/courseModel.js");
 const User = require("../models/userModel.js");
 const CourseRegister = require("../models/courseRegisterModel.js");
 const Lesson = require("../models/lessonModel.js");
+const sequelize = require("../config/db");
+const { CourseTranslation, LessonTranslation } = require("../models/translationModels.js");
+const { adminView, parseTranslationsInput, saveTranslations } = require("../helpers/contentTranslations.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -182,11 +185,11 @@ exports.deleteUserHomework = async (req, res) => {
   }
 };
 
-// Kurzusok lekérése
+// Kurzusok lekérése (a magyar mezőkkel és nyelvenkénti fordításokkal + állapottal)
 exports.getCourses = async (req, res) => {
   try {
-    const courses = await Course.findAll();
-    res.json(courses);
+    const courses = await Course.findAll({ include: [{ model: CourseTranslation, as: "translations" }] });
+    res.json(courses.map((course) => adminView(course, "course")));
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "generic.error" });
@@ -212,21 +215,35 @@ exports.createCourse = async (req, res) => {
   console.log("videoUrl", videoUrl)
 
   try {
-    const newCourse = await Course.create({
-      cim,
-      helyszin,
-      idopont,
-      ar,
-      temakor,
-      leiras,
-      szoveg,
-      fajlok,
-      felhasznalok,
-      megkotesek,
-      video: videoUrl
+    const translations = parseTranslationsInput(req.body.translations, "course");
+    await sequelize.transaction(async (transaction) => {
+      const newCourse = await Course.create({
+        cim,
+        helyszin,
+        idopont,
+        ar,
+        temakor,
+        leiras,
+        szoveg,
+        fajlok,
+        felhasznalok,
+        megkotesek,
+        video: videoUrl
+      }, { transaction });
+      await saveTranslations({
+        TranslationModel: CourseTranslation,
+        foreignKey: "courseId",
+        entity: "course",
+        record: newCourse,
+        parsed: translations,
+        transaction,
+      });
     });
     res.status(201).json({ message: "course.created" });
   } catch (error) {
+    if (error.messageKey) {
+      return res.status(error.status).json({ error: error.messageKey });
+    }
     console.log("ezittaz", error);
     res.status(400).json({ error: "generic.error" });
   }
@@ -251,6 +268,7 @@ exports.updateCourse = async (req, res) => {
   const videoUrl = req.file ? req.file.filename : null;
 
   try {
+    const translations = parseTranslationsInput(req.body.translations, "course");
     const course = await Course.findByPk(id);
     if (!course) {
       return res.status(404).json({ error: "course.notFound" });
@@ -269,10 +287,23 @@ exports.updateCourse = async (req, res) => {
     if (megkotesek) course.megkotesek = megkotesek;
     if (videoUrl) course.video = videoUrl;
 
-    await course.save();
+    await sequelize.transaction(async (transaction) => {
+      await course.save({ transaction });
+      await saveTranslations({
+        TranslationModel: CourseTranslation,
+        foreignKey: "courseId",
+        entity: "course",
+        record: course,
+        parsed: translations,
+        transaction,
+      });
+    });
 
     res.json({ message: "course.updated" });
   } catch (error) {
+    if (error.messageKey) {
+      return res.status(error.status).json({ error: error.messageKey });
+    }
     res.status(400).json({ error: "generic.error" });
   }
 };
@@ -361,9 +392,10 @@ exports.getLessons = async (req, res) => {
   try {
     const lessons = await Lesson.findAll({
       where: { courseId },
+      include: [{ model: LessonTranslation, as: "translations" }],
       order: [["sorrend", "ASC"], ["id", "ASC"]],
     });
-    res.json(lessons);
+    res.json(lessons.map((lesson) => adminView(lesson, "lesson")));
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "generic.error" });
@@ -376,21 +408,36 @@ exports.createLesson = async (req, res) => {
   const videoUrl = req.file ? req.file.filename : null;
 
   try {
+    const translations = parseTranslationsInput(req.body.translations, "lesson");
     const course = await Course.findByPk(courseId);
     if (!course) {
       return res.status(404).json({ error: "course.notFound" });
     }
 
-    const newLesson = await Lesson.create({
-      courseId,
-      cim,
-      sorrend: sorrend !== undefined ? sorrend : 0,
-      szoveg,
-      video: videoUrl,
+    const newLesson = await sequelize.transaction(async (transaction) => {
+      const created = await Lesson.create({
+        courseId,
+        cim,
+        sorrend: sorrend !== undefined ? sorrend : 0,
+        szoveg,
+        video: videoUrl,
+      }, { transaction });
+      await saveTranslations({
+        TranslationModel: LessonTranslation,
+        foreignKey: "lessonId",
+        entity: "lesson",
+        record: created,
+        parsed: translations,
+        transaction,
+      });
+      return created;
     });
 
     res.status(201).json({ message: "lesson.created", lesson: newLesson });
   } catch (error) {
+    if (error.messageKey) {
+      return res.status(error.status).json({ error: error.messageKey });
+    }
     console.log(error);
     res.status(400).json({ error: "generic.error" });
   }
@@ -402,6 +449,7 @@ exports.updateLesson = async (req, res) => {
   const videoUrl = req.file ? req.file.filename : null;
 
   try {
+    const translations = parseTranslationsInput(req.body.translations, "lesson");
     const lesson = await Lesson.findByPk(id);
     if (!lesson) {
       return res.status(404).json({ error: "lesson.notFound" });
@@ -412,9 +460,22 @@ exports.updateLesson = async (req, res) => {
     if (szoveg !== undefined) lesson.szoveg = szoveg;
     if (videoUrl) lesson.video = videoUrl;
 
-    await lesson.save();
+    await sequelize.transaction(async (transaction) => {
+      await lesson.save({ transaction });
+      await saveTranslations({
+        TranslationModel: LessonTranslation,
+        foreignKey: "lessonId",
+        entity: "lesson",
+        record: lesson,
+        parsed: translations,
+        transaction,
+      });
+    });
     res.json({ message: "lesson.updated" });
   } catch (error) {
+    if (error.messageKey) {
+      return res.status(error.status).json({ error: error.messageKey });
+    }
     console.log(error);
     res.status(400).json({ error: "generic.error" });
   }

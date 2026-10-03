@@ -7,6 +7,7 @@ const config = require('./routes.json');
 
 const LANGUAGES = config.languages;
 const DEFAULT_LANG = config.defaultLanguage;
+const LANGUAGE_NAMES = config.languageNames;
 const SITE_URL = config.siteUrl;
 const OG_LOCALES = { hu: 'hu_HU', en: 'en_US' };
 
@@ -136,6 +137,7 @@ function buildSeo(pathname, { siteUrl, seoTexts }) {
 module.exports = {
   LANGUAGES,
   DEFAULT_LANG,
+  LANGUAGE_NAMES,
   SITE_URL,
   ROUTES: config.routes,
   HUNGARIAN_ONLY: config.hungarianOnly,

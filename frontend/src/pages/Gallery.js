@@ -9,11 +9,13 @@ import {
   faFilter
 } from '@fortawesome/free-solid-svg-icons';
 import GalleryLightbox from '../components/GalleryLightbox';
+import { fallbackLang } from '../i18n/contentLang';
 import Footer from '../components/Footer';
 import Newsletter from '../components/Newsletter';
 
 const Gallery = () => {
-  const { t } = useTranslation('pages');
+  const { t, i18n } = useTranslation('pages');
+  const lang = i18n.language;
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all'); // 'all' or 'starred'
@@ -26,7 +28,7 @@ const Gallery = () => {
     const fetchGallery = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`${API_BASE_URL}/api/gallery`);
+        const res = await axios.get(`${API_BASE_URL}/api/gallery`, { params: { lang } });
         setImages(res.data || []);
       } catch (err) {
         console.error('Error fetching gallery:', err);
@@ -36,7 +38,7 @@ const Gallery = () => {
     };
 
     fetchGallery();
-  }, [API_BASE_URL]);
+  }, [API_BASE_URL, lang]);
 
   const filteredImages = filter === 'starred' ? images.filter((img) => img.isStarred) : images;
 
@@ -150,7 +152,7 @@ const Gallery = () => {
                 {/* Hover Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
                   <div className="flex items-center justify-between">
-                    <p className="text-sm font-medium truncate drop-shadow-md">
+                    <p lang={img.title ? fallbackLang(img, 'title') : undefined} className="text-sm font-medium truncate drop-shadow-md">
                       {img.title || t('gallery.view')}
                     </p>
                     <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-ivory hover:text-gold shrink-0 ml-2">

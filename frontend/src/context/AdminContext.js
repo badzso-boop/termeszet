@@ -137,9 +137,10 @@ export const AdminProvider = ({ children }) => {
     }
   }, [userId, API_BASE_URL, getAuthHeaders]);
 
-  const fetchCoursesUser = useCallback(async () => {
+  // Publikus kurzuslista a megadott nyelven (ahol nincs fordítás, magyarul).
+  const fetchCoursesUser = useCallback(async (lang) => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/api/courses`);
+      const response = await axios.get(`${API_BASE_URL}/api/courses`, { params: lang ? { lang } : {} });
       setCourses(response.data);
     } catch (error) {
       console.error("Error fetching courses data:", error);
@@ -402,37 +403,30 @@ export const AdminProvider = ({ children }) => {
     }
   };
 
-  const updateGalleryImageTitle = async (id, title) => {
-    try {
-      const response = await axios.put(
-        `${API_BASE_URL}/api/admin/gallery/${id}`,
-        {
-          title,
-          caption: title,
-          userId,
-        }
-      );
+  // Képcím mentése a megadott nyelven: magyar (alapnyelv) -> az eredeti `title` mező,
+  // más nyelv -> fordítás (`translations`). A backend a frissített képet (fordításokkal,
+  // állapotokkal) adja vissza, azzal frissítjük a listát.
+  const updateGalleryImageTitle = async (id, title, lang = "hu") => {
+    const body =
+      lang === "hu"
+        ? { title, caption: title, userId }
+        : { translations: { [lang]: { title } }, userId };
+    const applyResponse = (data) =>
       setGalleryImages((prev) =>
         prev.map((img) =>
-          img.id === id ? { ...img, title, caption: title } : img
+          img.id === id
+            ? data?.image || (lang === "hu" ? { ...img, title, caption: title } : img)
+            : img
         )
       );
+    try {
+      const response = await axios.put(`${API_BASE_URL}/api/admin/gallery/${id}`, body);
+      applyResponse(response.data);
       return response.data;
     } catch (error) {
       try {
-        const patchRes = await axios.patch(
-          `${API_BASE_URL}/api/admin/gallery/${id}`,
-          {
-            title,
-            caption: title,
-            userId,
-          }
-        );
-        setGalleryImages((prev) =>
-          prev.map((img) =>
-            img.id === id ? { ...img, title, caption: title } : img
-          )
-        );
+        const patchRes = await axios.patch(`${API_BASE_URL}/api/admin/gallery/${id}`, body);
+        applyResponse(patchRes.data);
         return patchRes.data;
       } catch (err) {
         console.error("Error updating image title:", err);

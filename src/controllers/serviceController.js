@@ -1,6 +1,42 @@
 const fs = require('fs');
 const path = require('path');
+const sequelize = require('../config/db');
 const Service = require('../models/serviceModel');
+const { ServiceTranslation } = require('../models/translationModels');
+const {
+  resolveLang,
+  translationInclude,
+  localize,
+  adminView,
+  parseTranslationsInput,
+  saveTranslations,
+} = require('../helpers/contentTranslations');
+
+const SERVICE_ORDER = [
+  ['order', 'ASC'],
+  ['createdAt', 'ASC']
+];
+
+const findServicesForAdmin = (where = {}) =>
+  Service.findAll({
+    where,
+    include: [{ model: ServiceTranslation, as: 'translations' }],
+    order: SERVICE_ORDER
+  }).then((services) => services.map((service) => adminView(service, 'service')));
+
+const findServiceForAdmin = (id) =>
+  Service.findByPk(id, { include: [{ model: ServiceTranslation, as: 'translations' }] })
+    .then((service) => service && adminView(service, 'service'));
+
+const saveServiceTranslations = (service, parsed, transaction) =>
+  saveTranslations({
+    TranslationModel: ServiceTranslation,
+    foreignKey: 'serviceId',
+    entity: 'service',
+    record: service,
+    parsed,
+    transaction
+  });
 
 // Alapértelmezett kezdő szolgáltatások (ha a tábla üres lenne)
 const defaultServices = [
@@ -61,17 +97,16 @@ async function seedDefaultServicesIfNeeded() {
   }
 }
 
-// 1. Publikus: összes szolgáltatás lekérése
+// 1. Publikus: összes szolgáltatás lekérése (?lang=en -> angolul, ahol nincs fordítás, magyarul)
 exports.getServices = async (req, res) => {
   try {
     await seedDefaultServicesIfNeeded();
+    const lang = resolveLang(req.query.lang);
     const services = await Service.findAll({
-      order: [
-        ['order', 'ASC'],
-        ['createdAt', 'ASC']
-      ]
+      include: translationInclude(ServiceTranslation, lang),
+      order: SERVICE_ORDER
     });
-    res.json(services);
+    res.json(services.map((service) => localize(service, 'service', lang)));
   } catch (error) {
     console.error('Error fetching services:', error);
     res.status(500).json({ error: 'service.fetchFailed' });
@@ -82,24 +117,35 @@ exports.getServices = async (req, res) => {
 exports.getFeaturedServices = async (req, res) => {
   try {
     await seedDefaultServicesIfNeeded();
+    const lang = resolveLang(req.query.lang);
     const services = await Service.findAll({
       where: { isStarred: true },
-      order: [
-        ['order', 'ASC'],
-        ['createdAt', 'ASC']
-      ]
+      include: translationInclude(ServiceTranslation, lang),
+      order: SERVICE_ORDER
     });
-    res.json(services);
+    res.json(services.map((service) => localize(service, 'service', lang)));
   } catch (error) {
     console.error('Error fetching featured services:', error);
     res.status(500).json({ error: 'service.fetchFeaturedFailed' });
   }
 };
 
-// 3. Admin: Új szolgáltatás létrehozása
+// Admin: összes szolgáltatás a magyar mezőkkel és nyelvenkénti fordításokkal + állapottal
+exports.getServicesAdmin = async (req, res) => {
+  try {
+    await seedDefaultServicesIfNeeded();
+    res.json(await findServicesForAdmin());
+  } catch (error) {
+    console.error('Error fetching services for admin:', error);
+    res.status(500).json({ error: 'service.fetchFailed' });
+  }
+};
+
+// 3. Admin: Új szolgáltatás létrehozása (opcionálisan fordításokkal: `translations` mező)
 exports.createService = async (req, res) => {
   try {
     const { title, description, price, duration, isStarred, iconType, order } = req.body;
+    const translations = parseTranslationsInput(req.body.translations, 'service');
 
     if (!title || !description) {
       return res.status(400).json({ error: 'service.titleAndDescriptionRequired' });
@@ -117,19 +163,26 @@ exports.createService = async (req, res) => {
     });
     const nextOrder = order !== undefined ? parseInt(order, 10) : (maxOrderService ? maxOrderService.order + 1 : 1);
 
-    const newService = await Service.create({
-      title: title.trim(),
-      description: description.trim(),
-      price: price ? price.trim() : null,
-      duration: duration ? duration.trim() : null,
-      iconUrl: iconUrl,
-      iconType: iconType || (iconUrl ? 'custom' : 'spa'),
-      isStarred: isStarred === true || isStarred === 'true' || isStarred === '1',
-      order: nextOrder
+    const newService = await sequelize.transaction(async (transaction) => {
+      const created = await Service.create({
+        title: title.trim(),
+        description: description.trim(),
+        price: price ? price.trim() : null,
+        duration: duration ? duration.trim() : null,
+        iconUrl: iconUrl,
+        iconType: iconType || (iconUrl ? 'custom' : 'spa'),
+        isStarred: isStarred === true || isStarred === 'true' || isStarred === '1',
+        order: nextOrder
+      }, { transaction });
+      await saveServiceTranslations(created, translations, transaction);
+      return created;
     });
 
-    res.status(201).json(newService);
+    res.status(201).json(await findServiceForAdmin(newService.id));
   } catch (error) {
+    if (error.messageKey) {
+      return res.status(error.status).json({ error: error.messageKey });
+    }
     console.error('Error creating service:', error);
     res.status(500).json({ error: 'service.createFailed' });
   }
@@ -145,6 +198,7 @@ exports.updateService = async (req, res) => {
     }
 
     const { title, description, price, duration, isStarred, iconType, order } = req.body;
+    const translations = parseTranslationsInput(req.body.translations, 'service');
 
     if (title !== undefined) service.title = title.trim();
     if (description !== undefined) service.description = description.trim();
@@ -164,9 +218,15 @@ exports.updateService = async (req, res) => {
       service.iconUrl = req.body.iconUrl;
     }
 
-    await service.save();
-    res.json(service);
+    await sequelize.transaction(async (transaction) => {
+      await service.save({ transaction });
+      await saveServiceTranslations(service, translations, transaction);
+    });
+    res.json(await findServiceForAdmin(service.id));
   } catch (error) {
+    if (error.messageKey) {
+      return res.status(error.status).json({ error: error.messageKey });
+    }
     console.error('Error updating service:', error);
     res.status(500).json({ error: 'service.updateFailed' });
   }
@@ -237,14 +297,7 @@ exports.reorderServices = async (req, res) => {
       }
     }
 
-    const updated = await Service.findAll({
-      order: [
-        ['order', 'ASC'],
-        ['createdAt', 'ASC']
-      ]
-    });
-
-    res.json(updated);
+    res.json(await findServicesForAdmin());
   } catch (error) {
     console.error('Error reordering services:', error);
     res.status(500).json({ error: 'service.reorderFailed' });

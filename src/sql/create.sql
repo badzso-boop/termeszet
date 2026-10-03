@@ -99,3 +99,79 @@ CREATE TABLE services(
     createdAt DATETIME,
     updatedAt DATETIME
 );
+
+-- Leckék (kurzusonként sorrendezett videó+szöveg blokkok; a Sequelize lessonModel.js alapján)
+CREATE TABLE `lessons` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `courseId` int NOT NULL,
+  `cim` varchar(255) NOT NULL,
+  `sorrend` int NOT NULL DEFAULT '0',
+  `szoveg` text,
+  `video` varchar(255) DEFAULT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `courseId` (`courseId`),
+  CONSTRAINT `lessons_ibfk_1` FOREIGN KEY (`courseId`) REFERENCES `minikurzus` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Tartalomfordítások (lásd src/sql/migrations/2026-10-04-content-translations.sql)
+CREATE TABLE `service_translations` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `serviceId` int NOT NULL,
+  `lang` varchar(10) NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `description` text,
+  `price` varchar(100) DEFAULT NULL,
+  `duration` varchar(100) DEFAULT NULL,
+  `sourceHash` char(64) DEFAULT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_service_translations_serviceId_lang` (`serviceId`,`lang`),
+  CONSTRAINT `service_translations_ibfk_1` FOREIGN KEY (`serviceId`) REFERENCES `services` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `course_translations` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `courseId` int NOT NULL,
+  `lang` varchar(10) NOT NULL,
+  `cim` varchar(255) DEFAULT NULL,
+  `temakor` varchar(255) DEFAULT NULL,
+  `helyszin` varchar(255) DEFAULT NULL,
+  `leiras` text,
+  `szoveg` text,
+  `sourceHash` char(64) DEFAULT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_course_translations_courseId_lang` (`courseId`,`lang`),
+  CONSTRAINT `course_translations_ibfk_1` FOREIGN KEY (`courseId`) REFERENCES `minikurzus` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `lesson_translations` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `lessonId` int NOT NULL,
+  `lang` varchar(10) NOT NULL,
+  `cim` varchar(255) DEFAULT NULL,
+  `szoveg` text,
+  `sourceHash` char(64) DEFAULT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_lesson_translations_lessonId_lang` (`lessonId`,`lang`),
+  CONSTRAINT `lesson_translations_ibfk_1` FOREIGN KEY (`lessonId`) REFERENCES `lessons` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `gallery_translations` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `galleryId` int NOT NULL,
+  `lang` varchar(10) NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `sourceHash` char(64) DEFAULT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_gallery_translations_galleryId_lang` (`galleryId`,`lang`),
+  CONSTRAINT `gallery_translations_ibfk_1` FOREIGN KEY (`galleryId`) REFERENCES `galeria` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

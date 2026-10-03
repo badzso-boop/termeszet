@@ -20,14 +20,14 @@ router.delete('/deleteUser', adminController.deleteUser);
 router.post('/createUser', adminController.createUser);
 
 // Galéria kezelése (Admin)
-router.get('/gallery', galleryController.getGallery);
+router.get('/gallery', galleryController.getGalleryAdmin);
 router.post('/gallery/upload', galleryUpload.any(), galleryController.uploadImages);
 router.put('/gallery/toggle-star/:id', galleryController.toggleStar);
 router.put('/gallery/:id', galleryController.updateImage);
 router.delete('/gallery/:id', galleryController.deleteImage);
 
 // Szolgáltatások kezelése (Admin)
-router.get('/services', serviceController.getServices);
+router.get('/services', serviceController.getServicesAdmin);
 router.post('/services', galleryUpload.single('icon'), serviceController.createService);
 router.put('/services/:id', galleryUpload.single('icon'), serviceController.updateService);
 router.put('/services/toggle-star/:id', serviceController.toggleStarService);

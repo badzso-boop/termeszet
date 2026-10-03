@@ -19,6 +19,12 @@ const Homework = require('./homeworkModel');
 const Lesson = require('./lessonModel');
 const Gallery = require('./galleryModel');
 const Service = require('./serviceModel');
+const {
+  ServiceTranslation,
+  CourseTranslation,
+  LessonTranslation,
+  GalleryTranslation,
+} = require('./translationModels');
 
 // User <-> CourseRegister (courseregister.userId -> users.id)
 User.hasMany(CourseRegister, {
@@ -68,6 +74,27 @@ Lesson.belongsTo(Course, {
   onUpdate: 'CASCADE',
 });
 
+// Tartalomfordítások (lásd translationModels.js): <entitás> <-> <entitás>_translations,
+// mindig `translations` aliasszal, hogy a controllerek egységesen include-olhassák.
+[
+  [Service, ServiceTranslation, 'serviceId'],
+  [Course, CourseTranslation, 'courseId'],
+  [Lesson, LessonTranslation, 'lessonId'],
+  [Gallery, GalleryTranslation, 'galleryId'],
+].forEach(([Model, TranslationModel, foreignKey]) => {
+  Model.hasMany(TranslationModel, {
+    as: 'translations',
+    foreignKey,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  });
+  TranslationModel.belongsTo(Model, {
+    foreignKey,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  });
+});
+
 module.exports = {
   User,
   Course,
@@ -75,4 +102,9 @@ module.exports = {
   Homework,
   Lesson,
   Gallery,
+  Service,
+  ServiceTranslation,
+  CourseTranslation,
+  LessonTranslation,
+  GalleryTranslation,
 };

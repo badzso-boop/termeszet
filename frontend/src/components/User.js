@@ -4,9 +4,10 @@ import { useAdmin } from "../context/AdminContext";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useLocalizedPath } from "../i18n/useLocalizedPath";
+import { fallbackLang, formatContentDate } from "../i18n/contentLang";
 
 const User = () => {
-  const { t } = useTranslation("pages");
+  const { t, i18n } = useTranslation("pages");
   const lp = useLocalizedPath();
   const { id } = useParams();
   const {
@@ -69,7 +70,7 @@ const User = () => {
 
   useEffect(() => {
     const loadData = async () => {
-      await fetchCoursesUser();
+      await fetchCoursesUser(i18n.language);
       await fetchRegisteredCoursesUser();
       setDataLoaded(true);
     };
@@ -77,7 +78,7 @@ const User = () => {
     if (!dataLoaded) {
       loadData();
     }
-  }, [fetchRegisteredCoursesUser, dataLoaded, fetchCoursesUser]);
+  }, [fetchRegisteredCoursesUser, dataLoaded, fetchCoursesUser, i18n.language]);
 
   return (
     <>
@@ -212,13 +213,13 @@ const User = () => {
             return (
               <>
                 <div className="bg-secondary/90 border border-secondary/30 w-full lg:w-1/3 rounded-md my-3 p-4">
-                  <h1 className="font-display font-semibold text-xl">{course.cim}</h1>
+                  <h1 lang={fallbackLang(course, "cim")} className="font-display font-semibold text-xl">{course.cim}</h1>
                   <div className="w-full flex">
                     <div className="w-1/2 p-2">
                       <p className="text-left">{course.helyszin}</p>
                     </div>
                     <div className="w-1/2 p-2">
-                      <p className="text-right">{course.idopont}</p>
+                      <p className="text-right">{formatContentDate(course.idopont, i18n.language)}</p>
                     </div>
                   </div>
 

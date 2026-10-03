@@ -34,6 +34,7 @@ import GalleryLightbox, {
   resolveImageCaption
 } from "../components/GalleryLightbox";
 import { useLocalizedPath } from "../i18n/useLocalizedPath";
+import { fallbackLang } from "../i18n/contentLang";
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "";
 
@@ -44,7 +45,8 @@ const DEFAULT_SERVICE_ICON_TYPES = ["hands", "heart", "compass", "seedling", "sp
 const PROCESS_ICONS = [faCalendarCheck, faCommentDots, faHandsHoldingCircle];
 
 const Home = () => {
-  const { t } = useTranslation(["home", "common"]);
+  const { t, i18n } = useTranslation(["home", "common"]);
+  const lang = i18n.language;
   const lp = useLocalizedPath();
   const [featuredPhotos, setFeaturedPhotos] = useState([]);
   const [galleryLoading, setGalleryLoading] = useState(true);
@@ -63,7 +65,7 @@ const Home = () => {
 
         // Try to fetch featured/starred photos first
         try {
-          const res = await axios.get(`${API_BASE_URL}/api/gallery/featured`);
+          const res = await axios.get(`${API_BASE_URL}/api/gallery/featured`, { params: { lang } });
           let data = res.data;
           if (data && Array.isArray(data.images)) data = data.images;
           else if (data && Array.isArray(data.data)) data = data.data;
@@ -78,7 +80,7 @@ const Home = () => {
         // If no featured photos returned, fetch general gallery
         if (photos.length === 0) {
           try {
-            const resAll = await axios.get(`${API_BASE_URL}/api/gallery`);
+            const resAll = await axios.get(`${API_BASE_URL}/api/gallery`, { params: { lang } });
             let dataAll = resAll.data;
             if (dataAll && Array.isArray(dataAll.images)) dataAll = dataAll.images;
             else if (dataAll && Array.isArray(dataAll.data)) dataAll = dataAll.data;
@@ -106,7 +108,7 @@ const Home = () => {
         setServicesLoading(true);
         let servList = [];
         try {
-          const res = await axios.get(`${API_BASE_URL}/api/services/featured`);
+          const res = await axios.get(`${API_BASE_URL}/api/services/featured`, { params: { lang } });
           const data = Array.isArray(res.data) ? res.data : [];
           if (data.length > 0) {
             servList = data;
@@ -114,7 +116,7 @@ const Home = () => {
         } catch (e) {
           // Fallback to all services
           try {
-            const resAll = await axios.get(`${API_BASE_URL}/api/services`);
+            const resAll = await axios.get(`${API_BASE_URL}/api/services`, { params: { lang } });
             const dataAll = Array.isArray(resAll.data) ? resAll.data : [];
             if (dataAll.length > 0) {
               servList = dataAll.filter(s => s.isStarred !== false);
@@ -140,7 +142,7 @@ const Home = () => {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [lang]);
 
   const openPhotoLightbox = (idx) => {
     setSelectedPhotoIndex(idx);
@@ -270,17 +272,17 @@ const Home = () => {
                       />
                     )}
                   </div>
-                  <h3 className="font-display text-xl font-semibold mb-3 text-ink">
+                  <h3 lang={fallbackLang(service, "title")} className="font-display text-xl font-semibold mb-3 text-ink">
                     {service.title}
                   </h3>
-                  <p className="text-gray-700 leading-relaxed text-sm">
+                  <p lang={fallbackLang(service, "description")} className="text-gray-700 leading-relaxed text-sm">
                     {service.description}
                   </p>
                 </div>
                 {(service.price || service.duration) && (
                   <div className="pt-4 mt-4 border-t border-secondary/15 flex items-center justify-between text-xs text-ink/70 font-medium">
-                    {service.duration && <span>{t("services.duration", { duration: service.duration })}</span>}
-                    {service.price && <span className="text-ink font-semibold text-sm">{service.price}</span>}
+                    {service.duration && <span lang={fallbackLang(service, "duration")}>{t("services.duration", { duration: service.duration })}</span>}
+                    {service.price && <span lang={fallbackLang(service, "price")} className="text-ink font-semibold text-sm">{service.price}</span>}
                   </div>
                 )}
               </div>
@@ -338,7 +340,7 @@ const Home = () => {
                         <FontAwesomeIcon icon={faMagnifyingGlassPlus} className="text-xs" />
                       </div>
                       {title && (
-                        <h4 className="font-display font-semibold text-base line-clamp-1 text-ivory">
+                        <h4 lang={fallbackLang(photo, "title")} className="font-display font-semibold text-base line-clamp-1 text-ivory">
                           {title}
                         </h4>
                       )}

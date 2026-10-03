@@ -2,17 +2,47 @@ const fs = require('fs');
 const path = require('path');
 const { execFile } = require('child_process');
 const util = require('util');
+const sequelize = require('../config/db');
 const Gallery = require('../models/galleryModel');
+const { GalleryTranslation } = require('../models/translationModels');
+const {
+  resolveLang,
+  translationInclude,
+  localize,
+  adminView,
+  parseTranslationsInput,
+  saveTranslations,
+} = require('../helpers/contentTranslations');
+
+const findImageForAdmin = (id) =>
+  Gallery.findByPk(id, { include: [{ model: GalleryTranslation, as: 'translations' }] })
+    .then((image) => image && adminView(image, 'gallery'));
 
 const execFilePromise = util.promisify(execFile);
 
-// Get all gallery images ordered by createdAt DESC
+// Get all gallery images ordered by createdAt DESC (?lang=en -> lefordított címek)
 exports.getGallery = async (req, res) => {
   try {
+    const lang = resolveLang(req.query.lang);
     const images = await Gallery.findAll({
+      include: translationInclude(GalleryTranslation, lang),
       order: [['createdAt', 'DESC']]
     });
-    res.json(images);
+    res.json(images.map((image) => localize(image, 'gallery', lang)));
+  } catch (error) {
+    console.error('Error fetching gallery images:', error);
+    res.status(500).json({ error: 'generic.error' });
+  }
+};
+
+// Admin: összes kép a magyar címmel és nyelvenkénti fordítással + állapottal
+exports.getGalleryAdmin = async (req, res) => {
+  try {
+    const images = await Gallery.findAll({
+      include: [{ model: GalleryTranslation, as: 'translations' }],
+      order: [['createdAt', 'DESC']]
+    });
+    res.json(images.map((image) => adminView(image, 'gallery')));
   } catch (error) {
     console.error('Error fetching gallery images:', error);
     res.status(500).json({ error: 'generic.error' });
@@ -22,12 +52,14 @@ exports.getGallery = async (req, res) => {
 // Get featured (starred) gallery images ordered by createdAt DESC
 exports.getFeaturedGallery = async (req, res) => {
   try {
+    const lang = resolveLang(req.query.lang);
     const images = await Gallery.findAll({
       where: { isStarred: true },
+      include: translationInclude(GalleryTranslation, lang),
       order: [['createdAt', 'DESC']],
       limit: 6
     });
-    res.json(images);
+    res.json(images.map((image) => localize(image, 'gallery', lang)));
   } catch (error) {
     console.error('Error fetching featured gallery images:', error);
     res.status(500).json({ error: 'generic.error' });
@@ -108,7 +140,7 @@ exports.uploadImages = async (req, res) => {
       createdImages.push(galleryRecord);
     }
 
-    res.status(201).json(createdImages);
+    res.status(201).json(createdImages.map((image) => adminView(image, 'gallery')));
   } catch (error) {
     console.error('Error in uploadImages:', error);
     res.status(500).json({ error: 'gallery.uploadFailed' });
@@ -129,20 +161,21 @@ exports.toggleStar = async (req, res) => {
     image.isStarred = !image.isStarred;
     await image.save();
 
-    res.json({ message: 'gallery.starUpdated', image });
+    res.json({ message: 'gallery.starUpdated', image: await findImageForAdmin(image.id) });
   } catch (error) {
     console.error('Error toggling star status:', error);
     res.status(500).json({ error: 'generic.error' });
   }
 };
 
-// Update image details (title, isStarred)
+// Update image details (title, isStarred, translations: { en: { title } })
 exports.updateImage = async (req, res) => {
   const { id } = req.params;
   const imageId = id || req.body.id;
   const { title, isStarred } = req.body;
 
   try {
+    const translations = parseTranslationsInput(req.body.translations, 'gallery');
     const image = await Gallery.findByPk(imageId);
     if (!image) {
       return res.status(404).json({ error: 'gallery.imageNotFound' });
@@ -155,9 +188,22 @@ exports.updateImage = async (req, res) => {
       image.isStarred = isStarred === true || isStarred === 'true' || isStarred === 1 || isStarred === '1';
     }
 
-    await image.save();
-    res.json({ message: 'gallery.imageUpdated', image });
+    await sequelize.transaction(async (transaction) => {
+      await image.save({ transaction });
+      await saveTranslations({
+        TranslationModel: GalleryTranslation,
+        foreignKey: 'galleryId',
+        entity: 'gallery',
+        record: image,
+        parsed: translations,
+        transaction
+      });
+    });
+    res.json({ message: 'gallery.imageUpdated', image: await findImageForAdmin(image.id) });
   } catch (error) {
+    if (error.messageKey) {
+      return res.status(error.status).json({ error: error.messageKey });
+    }
     console.error('Error updating gallery image:', error);
     res.status(500).json({ error: 'generic.error' });
   }

@@ -5,6 +5,13 @@ import { useAuth } from "../context/AuthContext";
 import { useAdmin } from "../context/AdminContext";
 import UserPicker from "./UserPicker";
 import apiMessage from "../i18n/apiMessage";
+import {
+  useContentTranslations,
+  AdminLanguageTabs,
+  SourceText,
+} from "./AdminContentTranslation";
+
+const COURSE_TRANSLATABLE_FIELDS = ["cim", "temakor", "helyszin", "leiras", "szoveg"];
 
 const AdminCreate = () => {
   const { rang, userId } = useAuth();
@@ -25,6 +32,8 @@ const AdminCreate = () => {
   const [message, setMessage] = useState('');
   const [isFileValid, setIsFileValid] = useState(true);
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+  const tr = useContentTranslations(COURSE_TRANSLATABLE_FIELDS);
+  const setField = (name) => (value) => setFormData((prev) => ({ ...prev, [name]: value }));
 
   useEffect(() => {
     if (rang !== 'a') {
@@ -59,9 +68,18 @@ const AdminCreate = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.cim.trim() || !formData.helyszin.trim()) {
+      setMessage('A magyar cím és helyszín megadása kötelező.');
+      tr.setEditLang('hu');
+      return;
+    }
     const data = new FormData();
     for (const key in formData) {
       data.append(key, formData[key]);
+    }
+    const translations = tr.payload();
+    if (Object.keys(translations).length > 0) {
+      data.append('translations', JSON.stringify(translations));
     }
 
     data.append('felhasznalok', JSON.stringify(felhasznalok));
@@ -80,6 +98,7 @@ const AdminCreate = () => {
       <div className="bg-secondary p-8 rounded-md border border-secondary/30 w-full max-w-4xl">
         <h1 className="font-display text-2xl font-semibold text-center mb-6">Kurzus létrehozása</h1>
         <form onSubmit={handleSubmit} encType="multipart/form-data">
+          <AdminLanguageTabs editor={tr} />
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
               <div>
@@ -87,11 +106,11 @@ const AdminCreate = () => {
                 <input
                   type="text"
                   name="cim"
-                  value={formData.cim}
-                  onChange={handleChange}
-                  required
+                  {...tr.bind("cim", formData.cim, setField("cim"))}
+                  required={tr.isDefault}
                   className="w-full px-4 py-2 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
                 />
+                <SourceText editor={tr} text={formData.cim} />
               </div>
               <div>
                 <label className="block font-medium text-base mb-2 text-ink">Ár:</label>
@@ -109,11 +128,11 @@ const AdminCreate = () => {
                 <input
                   type="text"
                   name="helyszin"
-                  value={formData.helyszin}
-                  onChange={handleChange}
-                  required
+                  {...tr.bind("helyszin", formData.helyszin, setField("helyszin"))}
+                  required={tr.isDefault}
                   className="w-full px-4 py-2 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
                 />
+                <SourceText editor={tr} text={formData.helyszin} />
               </div>
               <div>
                 <label className="block font-medium text-base mb-2 text-ink">Időpont:</label>
@@ -131,10 +150,10 @@ const AdminCreate = () => {
                 <input
                   type="text"
                   name="temakor"
-                  value={formData.temakor}
-                  onChange={handleChange}
+                  {...tr.bind("temakor", formData.temakor, setField("temakor"))}
                   className="w-full px-4 py-2 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
                 />
+                <SourceText editor={tr} text={formData.temakor} />
               </div>
               <div>
                 <label className="block font-medium text-base mb-2 text-ink">Videó:</label>
@@ -153,19 +172,19 @@ const AdminCreate = () => {
                 <label className="block font-medium text-base mb-2 text-ink">Leírás:</label>
                 <textarea
                   name="leiras"
-                  value={formData.leiras}
-                  onChange={handleChange}
+                  {...tr.bind("leiras", formData.leiras, setField("leiras"))}
                   className="w-full h-32 px-4 py-2 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
                 />
+                <SourceText editor={tr} text={formData.leiras} />
               </div>
               <div>
                 <label className="block font-medium text-base mb-2 text-ink">Szöveg:</label>
                 <textarea
                   name="szoveg"
-                  value={formData.szoveg}
-                  onChange={handleChange}
+                  {...tr.bind("szoveg", formData.szoveg, setField("szoveg"))}
                   className="w-full h-32 px-4 py-2 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
                 />
+                <SourceText editor={tr} text={formData.szoveg} />
               </div>
               <div>
                 <UserPicker

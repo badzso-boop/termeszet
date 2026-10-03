@@ -5,6 +5,8 @@ const User = require("../models/userModel.js");
 const Course = require("../models/courseModel.js");
 const CourseRegister = require("../models/courseRegisterModel.js");
 const Lesson = require("../models/lessonModel.js");
+const { CourseTranslation, LessonTranslation } = require("../models/translationModels.js");
+const { resolveLang, translationInclude, localize } = require("../helpers/contentTranslations.js");
 const fs = require("fs");
 require('dotenv').config();
 
@@ -181,18 +183,25 @@ exports.oneUser = async (req, res) => {
 
 exports.getOneCourse = async (req, res) => {
   const { id } = req.body;
+  const lang = resolveLang(req.body.lang || req.query.lang);
 
   try {
     const course = await Course.findOne({
       where: { id: id },
-      include: [{ model: Lesson, order: [["sorrend", "ASC"]] }],
+      include: [
+        ...translationInclude(CourseTranslation, lang),
+        { model: Lesson, include: translationInclude(LessonTranslation, lang) },
+      ],
     });
     if (!course) {
       return res.status(404).json({ error: "course.notFound" });
     }
 
-    course.lessons?.sort((a, b) => a.sorrend - b.sorrend);
-    res.json(course);
+    const localized = localize(course, "course", lang);
+    localized.lessons = (localized.lessons || [])
+      .sort((a, b) => a.sorrend - b.sorrend)
+      .map((lesson) => localize(lesson, "lesson", lang));
+    res.json(localized);
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "generic.error" });
@@ -251,8 +260,9 @@ exports.toggleRegisteredCoursePaid = async (req, res) => {
 
 exports.getCourses = async (req, res) => {
   try {
-    const courses = await Course.findAll();
-    res.json(courses);
+    const lang = resolveLang(req.query.lang);
+    const courses = await Course.findAll({ include: translationInclude(CourseTranslation, lang) });
+    res.json(courses.map((course) => localize(course, "course", lang)));
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "generic.error" });

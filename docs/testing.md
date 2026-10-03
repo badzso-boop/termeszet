@@ -76,6 +76,9 @@ nyitni.
 - `tests/seo.test.js` — a szerveroldali SEO (`src/seo.js`): nyelvenkénti `<html lang>`, cím,
   canonical/hreflang, `noindex` a nem nyilvános oldalakon, 404 ismeretlen útvonalra, 301-es
   aliasok, sitemap.xml és robots.txt. DB nélküli egységteszt.
+- `tests/content-translations.test.js` — tartalomfordítások (szolgáltatás, kurzus, lecke,
+  galéria): admin mentés validálással, állapotok (missing/partial/outdated/complete),
+  publikus `?lang=` lekérés magyar fallbackkel, kaszkád törlés.
 - `tests/i18n-keys.test.js` — a backend összes válasz-kulcsa (`{ message/error: '<kulcs>' }`,
   `apiError(...)`) létezik-e minden `frontend/src/i18n/locales/*/api.json`-ban (lásd `docs/i18n.md`).
 

@@ -20,6 +20,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useAdmin } from "../context/AdminContext";
 import apiMessage from "../i18n/apiMessage";
+import {
+  useContentTranslations,
+  AdminLanguageTabs,
+  SourceText,
+  TranslationBadges,
+} from "./AdminContentTranslation";
+
+const SERVICE_TRANSLATABLE_FIELDS = ["title", "description", "price", "duration"];
 
 const AI_SYSTEM_PROMPT = `Te egy professzionális grafikus és minimalista ikon-tervező vagy.
 Feladatod: Készíts egy finom vonalvezetésű, organikus, egyvonalas (single continuous line art / contour line drawing) fekete-fehér ikont/logót a megadott természetgyógyászati vagy spirituális szolgáltatáshoz.
@@ -73,6 +81,7 @@ const AdminServicesManager = () => {
   const [successMsg, setSuccessMsg] = useState("");
 
   const fileInputRef = useRef(null);
+  const tr = useContentTranslations(SERVICE_TRANSLATABLE_FIELDS);
 
   useEffect(() => {
     loadServices();
@@ -105,6 +114,7 @@ const AdminServicesManager = () => {
     setIconType("hands");
     setIconFile(null);
     setIconPreview("");
+    tr.reset(null);
     setErrorMsg("");
     setSuccessMsg("");
     setShowModal(true);
@@ -120,6 +130,7 @@ const AdminServicesManager = () => {
     setIconType(service.iconType || "hands");
     setIconFile(null);
     setIconPreview(service.iconUrl || "");
+    tr.reset(service);
     setErrorMsg("");
     setSuccessMsg("");
     setShowModal(true);
@@ -140,7 +151,8 @@ const AdminServicesManager = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!title.trim() || !description.trim()) {
-      setErrorMsg("A cím és a leírás megadása kötelező!");
+      setErrorMsg("A magyar cím és leírás megadása kötelező!");
+      tr.setEditLang("hu");
       return;
     }
 
@@ -158,6 +170,11 @@ const AdminServicesManager = () => {
 
       if (iconFile) {
         formData.append("icon", iconFile);
+      }
+
+      const translations = tr.payload();
+      if (Object.keys(translations).length > 0) {
+        formData.append("translations", JSON.stringify(translations));
       }
 
       if (editingService) {
@@ -372,6 +389,7 @@ const AdminServicesManager = () => {
                         Főoldalon
                       </span>
                     )}
+                    <TranslationBadges translations={service.translations} />
                   </div>
 
                   <p className="text-sm text-ink/80 leading-relaxed mb-4">
@@ -466,6 +484,8 @@ const AdminServicesManager = () => {
             )}
 
             <form onSubmit={handleSubmit} className="space-y-4">
+              <AdminLanguageTabs editor={tr} />
+
               {/* Cím */}
               <div>
                 <label className="block text-xs font-semibold text-ink uppercase tracking-wider mb-1.5">
@@ -473,12 +493,12 @@ const AdminServicesManager = () => {
                 </label>
                 <input
                   type="text"
-                  required
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
+                  required={tr.isDefault}
+                  {...tr.bind("title", title, setTitle)}
                   placeholder="pl. Talpreflexológia, Kombinált Kezelés..."
                   className="w-full px-3.5 py-2.5 bg-ivory/60 border border-secondary/40 rounded-lg text-sm text-ink placeholder-ink/50 focus:outline-none focus:ring-2 focus:ring-gold"
                 />
+                <SourceText editor={tr} text={title} />
               </div>
 
               {/* Leírás */}
@@ -487,13 +507,13 @@ const AdminServicesManager = () => {
                   Rövid leírás *
                 </label>
                 <textarea
-                  required
+                  required={tr.isDefault}
                   rows={4}
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
+                  {...tr.bind("description", description, setDescription)}
                   placeholder="Részletezd, miben segít a kezelés, hogyan zajlik..."
                   className="w-full px-3.5 py-2.5 bg-ivory/60 border border-secondary/40 rounded-lg text-sm text-ink placeholder-ink/50 focus:outline-none focus:ring-2 focus:ring-gold"
                 />
+                <SourceText editor={tr} text={description} />
               </div>
 
               {/* Ár és Időtartam */}
@@ -504,11 +524,11 @@ const AdminServicesManager = () => {
                   </label>
                   <input
                     type="text"
-                    value={price}
-                    onChange={(e) => setPrice(e.target.value)}
+                    {...tr.bind("price", price, setPrice)}
                     placeholder="pl. 15.000 Ft vagy Egyeztetés alapján"
                     className="w-full px-3.5 py-2.5 bg-ivory/60 border border-secondary/40 rounded-lg text-sm text-ink placeholder-ink/50 focus:outline-none focus:ring-2 focus:ring-gold"
                   />
+                  <SourceText editor={tr} text={price} />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-ink uppercase tracking-wider mb-1.5">
@@ -516,11 +536,11 @@ const AdminServicesManager = () => {
                   </label>
                   <input
                     type="text"
-                    value={duration}
-                    onChange={(e) => setDuration(e.target.value)}
+                    {...tr.bind("duration", duration, setDuration)}
                     placeholder="pl. 60 perc vagy 90 perc"
                     className="w-full px-3.5 py-2.5 bg-ivory/60 border border-secondary/40 rounded-lg text-sm text-ink placeholder-ink/50 focus:outline-none focus:ring-2 focus:ring-gold"
                   />
+                  <SourceText editor={tr} text={duration} />
                 </div>
               </div>
 

@@ -5,6 +5,10 @@
     "en"
   ],
   "defaultLanguage": "hu",
+  "languageNames": {
+    "hu": "Magyar",
+    "en": "English"
+  },
   "routes": {
     "home": {
       "hu": "/",

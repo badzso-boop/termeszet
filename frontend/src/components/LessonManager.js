@@ -1,6 +1,93 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import apiMessage from "../i18n/apiMessage";
+import {
+  useContentTranslations,
+  AdminLanguageTabs,
+  SourceText,
+  TranslationBadges,
+} from "./AdminContentTranslation";
+
+const LESSON_TRANSLATABLE_FIELDS = ["cim", "szoveg"];
+const inputClass = "px-3 py-1 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold";
+
+// Egy lecke szerkesztő/létrehozó űrlapja, saját nyelvi fülekkel (a cím és a szöveg
+// fordítható, a sorrend és a videó nyelvfüggetlen).
+const LessonForm = ({ lesson, defaultOrder = 0, onSave, onCancel, submitLabel }) => {
+  const [cim, setCim] = useState(lesson?.cim || "");
+  const [sorrend, setSorrend] = useState(lesson ? lesson.sorrend : defaultOrder);
+  const [szoveg, setSzoveg] = useState(lesson?.szoveg || "");
+  const [video, setVideo] = useState(null);
+  const [error, setError] = useState("");
+  const tr = useContentTranslations(LESSON_TRANSLATABLE_FIELDS);
+  const { reset } = tr;
+
+  // Csak megnyitáskor (vagy másik leckére váltáskor) töltjük be a fordításokat: a lista
+  // újratöltése (pl. egy másik lecke mentése) ne írja felül a folyamatban lévő szerkesztést.
+  useEffect(() => {
+    reset(lesson);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lesson?.id, reset]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!cim.trim()) {
+      setError("A magyar cím megadása kötelező.");
+      tr.setEditLang("hu");
+      return;
+    }
+    setError("");
+    onSave({ cim, sorrend, szoveg, video }, tr.payload());
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-2">
+      <AdminLanguageTabs editor={tr} />
+      <input
+        type="text"
+        {...tr.bind("cim", cim, setCim)}
+        required={tr.isDefault}
+        className={`w-full ${inputClass}`}
+        placeholder="Cím"
+      />
+      <SourceText editor={tr} text={cim} />
+      <input
+        type="number"
+        value={sorrend}
+        onChange={(e) => setSorrend(e.target.value)}
+        className={`w-24 ${inputClass}`}
+        placeholder="Sorrend"
+      />
+      <textarea
+        {...tr.bind("szoveg", szoveg, setSzoveg)}
+        className={`w-full ${inputClass}`}
+        rows="3"
+        placeholder="Szöveg"
+      />
+      <SourceText editor={tr} text={szoveg} />
+      <input
+        type="file"
+        accept="video/mp4, video/x-matroska, video/x-msvideo"
+        onChange={(e) => setVideo(e.target.files[0] || null)}
+      />
+      {error && <p className="text-sm text-red-700">{error}</p>}
+      <div className="flex gap-2">
+        <button type="submit" className={onCancel ? "btn-outline py-1 px-3" : "btn-brand"}>
+          {submitLabel}
+        </button>
+        {onCancel && (
+          <button
+            type="button"
+            onClick={onCancel}
+            className="bg-primary text-ink border border-secondary/30 px-3 py-1 rounded-md"
+          >
+            Mégse
+          </button>
+        )}
+      </div>
+    </form>
+  );
+};
 
 // Egy kurzushoz tartozó leckék (sorrendezett video+szöveg blokkok) kezelése az admin
 // kurzus-szerkesztő oldalán. Az Authorization headert az AuthContext már beállította az
@@ -9,8 +96,8 @@ const LessonManager = ({ courseId }) => {
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   const [lessons, setLessons] = useState([]);
-  const [editing, setEditing] = useState({}); // lessonId -> { cim, sorrend, szoveg, video }
-  const [newLesson, setNewLesson] = useState({ cim: "", sorrend: 0, szoveg: "", video: null });
+  const [editing, setEditing] = useState({}); // lessonId -> true, ha épp szerkesztés alatt áll
+  const [newFormKey, setNewFormKey] = useState(0); // új lecke után üres űrlap (remount)
   const [message, setMessage] = useState("");
 
   const loadLessons = useCallback(async () => {
@@ -28,11 +115,8 @@ const LessonManager = ({ courseId }) => {
     }
   }, [courseId, loadLessons]);
 
-  const startEdit = (lesson) => {
-    setEditing((prev) => ({
-      ...prev,
-      [lesson.id]: { cim: lesson.cim, sorrend: lesson.sorrend, szoveg: lesson.szoveg || "", video: null },
-    }));
+  const startEdit = (id) => {
+    setEditing((prev) => ({ ...prev, [id]: true }));
   };
 
   const cancelEdit = (id) => {
@@ -43,16 +127,23 @@ const LessonManager = ({ courseId }) => {
     });
   };
 
-  const saveEdit = async (id) => {
+  const toFormData = (values, translations) => {
     const data = new FormData();
-    const edit = editing[id];
-    data.append("id", id);
-    data.append("cim", edit.cim);
-    data.append("sorrend", edit.sorrend);
-    data.append("szoveg", edit.szoveg);
-    if (edit.video) {
-      data.append("video", edit.video);
+    data.append("cim", values.cim);
+    data.append("sorrend", values.sorrend);
+    data.append("szoveg", values.szoveg);
+    if (values.video) {
+      data.append("video", values.video);
     }
+    if (Object.keys(translations).length > 0) {
+      data.append("translations", JSON.stringify(translations));
+    }
+    return data;
+  };
+
+  const saveEdit = async (id, values, translations) => {
+    const data = toFormData(values, translations);
+    data.append("id", id);
 
     try {
       await axios.put(`${API_BASE_URL}/api/admin/updateLesson`, data, {
@@ -76,23 +167,16 @@ const LessonManager = ({ courseId }) => {
     }
   };
 
-  const addLesson = async (e) => {
-    e.preventDefault();
-    const data = new FormData();
+  const addLesson = async (values, translations) => {
+    const data = toFormData(values, translations);
     data.append("courseId", courseId);
-    data.append("cim", newLesson.cim);
-    data.append("sorrend", newLesson.sorrend);
-    data.append("szoveg", newLesson.szoveg);
-    if (newLesson.video) {
-      data.append("video", newLesson.video);
-    }
 
     try {
       await axios.post(`${API_BASE_URL}/api/admin/createLesson`, data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      setNewLesson({ cim: "", sorrend: lessons.length, szoveg: "", video: null });
       await loadLessons();
+      setNewFormKey((k) => k + 1);
       setMessage("Lecke létrehozva.");
     } catch (error) {
       setMessage(apiMessage(error.response?.data?.error));
@@ -108,128 +192,56 @@ const LessonManager = ({ courseId }) => {
       )}
 
       <div className="space-y-4 mb-6">
-        {lessons.map((lesson) => {
-          const edit = editing[lesson.id];
-          return (
-            <div key={lesson.id} className="border border-secondary/30 rounded-md p-4">
-              {edit ? (
-                <div className="space-y-2">
-                  <input
-                    type="text"
-                    value={edit.cim}
-                    onChange={(e) =>
-                      setEditing((prev) => ({ ...prev, [lesson.id]: { ...prev[lesson.id], cim: e.target.value } }))
-                    }
-                    className="w-full px-3 py-1 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
-                    placeholder="Cím"
-                  />
-                  <input
-                    type="number"
-                    value={edit.sorrend}
-                    onChange={(e) =>
-                      setEditing((prev) => ({ ...prev, [lesson.id]: { ...prev[lesson.id], sorrend: e.target.value } }))
-                    }
-                    className="w-24 px-3 py-1 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
-                    placeholder="Sorrend"
-                  />
-                  <textarea
-                    value={edit.szoveg}
-                    onChange={(e) =>
-                      setEditing((prev) => ({ ...prev, [lesson.id]: { ...prev[lesson.id], szoveg: e.target.value } }))
-                    }
-                    className="w-full px-3 py-1 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
-                    rows="3"
-                    placeholder="Szöveg"
-                  />
-                  <input
-                    type="file"
-                    accept="video/mp4, video/x-matroska, video/x-msvideo"
-                    onChange={(e) =>
-                      setEditing((prev) => ({
-                        ...prev,
-                        [lesson.id]: { ...prev[lesson.id], video: e.target.files[0] || null },
-                      }))
-                    }
-                  />
-                  <div className="flex gap-2">
-                    <button
-                      type="button"
-                      onClick={() => saveEdit(lesson.id)}
-                      className="btn-outline py-1 px-3"
-                    >
-                      Mentés
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => cancelEdit(lesson.id)}
-                      className="bg-primary text-ink border border-secondary/30 px-3 py-1 rounded-md"
-                    >
-                      Mégse
-                    </button>
-                  </div>
+        {lessons.map((lesson) => (
+          <div key={lesson.id} className="border border-secondary/30 rounded-md p-4">
+            {editing[lesson.id] ? (
+              <LessonForm
+                lesson={lesson}
+                onSave={(values, translations) => saveEdit(lesson.id, values, translations)}
+                onCancel={() => cancelEdit(lesson.id)}
+                submitLabel="Mentés"
+              />
+            ) : (
+              <div className="flex justify-between items-center">
+                <div>
+                  <span className="font-bold">{lesson.sorrend}. {lesson.cim}</span>
+                  {lesson.video && <span className="ml-2 text-sm text-gray-500">(videó csatolva)</span>}
+                  <span className="ml-2 align-middle">
+                    <TranslationBadges translations={lesson.translations} />
+                  </span>
                 </div>
-              ) : (
-                <div className="flex justify-between items-center">
-                  <div>
-                    <span className="font-bold">{lesson.sorrend}. {lesson.cim}</span>
-                    {lesson.video && <span className="ml-2 text-sm text-gray-500">(videó csatolva)</span>}
-                  </div>
-                  <div className="flex gap-2">
-                    <button
-                      type="button"
-                      onClick={() => startEdit(lesson)}
-                      className="btn-outline py-1 px-3"
-                    >
-                      Szerkesztés
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => deleteLesson(lesson.id)}
-                      className="bg-red-500 text-white px-3 py-1 rounded-md"
-                    >
-                      Törlés
-                    </button>
-                  </div>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => startEdit(lesson.id)}
+                    className="btn-outline py-1 px-3"
+                  >
+                    Szerkesztés
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => deleteLesson(lesson.id)}
+                    className="bg-red-500 text-white px-3 py-1 rounded-md"
+                  >
+                    Törlés
+                  </button>
                 </div>
-              )}
-            </div>
-          );
-        })}
+              </div>
+            )}
+          </div>
+        ))}
       </div>
 
-      <form onSubmit={addLesson} className="border border-dashed border-gold/50 rounded-md p-4 space-y-2">
-        <h3 className="font-display font-semibold text-lg">Új lecke hozzáadása</h3>
-        <input
-          type="text"
-          value={newLesson.cim}
-          onChange={(e) => setNewLesson((prev) => ({ ...prev, cim: e.target.value }))}
-          placeholder="Cím"
-          required
-          className="w-full px-3 py-1 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
+      <div className="border border-dashed border-gold/50 rounded-md p-4">
+        <h3 className="font-display font-semibold text-lg mb-2">Új lecke hozzáadása</h3>
+        <LessonForm
+          key={newFormKey}
+          lesson={null}
+          defaultOrder={lessons.length}
+          onSave={addLesson}
+          submitLabel="Lecke hozzáadása"
         />
-        <input
-          type="number"
-          value={newLesson.sorrend}
-          onChange={(e) => setNewLesson((prev) => ({ ...prev, sorrend: e.target.value }))}
-          placeholder="Sorrend"
-          className="w-24 px-3 py-1 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
-        />
-        <textarea
-          value={newLesson.szoveg}
-          onChange={(e) => setNewLesson((prev) => ({ ...prev, szoveg: e.target.value }))}
-          placeholder="Szöveg"
-          rows="3"
-          className="w-full px-3 py-1 border border-secondary/30 rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
-        />
-        <input
-          type="file"
-          accept="video/mp4, video/x-matroska, video/x-msvideo"
-          onChange={(e) => setNewLesson((prev) => ({ ...prev, video: e.target.files[0] || null }))}
-        />
-        <button type="submit" className="btn-brand">
-          Lecke hozzáadása
-        </button>
-      </form>
+      </div>
 
       {message && (
         <p className="bg-ink text-ivory rounded-md p-4 mt-4 text-center">{message}</p>

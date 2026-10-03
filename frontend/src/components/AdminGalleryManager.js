@@ -18,6 +18,12 @@ import {
 import { useAuth } from "../context/AuthContext";
 import { useAdmin } from "../context/AdminContext";
 import apiMessage from "../i18n/apiMessage";
+import {
+  DEFAULT_LANG,
+  TRANSLATION_LANGUAGES,
+  languageName,
+  TranslationBadges,
+} from "./AdminContentTranslation";
 
 const MAX_FILE_SIZE_BYTES = 100 * 1024 * 1024; // 100 MB
 
@@ -53,6 +59,9 @@ export const AdminGalleryManager = () => {
   const PAGE_SIZE = 12;
 
   // Editing State
+  // A kártyákon megjelenített és szerkesztett képcím nyelve (magyar = eredeti cím,
+  // más nyelv = fordítás; ami nincs lefordítva, az a weboldalon magyarul jelenik meg).
+  const [titleLang, setTitleLang] = useState(DEFAULT_LANG);
   const [editingImageId, setEditingImageId] = useState(null);
   const [editTitleText, setEditTitleText] = useState("");
   const [savingEdit, setSavingEdit] = useState(false);
@@ -313,7 +322,9 @@ export const AdminGalleryManager = () => {
   // Edit Title Handlers
   const handleStartEdit = (image) => {
     const currentTitle =
-      image.title || image.caption || image.cim || image.filename || "";
+      titleLang === DEFAULT_LANG
+        ? image.title || image.caption || image.cim || image.filename || ""
+        : image.translations?.[titleLang]?.title || "";
     setEditingImageId(image.id || image._id);
     setEditTitleText(currentTitle);
   };
@@ -323,7 +334,7 @@ export const AdminGalleryManager = () => {
     setSavingEdit(true);
     try {
       if (updateGalleryImageTitle) {
-        await updateGalleryImageTitle(id, editTitleText.trim());
+        await updateGalleryImageTitle(id, editTitleText.trim(), titleLang);
       } else {
         await axios.put(`${API_BASE_URL}/api/admin/gallery/${id}`, {
           title: editTitleText.trim(),
@@ -723,6 +734,28 @@ export const AdminGalleryManager = () => {
             </button>
           </div>
 
+          {/* Képcímek nyelve */}
+          <div className="flex items-center gap-1 bg-white/70 border border-secondary/30 rounded-md p-1 text-xs" role="tablist" aria-label="Képcímek nyelve">
+            <span className="px-1.5 text-ink/60">Címek nyelve:</span>
+            {[DEFAULT_LANG, ...TRANSLATION_LANGUAGES].map((lang) => (
+              <button
+                key={lang}
+                type="button"
+                role="tab"
+                aria-selected={titleLang === lang}
+                onClick={() => {
+                  setTitleLang(lang);
+                  handleCancelEdit();
+                }}
+                className={`px-3 py-1 rounded transition font-medium ${
+                  titleLang === lang ? "bg-ink text-ivory shadow-xs" : "text-ink hover:bg-secondary/20"
+                }`}
+              >
+                {languageName(lang)}
+              </button>
+            ))}
+          </div>
+
           {/* Sort & Refresh */}
           <div className="flex items-center gap-2">
             <select
@@ -775,12 +808,14 @@ export const AdminGalleryManager = () => {
               const isStarred = Boolean(
                 image.isStarred || image.starred || image.is_starred || image.featured
               );
-              const title =
+              const huTitle =
                 image.title ||
                 image.caption ||
                 image.cim ||
                 image.filename ||
                 "Névtelen kép";
+              const title =
+                titleLang === DEFAULT_LANG ? huTitle : image.translations?.[titleLang]?.title || "";
               const rawImgUrl =
                 image.thumbnailUrl ||
                 image.originalUrl ||
@@ -890,7 +925,11 @@ export const AdminGalleryManager = () => {
                             value={editTitleText}
                             onChange={(e) => setEditTitleText(e.target.value)}
                             className="w-full px-2 py-1 text-xs border border-secondary/40 rounded focus:outline-none focus:ring-1 focus:ring-gold"
-                            placeholder="Képcím megadása..."
+                            placeholder={
+                              titleLang === DEFAULT_LANG
+                                ? "Képcím megadása..."
+                                : `${languageName(titleLang)} cím (magyarul: ${huTitle})`
+                            }
                             autoFocus
                             onKeyDown={(e) => {
                               if (e.key === "Enter") handleSaveEdit(imageId);
@@ -926,7 +965,12 @@ export const AdminGalleryManager = () => {
                             className="font-semibold text-xs sm:text-sm text-ink line-clamp-1 flex-1"
                             title={title}
                           >
-                            {title || <span className="italic text-ink/50">Nincs cím</span>}
+                            {title ||
+                              (titleLang === DEFAULT_LANG ? (
+                                <span className="italic text-ink/50">Nincs cím</span>
+                              ) : (
+                                <span className="italic text-ink/50">Nincs fordítás – magyarul: {huTitle}</span>
+                              ))}
                           </h4>
                           <button
                             type="button"
@@ -938,6 +982,10 @@ export const AdminGalleryManager = () => {
                           </button>
                         </div>
                       )}
+
+                      <div className="mb-1">
+                        <TranslationBadges translations={image.translations} />
+                      </div>
 
                       {/* File Details */}
                       <div className="text-[11px] text-ink/60 space-y-0.5">

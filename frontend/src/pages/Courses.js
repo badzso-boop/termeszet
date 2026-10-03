@@ -8,9 +8,11 @@ import { useAdmin } from "../context/AdminContext";
 import { useAuth } from "../context/AuthContext";
 import Footer from "../components/Footer";
 import { useLocalizedPath } from "../i18n/useLocalizedPath";
+import { fallbackLang, formatContentDate } from "../i18n/contentLang";
 
 const Courses = () => {
-  const { t } = useTranslation("pages");
+  const { t, i18n } = useTranslation("pages");
+  const lang = i18n.language;
   const lp = useLocalizedPath();
   const { userId, rang } = useAuth();
   const {
@@ -25,14 +27,14 @@ const Courses = () => {
 
   useEffect(() => {
     const loadData = async () => {
-      await Promise.all([fetchCoursesUser(), fetchRegisteredCoursesUser()]);
+      await Promise.all([fetchCoursesUser(lang), fetchRegisteredCoursesUser()]);
       setDataLoaded(true);
     };
 
     if (!dataLoaded) {
       loadData();
     }
-  }, [dataLoaded, fetchCoursesUser, fetchRegisteredCoursesUser]);
+  }, [dataLoaded, fetchCoursesUser, fetchRegisteredCoursesUser, lang]);
 
   useEffect(() => {
     setLocalRegisterCourses(registerCourses);
@@ -95,22 +97,22 @@ const Courses = () => {
               className="flex flex-col w-full lg:w-[22%] md:w-[30%] items-center min-h-[350px] rounded-md border border-secondary/30 p-4 bg-secondary/90 shadow-sm"
             >
               <div className="w-full text-center">
-                <p className="font-display text-lg tracking-wide uppercase font-semibold">
+                <p lang={fallbackLang(item, "cim")} className="font-display text-lg tracking-wide uppercase font-semibold">
                   {item.cim}
                 </p>
-                <div className="text-sm text-ink/70">
+                <div lang={fallbackLang(item, "temakor")} className="text-sm text-ink/70">
                   {item.temakor !== "" ? item.temakor : " "}
                 </div>
               </div>
               <div className="w-full flex flex-col md:flex-row text-base border-b border-b-gold/40 my-3 pb-2">
-                <div className="w-full md:w-1/2 text-sm text-left">
+                <div lang={fallbackLang(item, "helyszin")} className="w-full md:w-1/2 text-sm text-left">
                   {item.helyszin}
                 </div>
                 <div className="w-full md:w-1/2 text-sm text-right">
-                  {item.idopont}
+                  {formatContentDate(item.idopont, lang)}
                 </div>
               </div>
-              <div className="mb-3 min-h-[200px] text-sm text-center">{item.leiras}</div>
+              <div lang={fallbackLang(item, "leiras")} className="mb-3 min-h-[200px] text-sm text-center">{item.leiras}</div>
               <div className="flex w-full flex-col gap-2 justify-center items-center mt-auto">
                 <div className="w-full rounded-md text-center text-sm py-2 bg-ivory font-medium">
                   {t("courses.price", { amount: item.ar })}
