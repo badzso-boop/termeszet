@@ -23,11 +23,31 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+const fs = require('fs');
+
+const uploadsDir = path.join(__dirname, '..', 'uploads');
+const galleryUploadsDir = path.join(uploadsDir, 'gallery');
+if (!fs.existsSync(galleryUploadsDir)) {
+  fs.mkdirSync(galleryUploadsDir, { recursive: true });
+}
+
 const termeszetBuildPath = path.join(__dirname, '..', 'public');
 app.use('/', express.static(termeszetBuildPath));
+// Csak a galéria-mappa publikus: az uploads/ gyökerében a kurzusvideók vannak, azokat
+// kizárólag a jogosultság-ellenőrző /api/video/:filename végpont szolgálhatja ki.
+app.use('/uploads/gallery', express.static(galleryUploadsDir));
 
 app.use('/api', userRoutes);
 app.use('/api/admin', adminRoutes);
+
+// Hibakezelő middleware (Multer, token és általános szerverhibák JSON formátumban)
+app.use((err, req, res, next) => {
+  console.error('Express Error Handler:', err);
+  if (err.name === 'MulterError') {
+    return res.status(400).json({ error: `Feltöltési hiba: ${err.message}` });
+  }
+  res.status(err.status || 500).json({ error: err.message || 'Szerverhiba történt.' });
+});
 
 // SPA fallback: minden nem-API GET kérés (pl. /courses közvetlen megnyitása vagy
 // frissítése) az index.html-t kapja, hogy a React Router kliens oldalon tudja kezelni.

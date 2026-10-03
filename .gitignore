@@ -154,3 +154,5 @@ dist
 # allowlist-bejegyzéssel, ahogy a config/data alatti fájloknál is szokás (lásd a repo
 # README-jét).
 sql/*.sql
+# Személyes jegyzet, teszt-fiók jelszavakkal
+Termeszet.txt

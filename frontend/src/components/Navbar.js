@@ -1,7 +1,19 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faSignInAlt, faUserPlus, faUser, faUserShield, faBars, faTimes, faSignOutAlt, faTasks, faSpa } from '@fortawesome/free-solid-svg-icons';
+import {
+  LineHomeIcon,
+  LineCourseIcon,
+  LineGalleryIcon,
+  LineContactIcon,
+  LineLoginIcon,
+  LineRegisterIcon,
+  LineAdminIcon,
+  LineProfileIcon,
+  LineLogoutIcon,
+  LineSpaIcon,
+  LineMenuIcon,
+  LineCloseIcon
+} from './LineIcons';
 
 import { useAuth } from '../context/AuthContext';
 
@@ -24,22 +36,32 @@ const Navigation = () => {
     navigate('/login');
   };
 
+  const renderTooltip = (label, desc) => {
+    if (isOpen) return null;
+    return (
+      <div className="hidden sm:group-hover:flex absolute left-full top-1/2 -translate-y-1/2 ml-3.5 px-3 py-1.5 bg-ink text-ivory text-xs rounded-md shadow-xl border border-gold/40 whitespace-nowrap z-50 pointer-events-none items-center gap-1.5 transition-all duration-200 opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0">
+        <span className="font-semibold text-gold">{label}</span>
+        {desc && <span className="text-ivory/70 text-[11px]">— {desc}</span>}
+        <div className="absolute right-full top-1/2 -translate-y-1/2 border-[5px] border-transparent border-r-ink" />
+      </div>
+    );
+  };
+
   return (
     <div className="flex">
-      {/* Mobil felső sáv: márkázott háttér a hamburger gomb és az oldal neve mögött,
-          hogy a gomb ne egy csupasz fehér csíkon "lebegjen" kis képernyőn */}
+      {/* Mobil felső sáv: márkázott háttér a hamburger gomb és az oldal neve mögött */}
       <div className="sm:hidden fixed top-0 left-0 right-0 z-50 h-16 bg-secondary shadow-sm flex items-center px-4">
         <button
           onClick={toggleSidebar}
           aria-label={isOpen ? 'Menü bezárása' : 'Menü megnyitása'}
-          className="text-ink rounded-md w-10 h-10 flex items-center justify-center"
+          className="text-ink hover:text-gold transition-colors rounded-md w-10 h-10 flex items-center justify-center"
         >
-          <FontAwesomeIcon icon={isOpen ? faTimes : faBars} className="text-xl" />
+          {isOpen ? <LineCloseIcon className="w-6 h-6" /> : <LineMenuIcon className="w-6 h-6" />}
         </button>
-        <div className="flex items-center ml-2 text-ink font-display font-semibold tracking-wide truncate">
-          <FontAwesomeIcon icon={faSpa} className="mr-2 shrink-0 text-gold" />
+        <Link to="/" onClick={closeSidebar} className="flex items-center ml-2 text-ink font-display font-semibold tracking-wide truncate">
+          <LineSpaIcon className="w-6 h-6 mr-2 shrink-0 text-gold" />
           <span className="truncate">Németh Gabriella</span>
-        </div>
+        </Link>
       </div>
 
       {/* Mobil overlay háttér - kattintásra bezárja a menüt */}
@@ -58,89 +80,146 @@ const Navigation = () => {
         }`}
       >
         <div className={`p-4 hidden sm:flex ${isOpen ? 'justify-start' : 'justify-center'}`}>
-          <button onClick={toggleSidebar} className="text-ink text-3xl">
-            <FontAwesomeIcon icon={isOpen ? faTimes : faBars} />
+          <button
+            onClick={toggleSidebar}
+            className="text-ink hover:text-gold transition-colors p-1"
+            aria-label="Menü kapcsoló"
+            title={isOpen ? 'Menü összecsukása' : 'Menü kinyitása'}
+          >
+            {isOpen ? <LineCloseIcon className="w-7 h-7" /> : <LineMenuIcon className="w-7 h-7" />}
           </button>
         </div>
         <ul className="p-4 pt-16 sm:pt-4">
-          <li className="mb-4">
+          {/* Főoldal */}
+          <li className="mb-4 relative group">
             <Link
               to="/"
               onClick={closeSidebar}
-              className={`flex justify-start ${isOpen ? 'sm:justify-start' : 'sm:justify-center'} items-center text-ink hover:text-ink/60`}
+              title="Főoldal (Kezdőlap)"
+              className={`flex justify-start ${isOpen ? 'sm:justify-start' : 'sm:justify-center'} items-center text-ink hover:text-gold transition-colors font-medium`}
             >
-              <FontAwesomeIcon icon={faHome} className={`text-3xl ${isOpen ? 'mr-2' : 'sm:mr-0 mr-2'}`} />
+              <LineHomeIcon className={`w-7 h-7 shrink-0 ${isOpen ? 'mr-3' : 'sm:mr-0 mr-3'}`} />
               <span className={isOpen ? '' : 'sm:hidden'}>Főoldal</span>
             </Link>
+            {renderTooltip('Főoldal', 'Kezdőlap')}
           </li>
-          <li className="mb-4">
+
+          {/* Kurzusok */}
+          <li className="mb-4 relative group">
             <Link
               to="/courses"
               onClick={closeSidebar}
-              className={`flex justify-start ${isOpen ? 'sm:justify-start' : 'sm:justify-center'} items-center text-ink hover:text-ink/60`}
+              title="Kurzusok (Elérhető képzések & tananyagok)"
+              className={`flex justify-start ${isOpen ? 'sm:justify-start' : 'sm:justify-center'} items-center text-ink hover:text-gold transition-colors font-medium`}
             >
-              <FontAwesomeIcon icon={faTasks} className={`text-3xl ${isOpen ? 'mr-2' : 'sm:mr-0 mr-2'}`} />
+              <LineCourseIcon className={`w-7 h-7 shrink-0 ${isOpen ? 'mr-3' : 'sm:mr-0 mr-3'}`} />
               <span className={isOpen ? '' : 'sm:hidden'}>Kurzusok</span>
             </Link>
+            {renderTooltip('Kurzusok', 'Elérhető képzések & tananyagok')}
           </li>
-          {!rang &&
+
+          {/* Galéria */}
+          <li className="mb-4 relative group">
+            <Link
+              to="/galeria"
+              onClick={closeSidebar}
+              title="Galéria (Fényképek & pillanatok)"
+              className={`flex justify-start ${isOpen ? 'sm:justify-start' : 'sm:justify-center'} items-center text-ink hover:text-gold transition-colors font-medium`}
+            >
+              <LineGalleryIcon className={`w-7 h-7 shrink-0 ${isOpen ? 'mr-3' : 'sm:mr-0 mr-3'}`} />
+              <span className={isOpen ? '' : 'sm:hidden'}>Galéria</span>
+            </Link>
+            {renderTooltip('Galéria', 'Fényképek & pillanatok')}
+          </li>
+
+          {/* Kapcsolat */}
+          <li className="mb-4 relative group">
+            <Link
+              to="/kapcsolat"
+              onClick={closeSidebar}
+              title="Kapcsolat (Elérhetőségek & kapcsolatfelvétel)"
+              className={`flex justify-start ${isOpen ? 'sm:justify-start' : 'sm:justify-center'} items-center text-ink hover:text-gold transition-colors font-medium`}
+            >
+              <LineContactIcon className={`w-7 h-7 shrink-0 ${isOpen ? 'mr-3' : 'sm:mr-0 mr-3'}`} />
+              <span className={isOpen ? '' : 'sm:hidden'}>Kapcsolat</span>
+            </Link>
+            {renderTooltip('Kapcsolat', 'Elérhetőségek & kapcsolatfelvétel')}
+          </li>
+
+          {!rang && (
             <>
-              <li className="mb-4">
+              {/* Bejelentkezés */}
+              <li className="mb-4 relative group">
                 <Link
                   to="/login"
                   onClick={closeSidebar}
-                  className={`flex items-center justify-start ${isOpen ? 'sm:justify-start' : 'sm:justify-center'} text-ink hover:text-ink/60`}
+                  title="Bejelentkezés (Fiók belépés)"
+                  className={`flex items-center justify-start ${isOpen ? 'sm:justify-start' : 'sm:justify-center'} text-ink hover:text-gold transition-colors font-medium`}
                 >
-                  <FontAwesomeIcon icon={faSignInAlt} className={`text-3xl ${isOpen ? 'mr-2' : 'sm:mr-0 mr-2'}`} />
+                  <LineLoginIcon className={`w-7 h-7 shrink-0 ${isOpen ? 'mr-3' : 'sm:mr-0 mr-3'}`} />
                   <span className={isOpen ? '' : 'sm:hidden'}>Bejelentkezés</span>
                 </Link>
+                {renderTooltip('Bejelentkezés', 'Fiók belépés')}
               </li>
-              <li className="mb-4">
+
+              {/* Regisztráció */}
+              <li className="mb-4 relative group">
                 <Link
                   to="/register"
                   onClick={closeSidebar}
-                  className={`flex items-center justify-start ${isOpen ? 'sm:justify-start' : 'sm:justify-center'} text-ink hover:text-ink/60`}
+                  title="Regisztráció (Új fiók létrehozása)"
+                  className={`flex items-center justify-start ${isOpen ? 'sm:justify-start' : 'sm:justify-center'} text-ink hover:text-gold transition-colors font-medium`}
                 >
-                  <FontAwesomeIcon icon={faUserPlus} className={`text-3xl ${isOpen ? 'mr-2' : 'sm:mr-0 mr-2'}`} />
+                  <LineRegisterIcon className={`w-7 h-7 shrink-0 ${isOpen ? 'mr-3' : 'sm:mr-0 mr-3'}`} />
                   <span className={isOpen ? '' : 'sm:hidden'}>Regisztráció</span>
                 </Link>
+                {renderTooltip('Regisztráció', 'Új fiók létrehozása')}
               </li>
-            </>}
+            </>
+          )}
 
           {rang === "a" && (
-            <li className="mb-4">
+            <li className="mb-4 relative group">
               <Link
                 to="/admin"
                 onClick={closeSidebar}
-                className={`flex items-center justify-start ${isOpen ? 'sm:justify-start' : 'sm:justify-center'} text-ink hover:text-ink/60`}
+                title="Admin (Adminisztrációs felület)"
+                className={`flex items-center justify-start ${isOpen ? 'sm:justify-start' : 'sm:justify-center'} text-ink hover:text-gold transition-colors font-medium`}
               >
-                <FontAwesomeIcon icon={faUserShield} className={`text-3xl ${isOpen ? 'mr-2' : 'sm:mr-0 mr-2'}`} />
+                <LineAdminIcon className={`w-7 h-7 shrink-0 ${isOpen ? 'mr-3' : 'sm:mr-0 mr-3'}`} />
                 <span className={isOpen ? '' : 'sm:hidden'}>Admin</span>
               </Link>
+              {renderTooltip('Admin', 'Adminisztrációs felület')}
             </li>
           )}
-          {rang &&
-          <>
-            <li className="mb-4">
-              <Link
-                to={`/user/${userId}`}
-                onClick={closeSidebar}
-                className={`flex items-center justify-start ${isOpen ? 'sm:justify-start' : 'sm:justify-center'} text-ink hover:text-ink/60`}
-              >
-                <FontAwesomeIcon icon={faUser} className={`text-3xl ${isOpen ? 'mr-2' : 'sm:mr-0 mr-2'}`} />
-                <span className={isOpen ? '' : 'sm:hidden'}>Profil</span>
-              </Link>
-            </li>
-            <li className="mb-4">
-              <button
-                onClick={handleLogout}
-                className={`flex items-center justify-start ${isOpen ? 'sm:justify-start' : 'sm:justify-center'} text-ink hover:text-ink/60 w-full`}
-              >
-                <FontAwesomeIcon icon={faSignOutAlt} className={`text-3xl ${isOpen ? 'mr-2' : 'sm:mr-0 mr-2'}`} />
-                <span className={isOpen ? '' : 'sm:hidden'}>Kijelentkezés</span>
-              </button>
-            </li>
-            </>}
+
+          {rang && (
+            <>
+              <li className="mb-4 relative group">
+                <Link
+                  to={`/user/${userId}`}
+                  onClick={closeSidebar}
+                  title="Profil (Saját profil & adatok)"
+                  className={`flex items-center justify-start ${isOpen ? 'sm:justify-start' : 'sm:justify-center'} text-ink hover:text-gold transition-colors font-medium`}
+                >
+                  <LineProfileIcon className={`w-7 h-7 shrink-0 ${isOpen ? 'mr-3' : 'sm:mr-0 mr-3'}`} />
+                  <span className={isOpen ? '' : 'sm:hidden'}>Profil</span>
+                </Link>
+                {renderTooltip('Profil', 'Saját profil & adatok')}
+              </li>
+              <li className="mb-4 relative group">
+                <button
+                  onClick={handleLogout}
+                  title="Kijelentkezés"
+                  className={`flex items-center justify-start ${isOpen ? 'sm:justify-start' : 'sm:justify-center'} text-ink hover:text-gold transition-colors font-medium w-full`}
+                >
+                  <LineLogoutIcon className={`w-7 h-7 shrink-0 ${isOpen ? 'mr-3' : 'sm:mr-0 mr-3'}`} />
+                  <span className={isOpen ? '' : 'sm:hidden'}>Kijelentkezés</span>
+                </button>
+                {renderTooltip('Kijelentkezés', 'Kijelentkezés')}
+              </li>
+            </>
+          )}
         </ul>
       </div>
       <div

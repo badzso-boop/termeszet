@@ -11,66 +11,131 @@ export const AdminProvider = ({ children }) => {
   const [courses, setCourses] = useState([]);
   const [homeworks, setHomeworks] = useState([]);
   const [registerCourses, setRegisterCourses] = useState([]);
+  const [galleryImages, setGalleryImages] = useState([]);
+  const [services, setServices] = useState([]);
 
   // API base URL from the .env file
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
+  const getAuthHeaders = useCallback(() => {
+    const token = localStorage.getItem("token");
+    return token ? { headers: { Authorization: `Bearer ${token}` } } : {};
+  }, []);
+
+  const fetchGalleryImages = useCallback(async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/api/admin/gallery`, getAuthHeaders());
+      const data = Array.isArray(response.data)
+        ? response.data
+        : response.data?.images || [];
+      setGalleryImages(data);
+      return data;
+    } catch (error) {
+      console.warn(
+        "Could not fetch /api/admin/gallery, attempting fallback to /api/gallery:",
+        error
+      );
+      try {
+        const fallback = await axios.get(`${API_BASE_URL}/api/gallery`);
+        const data = Array.isArray(fallback.data)
+          ? fallback.data
+          : fallback.data?.images || [];
+        setGalleryImages(data);
+        return data;
+      } catch (fallbackError) {
+        console.error("Error fetching gallery images:", fallbackError);
+        return [];
+      }
+    }
+  }, [API_BASE_URL, getAuthHeaders]);
+
+  const fetchServices = useCallback(async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/api/admin/services`, getAuthHeaders());
+      const data = Array.isArray(response.data) ? response.data : [];
+      setServices(data);
+      return data;
+    } catch (error) {
+      try {
+        const fallback = await axios.get(`${API_BASE_URL}/api/services`);
+        const data = Array.isArray(fallback.data) ? fallback.data : [];
+        setServices(data);
+        return data;
+      } catch (fallbackError) {
+        console.error("Error fetching services:", fallbackError);
+        return [];
+      }
+    }
+  }, [API_BASE_URL, getAuthHeaders]);
+
   const fetchData = useCallback(async () => {
     try {
-      const users = await axios.post(`${API_BASE_URL}/api/admin/users`, {
-        userId: userId,
-      });
+      const authConfig = getAuthHeaders();
+      const users = await axios.post(
+        `${API_BASE_URL}/api/admin/users`,
+        { userId: userId },
+        authConfig
+      );
 
-      const courses = await axios.post(`${API_BASE_URL}/api/admin/courses`, {
-        userId: userId,
-      });
+      const courses = await axios.post(
+        `${API_BASE_URL}/api/admin/courses`,
+        { userId: userId },
+        authConfig
+      );
 
       const homeworks = await axios.post(
         `${API_BASE_URL}/api/admin/homeworks`,
-        {
-          userId: userId,
-        }
+        { userId: userId },
+        authConfig
       );
 
       const registerCourses = await axios.post(
         `${API_BASE_URL}/api/admin/registercourses`,
-        {
-          userId: userId,
-        }
+        { userId: userId },
+        authConfig
       );
 
-      setRegisterCourses(registerCourses.data);
-      setUsers(users.data);
-      setCourses(courses.data);
-      setHomeworks(homeworks.data);
+      if (Array.isArray(registerCourses.data)) setRegisterCourses(registerCourses.data);
+      if (Array.isArray(users.data)) setUsers(users.data);
+      if (Array.isArray(courses.data)) setCourses(courses.data);
+      if (Array.isArray(homeworks.data)) setHomeworks(homeworks.data);
+
+      await fetchGalleryImages();
+      await fetchServices();
     } catch (error) {
       console.error("Error fetching admin data:", error);
     }
-  }, [userId, API_BASE_URL]);
+  }, [userId, API_BASE_URL, fetchGalleryImages, fetchServices, getAuthHeaders]);
 
   const fetchUsers = useCallback(async () => {
     try {
-      const users = await axios.post(`${API_BASE_URL}/api/admin/users`, {
-        userId: userId,
-      });
+      const authConfig = getAuthHeaders();
+      const users = await axios.post(
+        `${API_BASE_URL}/api/admin/users`,
+        { userId: userId },
+        authConfig
+      );
 
-      setUsers(users.data);
+      if (Array.isArray(users.data)) setUsers(users.data);
     } catch (error) {
-      console.error("Error fetching admin data:", error);
+      console.error("Error fetching admin users:", error);
     }
-  }, [userId, API_BASE_URL]);
+  }, [userId, API_BASE_URL, getAuthHeaders]);
 
   const fetchCourses = useCallback(async () => {
     try {
-      const courses = await axios.post(`${API_BASE_URL}/api/admin/courses`, {
-        userId: userId,
-      });
+      const authConfig = getAuthHeaders();
+      const courses = await axios.post(
+        `${API_BASE_URL}/api/admin/courses`,
+        { userId: userId },
+        authConfig
+      );
 
-      setCourses(courses.data);
+      if (Array.isArray(courses.data)) setCourses(courses.data);
     } catch (error) {
-      console.error("Error fetching admin data:", error);
+      console.error("Error fetching admin courses:", error);
     }
-  }, [userId, API_BASE_URL]);
+  }, [userId, API_BASE_URL, getAuthHeaders]);
 
   const fetchCoursesUser = useCallback(async () => {
     try {
@@ -126,12 +191,14 @@ export const AdminProvider = ({ children }) => {
       felhasznalok.push(userId);
     }
 
+    const authConfig = getAuthHeaders();
     const response = await axios.post(
       `${API_BASE_URL}/api/admin/toggleregistercourse`,
       {
         userId: parseInt(adminId),
         id: parseInt(registeredCourseId),
-      }
+      },
+      authConfig
     );
 
     const registeredCourse = registerCourses.find(
@@ -170,20 +237,23 @@ export const AdminProvider = ({ children }) => {
   };
 
   const adminPayToggle = async (InputCourseRegisterId, adminId) => {
-    // POST kérés az API végpontra
-    const response = await axios.post(`${API_BASE_URL}/api/admin/adminpaid`, {
-      userId: parseInt(adminId),
-      CourseRegisterId: parseInt(InputCourseRegisterId),
-    });
+    const authConfig = getAuthHeaders();
+    const response = await axios.post(
+      `${API_BASE_URL}/api/admin/adminpaid`,
+      {
+        userId: parseInt(adminId),
+        CourseRegisterId: parseInt(InputCourseRegisterId),
+      },
+      authConfig
+    );
   
-    // Megkeressük a regisztrált kurzust
     const registeredCourse = registerCourses.find((item) => item.id === InputCourseRegisterId);
 
     if (response.status === 200) {
       setRegisterCourses((prevCourses) =>
         prevCourses.map((item) =>
           item.id === registeredCourse.id
-            ? { ...item, adminPaid: !registeredCourse.adminPaid } // paid tulajdonság változtatása
+            ? { ...item, adminPaid: !registeredCourse.adminPaid }
             : item
         )
       );
@@ -191,12 +261,14 @@ export const AdminProvider = ({ children }) => {
   };
 
   const deleteUserRegisteredCourse = async (userId, id) => {
+    const authConfig = getAuthHeaders();
     const response = await axios.post(
       `${API_BASE_URL}/api/admin/deleteregistercourse`,
       {
         userId: parseInt(userId),
         id: parseInt(id),
-      }
+      },
+      authConfig
     );
 
     if (response.status === 200) {
@@ -204,9 +276,11 @@ export const AdminProvider = ({ children }) => {
         prevCourses.filter((item) => item.id !== id)
       );
 
-      const courses = await axios.post(`${API_BASE_URL}/api/admin/courses`, {
-        userId: userId,
-      });
+      const courses = await axios.post(
+        `${API_BASE_URL}/api/admin/courses`,
+        { userId: userId },
+        authConfig
+      );
 
       setCourses(courses.data);
     }
@@ -220,7 +294,9 @@ export const AdminProvider = ({ children }) => {
 
   const deleteUser = async (userIdToDelete, adminId) => {
     try {
+      const authConfig = getAuthHeaders();
       await axios.delete(`${API_BASE_URL}/api/admin/deleteUser`, {
+        ...authConfig,
         data: {
           userId: adminId,
           id: userIdToDelete,
@@ -234,7 +310,9 @@ export const AdminProvider = ({ children }) => {
 
   const deleteCourse = async (courseIdToDelete, adminId) => {
     try {
+      const authConfig = getAuthHeaders();
       await axios.delete(`${API_BASE_URL}/api/admin/deleteCourse`, {
+        ...authConfig,
         data: {
           userId: adminId,
           id: courseIdToDelete,
@@ -243,6 +321,142 @@ export const AdminProvider = ({ children }) => {
       await fetchCourses();
     } catch (error) {
       console.error("Error deleting course:", error);
+    }
+  };
+
+  const uploadGalleryImages = async (formData, onProgress) => {
+    const token = localStorage.getItem('token');
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      onUploadProgress: (progressEvent) => {
+        if (progressEvent.total && onProgress) {
+          const percent = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          onProgress(percent);
+        }
+      },
+    };
+
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/api/admin/gallery/upload`,
+        formData,
+        config
+      );
+      await fetchGalleryImages();
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        const fallbackResponse = await axios.post(
+          `${API_BASE_URL}/api/admin/gallery`,
+          formData,
+          config
+        );
+        await fetchGalleryImages();
+        return fallbackResponse.data;
+      }
+      throw error;
+    }
+  };
+
+  const toggleStarGalleryImage = async (id) => {
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/api/admin/gallery/toggle-star/${id}`,
+        {
+          userId: userId,
+        }
+      );
+      setGalleryImages((prev) =>
+        prev.map((img) =>
+          img.id === id
+            ? { ...img, isStarred: !img.isStarred, starred: !img.starred }
+            : img
+        )
+      );
+      return response.data;
+    } catch (error) {
+      try {
+        const fallback = await axios.put(
+          `${API_BASE_URL}/api/admin/gallery/toggle-star/${id}`,
+          {
+            userId: userId,
+          }
+        );
+        setGalleryImages((prev) =>
+          prev.map((img) =>
+            img.id === id
+              ? { ...img, isStarred: !img.isStarred, starred: !img.starred }
+              : img
+          )
+        );
+        return fallback.data;
+      } catch (err) {
+        console.error("Error toggling star on gallery image:", err);
+        throw err;
+      }
+    }
+  };
+
+  const updateGalleryImageTitle = async (id, title) => {
+    try {
+      const response = await axios.put(
+        `${API_BASE_URL}/api/admin/gallery/${id}`,
+        {
+          title,
+          caption: title,
+          userId,
+        }
+      );
+      setGalleryImages((prev) =>
+        prev.map((img) =>
+          img.id === id ? { ...img, title, caption: title } : img
+        )
+      );
+      return response.data;
+    } catch (error) {
+      try {
+        const patchRes = await axios.patch(
+          `${API_BASE_URL}/api/admin/gallery/${id}`,
+          {
+            title,
+            caption: title,
+            userId,
+          }
+        );
+        setGalleryImages((prev) =>
+          prev.map((img) =>
+            img.id === id ? { ...img, title, caption: title } : img
+          )
+        );
+        return patchRes.data;
+      } catch (err) {
+        console.error("Error updating image title:", err);
+        throw err;
+      }
+    }
+  };
+
+  const deleteGalleryImage = async (id) => {
+    try {
+      const response = await axios.delete(
+        `${API_BASE_URL}/api/admin/gallery/${id}`,
+        {
+          data: {
+            userId,
+            id,
+          },
+        }
+      );
+      setGalleryImages((prev) => prev.filter((img) => img.id !== id));
+      return response.data;
+    } catch (error) {
+      console.error("Error deleting gallery image:", error);
+      throw error;
     }
   };
 
@@ -264,6 +478,59 @@ export const AdminProvider = ({ children }) => {
     return JSON.stringify(jsonObject);
   };
 
+
+  const createService = async (formData) => {
+    const token = localStorage.getItem("token");
+    const response = await axios.post(`${API_BASE_URL}/api/admin/services`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+    });
+    await fetchServices();
+    return response.data;
+  };
+
+  const updateService = async (id, formData) => {
+    const token = localStorage.getItem("token");
+    const response = await axios.put(`${API_BASE_URL}/api/admin/services/${id}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+    });
+    await fetchServices();
+    return response.data;
+  };
+
+  const toggleStarService = async (id) => {
+    const token = localStorage.getItem("token");
+    const response = await axios.put(
+      `${API_BASE_URL}/api/admin/services/toggle-star/${id}`,
+      {},
+      {
+        headers: {
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+      }
+    );
+    setServices((prev) =>
+      prev.map((s) => (s.id === id ? { ...s, isStarred: !s.isStarred } : s))
+    );
+    return response.data;
+  };
+
+  const deleteService = async (id) => {
+    const token = localStorage.getItem("token");
+    const response = await axios.delete(`${API_BASE_URL}/api/admin/services/${id}`, {
+      headers: {
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+    });
+    setServices((prev) => prev.filter((s) => s.id !== id));
+    return response.data;
+  };
+
   return (
     <AdminContext.Provider
       value={{
@@ -271,10 +538,24 @@ export const AdminProvider = ({ children }) => {
         courses,
         homeworks,
         registerCourses,
+        galleryImages,
+        setGalleryImages,
+        services,
+        setServices,
+        fetchServices,
+        createService,
+        updateService,
+        toggleStarService,
+        deleteService,
         fetchData,
         fetchUsers,
         fetchCourses,
         fetchCoursesUser,
+        fetchGalleryImages,
+        uploadGalleryImages,
+        toggleStarGalleryImage,
+        updateGalleryImageTitle,
+        deleteGalleryImage,
         getOneUser,
         getOneCourse,
         deleteUser,

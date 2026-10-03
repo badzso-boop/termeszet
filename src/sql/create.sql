@@ -73,3 +73,29 @@ CREATE TABLE courseregisters(
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
+
+CREATE TABLE galeria(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255),
+    filename VARCHAR(255) NOT NULL,
+    originalUrl VARCHAR(500) NOT NULL,
+    thumbnailUrl VARCHAR(500),
+    isStarred BOOLEAN DEFAULT FALSE,
+    size INT,
+    createdAt DATE,
+    updatedAt DATE
+);
+
+CREATE TABLE services(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    iconUrl VARCHAR(500),
+    iconType VARCHAR(50) DEFAULT 'hands',
+    price VARCHAR(100),
+    duration VARCHAR(100),
+    isStarred BOOLEAN DEFAULT TRUE,
+    `order` INT DEFAULT 0,
+    createdAt DATETIME,
+    updatedAt DATETIME
+);

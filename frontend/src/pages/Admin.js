@@ -9,6 +9,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import Header from "../components/Header";
+import AdminGalleryManager from "../components/AdminGalleryManager";
+import AdminServicesManager from "../components/AdminServicesManager";
 
 import { useAuth } from "../context/AuthContext";
 import { useAdmin } from "../context/AdminContext";
@@ -23,7 +25,6 @@ const Admin = () => {
     deleteCourse,
     registerCourses,
     addUser,
-    payToggle,
     adminPayToggle,
     deleteUserRegisteredCourse,
   } = useAdmin();
@@ -57,7 +58,8 @@ const Admin = () => {
     return null;
   }
 
-  const filteredUsers = users.filter((item) => {
+  const safeUsers = Array.isArray(users) ? users : [];
+  const filteredUsers = safeUsers.filter((item) => {
     const q = userSearch.trim().toLowerCase();
     if (!q) return true;
     return (
@@ -73,7 +75,8 @@ const Admin = () => {
     userPageSafe * PAGE_SIZE
   );
 
-  const filteredCourses = courses.filter((item) => {
+  const safeCourses = Array.isArray(courses) ? courses : [];
+  const filteredCourses = safeCourses.filter((item) => {
     const q = courseSearch.trim().toLowerCase();
     if (!q) return true;
     return (
@@ -186,10 +189,9 @@ const Admin = () => {
         )}
       </div>
 
+      <AdminServicesManager />
 
-
-
-
+      <AdminGalleryManager />
 
       <div className="w-full my-4 px-2 sm:px-4 lg:px-6">
         <h1 className="text-center font-display text-2xl font-semibold mb-6">Kurzusok</h1>

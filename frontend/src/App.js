@@ -11,11 +11,13 @@ import ASZF from './pages/ASZF';
 import FelhasznalasiFeltetelek from './pages/FelhasznalasiFeltetelek';
 import Adatvedelem from './pages/Adatvedelem';
 import GYIK from './pages/GYIK';
+import Contact from './pages/Contact';
+import Gallery from './pages/Gallery';
 
 import AdminCreate from './components/AdminCreate';
 import AdminUserUpdate from './components/AdminUserUpdate';
-import AdminCourseUpdate from './components/AdminCourseUpdate'
-import AdminHomeworkUpdate from './components/AdminHomeworkUpdate'
+import AdminCourseUpdate from './components/AdminCourseUpdate';
+import AdminHomeworkUpdate from './components/AdminHomeworkUpdate';
 
 import Navigation from './components/Navbar';
 
@@ -28,11 +30,15 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/courses" element={<Courses />} />
+            <Route path="/galeria" element={<Gallery />} />
+            <Route path="/gallery" element={<Gallery />} />
+            <Route path="/kapcsolat" element={<Contact />} />
+            <Route path="/contact" element={<Contact />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/admin" element={<Admin />} />
 
-            <Route path="/aszf" element={<ASZF /> } />
+            <Route path="/aszf" element={<ASZF />} />
             <Route path="/felhasznalas" element={<FelhasznalasiFeltetelek />} />
             <Route path="/adatvedelem" element={<Adatvedelem />} />
             <Route path="/gyik" element={<GYIK />} />

@@ -15,15 +15,17 @@ RUN npm ci --omit=dev
 FROM node:20-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
+RUN apk add --no-cache python3 py3-pillow
 RUN addgroup --system --gid 1001 nodejs \
     && adduser --system --uid 1001 termeszet
 
-COPY --from=backend-deps /app/node_modules ./node_modules
-COPY package.json ./
-COPY src ./src
-COPY --from=frontend-builder /app/frontend/build ./public
+COPY --chown=termeszet:nodejs --from=backend-deps /app/node_modules ./node_modules
+COPY --chown=termeszet:nodejs package.json ./
+COPY --chown=termeszet:nodejs src ./src
+COPY --chown=termeszet:nodejs scripts ./scripts
+COPY --chown=termeszet:nodejs --from=frontend-builder /app/frontend/build ./public
 
-RUN mkdir -p uploads && chown -R termeszet:nodejs /app
+RUN mkdir -p uploads/gallery && chown -R termeszet:nodejs uploads
 
 USER termeszet
 EXPOSE 5000

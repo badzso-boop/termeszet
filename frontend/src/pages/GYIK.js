@@ -6,17 +6,17 @@ const GYIK = () => {
     <>
       <div className="py-20 sm:py-28 bg-primary/40">
         <div className="max-w-4xl mx-auto px-6">
-          <h2 className="section-heading mb-4">
+          <h1 className="section-heading mb-4">
             Gyakran Ismételt Kérdések
-          </h2>
+          </h1>
           <div className="divider-gold mb-12" />
           <div className="space-y-4">
             {faqData.map((item, index) => (
-              <div key={index} className="bg-white border border-secondary/20 rounded-md p-6">
-                <h3 className="font-display text-xl font-semibold text-ink mb-2">
+              <div key={index} className="bg-white border border-secondary/20 rounded-md p-6 shadow-sm">
+                <h2 className="font-display text-xl font-semibold text-ink mb-2">
                   {item.question}
-                </h3>
-                <p className="text-gray-600">{item.answer}</p>
+                </h2>
+                <p className="text-gray-700 leading-relaxed">{item.answer}</p>
               </div>
             ))}
           </div>
@@ -32,87 +32,73 @@ const faqData = [
   {
     question: "Hogyan lehet feliratkozni a kurzusokra?",
     answer:
-      "A kurzusok menüpont alatt az Önnek megtetszett kurzusnál a 'Regisztrálok' gombra kattintással lehet jelentkezni. Ezután a rendszer elfogadja a jelentkezést.",
+      "A kurzusok menüpont alatt a kiválasztott kurzusnál a 'Regisztrálok' gombra kattintva tudsz jelentkezni. Ezt követően a rendszer rögzíti a jelentkezésedet.",
   },
   {
     question: "Milyen fizetési módokat fogadnak el a kurzusokért?",
     answer:
-      "Egyelőre csak utalással lehet fizetni, de dolgozunk a további lehetőségeken.",
+      "Egyelőre banki átutalással lehet fizetni, a részleteket a jelentkezés után egyeztetjük.",
   },
   {
     question: "Van-e lehetőség ingyenes tartalmak elérésére?",
-    answer: "Igen, találhatóak ingyenes tartalmak az oldalon!",
+    answer: "Igen, időszakosan elérhetők ingyenes ismertető anyagok és bejegyzések az oldalon.",
   },
   {
     question: "Mennyi ideig lehet hozzáférni egy megvásárolt kurzushoz?",
     answer:
-      "Ameddig az oldal működőképes és a felhasználó nem szegi meg a szabályokat.",
-  },
-  {
-    question: "Mi a visszatérítési politika, ha nem vagyok elégedett a kurzussal?",
-    answer:
-      "Ha nem vagy elégedett a kurzussal, keress meg minket a kapcsolati elérhetőségeken, és egyedileg megvizsgáljuk a lehetőségeket. A pontos feltételeket az ÁSZF tartalmazza.",
+      "A kurzushoz folyamatos hozzáférést biztosítunk, amíg az oldal működik és a felhasználói fiók aktív.",
   },
   {
     question: "Hogyan működik a videókurzusok online megtekintése?",
     answer:
-      "A kurzus sikeres fizetés után az adminisztrátor engedélyezi a hozzáférést, onnantól a videót le lehet játszani.",
+      "A befizetés megerősítését követően az adminisztrátor aktiválja a hozzáférést, így a videók és tananyagok azonnal megtekinthetővé válnak a fiókodban.",
   },
   {
     question: "Milyen szintű tapasztalattal kell rendelkezni a kurzusok elvégzéséhez?",
-    answer: "Kurzusonként változó, de gyakran a kurzus leírása tesz erről említést.",
+    answer: "Kurzusonként változó, az alapozó anyagokhoz semmilyen előképzettség nem szükséges.",
   },
   {
-    question: "Hogyan vehetem fel a kapcsolatot a talpreflexológus szakemberrel további kérdések esetén?",
-    answer: "A kapcsolat fülön minden információ megtalálható.",
+    question: "Hogyan vehetem fel a kapcsolatot további kérdések esetén?",
+    answer: "A Kapcsolat fülön minden információ megtalálható: elérhető vagyok telefonon (+36 70 428 3858) és e-mailben (azegy1@gmail.com) is.",
   },
   {
     question: "Mik azok a talpreflexológiai kezelések, és hogyan működnek?",
     answer:
-      "A reflexológia egy természetes gyógymód, amely a talpon található reflexpontok stimulálásával támogatja a test öngyógyító folyamatait. A reflexológus nyomást gyakorol a talp bizonyos pontjaira, amelyek kapcsolatban állnak a test különböző szerveivel, így serkentve a vérkeringést és az energiaáramlást.",
+      "A reflexológia egy természetes gyógymód, amely a talpon található reflexpontok stimulálásával támogatja a test öngyógyító folyamatait. A reflexológus nyomást gyakorol a talp bizonyos pontjaira, amelyek kapcsolatban állnak a test különböző szerveivel, serkentve a keringést és az energiaáramlást.",
   },
   {
     question: "Van-e lehetőség személyes konzultációra vagy kezelésre?",
     answer:
-      "Igen. Minden kezelés előtt átbeszéljük az igényeidet és panaszaidat, hogy a kezelés pontosan hozzád legyen szabva – ehhez a regisztráció után vedd fel velünk a kapcsolatot.",
+      "Igen. Minden kezelés előtt átbeszéljük az igényeidet és panaszaidat, hogy a folyamat pontosan hozzád legyen igazítva.",
   },
   {
-    question: "Milyen előnyökkel jár a talpreflexológia rendszeres gyakorlása?",
+    question: "Milyen előnyökkel jár a talpreflexológia és az energetikai kezelés?",
     answer:
-      "Stresszcsökkentés és relaxáció, fájdalomcsillapítás (fejfájás, hátfájás, ízületi fájdalmak), emésztési problémák enyhítése, hormonális egyensúly javítása, valamint az általános immunitás és energiaszint növelése.",
+      "Stresszcsökkentés, mély relaxáció, testi fájdalmak és blokkok enyhítése, emésztési és hormonális harmónia, valamint a belső Forrással való mély kapcsolat megerősítése.",
   },
   {
     question: "Ki végezheti el a kurzusokat, és szükséges-e hozzá előzetes képzettség?",
     answer:
-      "Bárki jelentkezhet, aki érdeklődik a téma iránt – előzetes képzettség általában nem szükséges, de ha egy adott kurzusnál mégis van megkötés, azt mindig feltüntetjük a kurzus leírásánál.",
+      "Bárki jelentkezhet, aki szeretne elmélyülni az önismeretben és a természetes öngyógyítás folyamataiban. Előzetes képzettség nem feltétel.",
   },
   {
     question: "Milyen eszközökre van szükségem a videókurzusok követéséhez?",
-    answer: "Bármilyen eszközre, amivel internethozzáférés van és támogatja a videók lejátszását.",
+    answer: "Bármilyen internetkapcsolattal rendelkező okoseszközre (számítógép, tablet, telefon), amely támogatja a videólejátszást.",
   },
   {
     question: "Miért érdemes előfizetni az oldalon található kurzusokra?",
     answer:
-      "Mert szakértő vezetésével, saját tempódban, otthonról is elsajátíthatod a reflexológia és a hangtálterápia alapjait, videóanyagok és személyre szabott konzultáció segítségével.",
+      "A reflexológia és a Forrásodhoz való kapcsolódás alapjait tudod megtanulni, gyakorlati és személyes útmutatással kísérve.",
   },
   {
     question: "Milyen különbségek vannak az egyes kurzusok között?",
     answer:
-      "A kurzusok témában, időpontban, helyszínben (személyes vagy online) és árban is különböznek – minden kurzusnál a kurzus oldalán találod a pontos részleteket.",
+      "A kurzusok témájukban, mélységükben és formájukban különböznek. Az egyes kurzusok részletes leírását a Kurzusok menüpontban találod.",
   },
   {
     question: "Hogyan garantálja az oldal a személyes adataim biztonságát?",
     answer:
-      "Az adataidat a GDPR előírásainak megfelelően kezeljük, és nem adjuk ki harmadik félnek. Az adatvédelemmel kapcsolatos részletekért lásd az Adatvédelmi Tájékoztatót.",
-  },
-  {
-    question: "Hol található a Szolgáltató által nyújtott oktatási anyagok szerzői jogaival kapcsolatos információ?",
-    answer:
-      "A szerzői jogokkal kapcsolatos részletes tájékoztatást az ÁSZF és a Felhasználási feltételek oldalakon találod.",
-  },
-  {
-    question: "Milyen visszajelzéseket adhatok a kurzusokról és tartalmakról?",
-    answer: "Komment formájában minden kurzushoz vissza lehet.",
+      "Az adatokat a hatályos adatvédelmi szabályoknak (GDPR) megfelelően, biztonságosan kezeljük, és harmadik félnek nem adjuk ki.",
   },
 ];
 

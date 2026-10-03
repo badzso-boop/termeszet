@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const adminController = require('../controllers/adminController');
+const galleryController = require('../controllers/galleryController');
+const serviceController = require('../controllers/serviceController');
 const { verifyToken, verifyAdmin } = require('../middleware/authMiddleware');
 const upload = require('../middleware/upload');
+const galleryUpload = require('../middleware/galleryUpload');
 
 // Minden admin route JWT-hitelesítést + admin jogosultságot igényel. A router.use()
 // biztosítja, hogy ez bármelyik jelenlegi/jövőbeli route elé kerüljön -- a
@@ -15,6 +18,21 @@ router.post('/users', adminController.getUsers);
 router.put('/updateuser', adminController.updateUser);
 router.delete('/deleteUser', adminController.deleteUser);
 router.post('/createUser', adminController.createUser);
+
+// Galéria kezelése (Admin)
+router.get('/gallery', galleryController.getGallery);
+router.post('/gallery/upload', galleryUpload.any(), galleryController.uploadImages);
+router.put('/gallery/toggle-star/:id', galleryController.toggleStar);
+router.put('/gallery/:id', galleryController.updateImage);
+router.delete('/gallery/:id', galleryController.deleteImage);
+
+// Szolgáltatások kezelése (Admin)
+router.get('/services', serviceController.getServices);
+router.post('/services', galleryUpload.single('icon'), serviceController.createService);
+router.put('/services/:id', galleryUpload.single('icon'), serviceController.updateService);
+router.put('/services/toggle-star/:id', serviceController.toggleStarService);
+router.delete('/services/:id', serviceController.deleteService);
+router.put('/services/reorder', serviceController.reorderServices);
 
 // Házifeladatok kezelése
 router.post('/homeworks', adminController.getHomeworks);

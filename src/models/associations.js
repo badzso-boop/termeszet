@@ -17,6 +17,8 @@ const Course = require('./courseModel');
 const CourseRegister = require('./courseRegisterModel');
 const Homework = require('./homeworkModel');
 const Lesson = require('./lessonModel');
+const Gallery = require('./galleryModel');
+const Service = require('./serviceModel');
 
 // User <-> CourseRegister (courseregister.userId -> users.id)
 User.hasMany(CourseRegister, {
@@ -72,4 +74,5 @@ module.exports = {
   CourseRegister,
   Homework,
   Lesson,
+  Gallery,
 };
