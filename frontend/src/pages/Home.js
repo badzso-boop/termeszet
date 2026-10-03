@@ -230,8 +230,29 @@ const Home = () => {
         <div className="container mx-auto max-w-6xl">
           <h2 className="section-heading mb-4">{t("services.heading")}</h2>
           <div className="divider-gold mb-12" />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {(featuredServices.length > 0
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" aria-busy={servicesLoading}>
+            {/* Betöltés közben helyőrző kártyák -- különben a beépített alapszolgáltatások
+                villannának fel, mielőtt az adatbázisból jövő (és lefordított) lista megérkezik. */}
+            {servicesLoading ? (
+              <>
+                <span className="sr-only" role="status">{t("common:loading")}</span>
+                {[...Array(6)].map((_, i) => (
+                  <div
+                    key={i}
+                    aria-hidden="true"
+                    className="bg-white p-8 rounded-md border border-secondary/20 shadow-sm animate-pulse"
+                  >
+                    <div className="w-14 h-14 rounded-full bg-secondary/30 mb-5" />
+                    <div className="h-5 w-2/3 rounded bg-secondary/30 mb-4" />
+                    <div className="space-y-2">
+                      <div className="h-3 rounded bg-secondary/20" />
+                      <div className="h-3 rounded bg-secondary/20" />
+                      <div className="h-3 w-4/5 rounded bg-secondary/20" />
+                    </div>
+                  </div>
+                ))}
+              </>
+            ) : (featuredServices.length > 0
               ? featuredServices
               : t("services.defaults", { returnObjects: true }).map((service, idx) => ({
                   ...service,
